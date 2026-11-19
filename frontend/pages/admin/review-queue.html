@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "outline-variant": "#c6c6cd", "on-surface": "#191c1e", "tertiary": "#000000", "primary-fixed-dim": "#bec6e0", "surface-dim": "#d8dadc", "tertiary-fixed-dim": "#b9c7df", "secondary": "#0058bb", "error-container": "#ffdad6", "surface-variant": "#e0e3e5", "surface-container-high": "#e6e8ea", "inverse-on-surface": "#eff1f3", "surface-container": "#eceef0", "on-secondary-fixed-variant": "#004493", "on-secondary-container": "#fefcff", "on-primary": "#ffffff", "on-background": "#191c1e", "on-primary-container": "#7c839b", "on-error": "#ffffff", "on-surface-variant": "#45464d", "on-primary-fixed-variant": "#3f465c", "primary-fixed": "#dae2fd", "tertiary-fixed": "#d5e3fc", "surface-bright": "#f7f9fb", "surface": "#f7f9fb", "error": "#ba1a1a", "surface-tint": "#565e74", "surface-container-highest": "#e0e3e5", "primary": "#000000", "secondary-fixed-dim": "#adc7ff", "background": "#f7f9fb", "tertiary-container": "#0d1c2e", "on-secondary-fixed": "#001a41", "primary-container": "#131b2e", "surface-container-lowest": "#ffffff", "inverse-primary": "#bec6e0", "on-tertiary-fixed": "#0d1c2e", "secondary-fixed": "#d8e2ff", "inverse-surface": "#2d3133", "on-primary-fixed": "#131b2e", "outline": "#76777d", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "on-secondary": "#ffffff", "on-tertiary-container": "#77859a", "on-tertiary-fixed-variant": "#3a485b", "secondary-container": "#1471e6", "surface-container-low": "#f2f4f6" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-tablet": "1.5rem", "margin": "3rem", "space-sm": "0.5rem", "margin-mobile": "1rem", "space-lg": "1.5rem", "gutter-mobile": "0.75rem", "gutter": "1.5rem", "space-xl": "2.5rem", "space-md": "1rem", "space-xs": "0.25rem" }, "fontFamily": { "display-lg": ["Outfit"], "headline-lg": ["Outfit"], "label-code": ["JetBrains Mono"], "metric-md": ["JetBrains Mono"], "body-lg": ["Inter"], "headline-md": ["Outfit"], "body-md": ["Inter"], "headline-xl-mobile": ["Outfit"], "body-sm": ["Inter"], "headline-xl": ["Outfit"], "metric-lg": ["JetBrains Mono"], "display-lg-mobile": ["Outfit"] }, "fontSize": { "display-lg": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.025em", "fontWeight": "600" }], "headline-lg": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.015em", "fontWeight": "500" }], "label-code": ["0.75rem", { "lineHeight": "1rem", "letterSpacing": "0.04em", "fontWeight": "500" }], "metric-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.02em", "fontWeight": "500" }], "body-lg": ["1.125rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "400" }], "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-md": ["0.9375rem", { "lineHeight": "1.5rem", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-xl-mobile": ["1.75rem", { "lineHeight": "2.25rem", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-sm": ["0.8125rem", { "lineHeight": "1.25rem", "letterSpacing": "0", "fontWeight": "400" }], "headline-xl": ["2.5rem", { "lineHeight": "3rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "metric-lg": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.03em", "fontWeight": "600" }], "display-lg-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "600" }] } } } }</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-surface-container-high"><div class="h-16 w-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs text-primary"><span class="font-headline-md text-headline-md tracking-tight font-semibold text-primary">Credora</span></div></div><nav class="h-full flex items-center gap-space-lg" data-active-classes="text-on-surface font-medium border-b-2 border-primary -mb-[1px]"><a class="h-full flex items-center px-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="overview" href="#">Overview</a><a aria-current="page" class="h-full flex items-center px-space-xs transition-colors text-on-surface font-medium border-b-2 border-primary -mb-[1px]" data-path="review-queue" href="#">Review Queue</a><a class="h-full flex items-center px-space-xs font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" data-path="model-analytics" href="#">Model Analytics</a></nav><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low border border-surface-container-high rounded"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="font-body-sm text-body-sm font-medium text-on-surface">Anita Deshmukh (Central Desk)</span></div><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-error transition-colors" data-path="login" href="#">Sign Out</a></div></div></header><main class="w-full pt-16 flex-1 bg-surface"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto px-margin-tablet lg:px-margin pt-8 pb-5">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4">
+<div>
+<div class="flex items-center gap-2 mb-1.5">
+
+<span class="text-label-code font-label-code text-outline"><br></span>
+
+</div>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-surface font-semibold">Final Verification Queue</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">14 applications awaiting human verification after ML pre-screening.</p>
+</div>
+<div class="flex items-center gap-3 self-start md:self-auto bg-surface-container-lowest px-3 py-2 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+<div class="font-label-code text-label-code text-on-surface-variant flex items-center gap-1.5">
+<span>Model Version:</span>
+<span class="font-semibold text-on-surface">v2.4-RF</span>
+<span class="text-outline-variant">•</span>
+<span>Avg Pre-Screen:</span>
+<span class="font-semibold text-on-surface">0.8s</span>
+</div>
+</div>
+</div>
+<!-- Filter Strip -->
+<div class="mt-4 flex flex-wrap items-center justify-between gap-3 p-3 bg-surface-container-lowest rounded-xl shadow-sm">
+<div class="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
+<div class="relative w-full sm:w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full bg-surface-container-low text-on-surface pl-9 pr-3 py-2 text-body-sm font-body-sm rounded-lg placeholder:text-outline focus:bg-surface-container-lowest focus:outline-none transition-all" id="search-input" placeholder="Search by Application ID or Applicant Name..." type="text">
+</div>
+<div class="relative min-w-[150px]">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface px-3 py-2 pr-8 text-body-sm font-body-sm rounded-lg cursor-pointer focus:outline-none">
+<option value="all">All Regions</option>
+<option value="urban">Urban</option>
+<option value="semi-urban">Semi-Urban</option>
+<option value="rural">Rural</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+<div class="relative min-w-[210px]">
+<select class="w-full appearance-none bg-surface-container-low text-on-surface px-3 py-2 pr-8 text-body-sm font-body-sm rounded-lg cursor-pointer focus:outline-none">
+<option value="all">All ML Predictions</option>
+<option value="approved">ML: Approved</option>
+<option value="rejected">ML: Rejected (Edge Case Review)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-2 px-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-code text-label-code text-on-surface-variant">Showing <span class="text-on-surface font-semibold">4</span> of 14 queued</span>
+</div>
+</div>
+</div>
+<!-- Workbench Section -->
+<div class="w-full max-w-7xl mx-auto px-margin-tablet lg:px-margin pb-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Left Pane: Application List -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="px-5 py-3.5 bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="text-label-code font-label-code uppercase tracking-wider font-semibold text-on-surface-variant">Pending Queue (14)</span>
+<span class="px-1.5 py-0.2 bg-surface-container-high rounded text-label-code font-label-code text-on-surface">Live</span>
+</div>
+<button class="flex items-center gap-1 text-label-code font-label-code text-on-surface-variant hover:text-on-surface transition-colors">
+<span>Sort by: Newest</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+</div>
+<div class="flex flex-col divide-y divide-surface-container" id="queue-container">
+<!-- Item 1: Active -->
+<div class="queue-card relative p-4 bg-surface-container-low cursor-pointer transition-colors" data-app-id="CRD-2026-8492">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-center justify-between gap-2">
+<span class="font-label-code text-body-sm font-semibold text-primary">CRD-2026-8492</span>
+<span class="bg-surface-container-lowest px-2 py-0.5 rounded text-label-code font-label-code uppercase tracking-wider text-on-surface shadow-xs">
+                ML: APPROVED (94.2%)
+              </span>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface mt-1.5">
+              Rahul Sharma • Home Loan • <span class="font-metric-md font-semibold">₹25,00,000</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant mt-1.5">
+<span>Urban Region</span>
+<span class="font-label-code text-label-code text-outline">18 mins ago</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="queue-card relative p-4 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors" data-app-id="CRD-2026-8489">
+<div class="flex items-center justify-between gap-2">
+<span class="font-label-code text-body-sm font-medium text-on-surface">CRD-2026-8489</span>
+<span class="bg-surface-container px-2 py-0.5 rounded text-label-code font-label-code uppercase tracking-wider text-on-surface-variant">
+                ML: APPROVED (88.7%)
+              </span>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface mt-1.5">
+              Sunita Patil • Personal Loan • <span class="font-metric-md font-semibold">₹4,50,000</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant mt-1.5">
+<span>Rural Region</span>
+<span class="font-label-code text-label-code text-outline">42 mins ago</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="queue-card relative p-4 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors" data-app-id="CRD-2026-8485">
+<div class="flex items-center justify-between gap-2">
+<span class="font-label-code text-body-sm font-medium text-on-surface">CRD-2026-8485</span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-label-code font-label-code uppercase tracking-wider text-error">
+                ML: REJECTED (79.5%)
+              </span>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface mt-1.5">
+              Vikram Desai • Personal Loan • <span class="font-metric-md font-semibold">₹8,00,000</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant mt-1.5">
+<span>Semi-Urban Region</span>
+<span class="font-label-code text-label-code text-outline">Edge Review Flag</span>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="queue-card relative p-4 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors" data-app-id="CRD-2026-8481">
+<div class="flex items-center justify-between gap-2">
+<span class="font-label-code text-body-sm font-medium text-on-surface">CRD-2026-8481</span>
+<span class="bg-surface-container px-2 py-0.5 rounded text-label-code font-label-code uppercase tracking-wider text-on-surface-variant">
+                ML: APPROVED (91.4%)
+              </span>
+</div>
+<div class="font-body-md text-body-md font-medium text-on-surface mt-1.5">
+              Meera Nair • Home Loan • <span class="font-metric-md font-semibold">₹18,00,000</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant mt-1.5">
+<span>Urban Region</span>
+<span class="font-label-code text-label-code text-outline">2 hours ago</span>
+</div>
+</div>
+</div>
+<div class="p-3 bg-surface-container-lowest text-center">
+<button class="w-full py-2 bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface text-label-code font-label-code rounded-lg transition-colors flex items-center justify-center gap-1">
+<span>Load 10 Earlier Applications</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Right Pane: Verification Details Desk -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl shadow-sm p-6 sm:p-7 flex flex-col gap-6">
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-5 border-b border-surface-container-high">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Application #CRD-2026-8492</span>
+<span class="material-symbols-outlined text-[18px] text-outline cursor-pointer hover:text-on-surface" title="Copy Identifier">content_copy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+              Applicant: <span class="font-medium text-on-surface">Rahul Sharma</span> • Urban Region • Submitted 19 Nov 2026, 09:42 AM
+            </p>
+</div>
+<div class="self-start sm:self-auto bg-primary text-on-primary px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">auto_graph</span>
+<span class="font-label-code text-label-code uppercase tracking-wider font-semibold">ML CONFIDENCE: 94.2%</span>
+</div>
+</div>
+<!-- ML Pre-Screening Summary Box -->
+<div class="relative bg-surface-container-low rounded-lg p-4 overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[22px] mt-0.5">verified_user</span>
+<div>
+<h2 class="font-headline-md text-body-md font-semibold text-on-surface">Model Recommendation: Approve Loan Application</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+                Strong credit history (1.0) and low debt-to-income ratio across combined monthly household earnings of ₹1,20,000. Low predicted default risk (5.8%).
+              </p>
+</div>
+</div>
+</div>
+<!-- Verified Input Features Grid -->
+<div>
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-code text-label-code uppercase tracking-wider font-semibold text-on-surface-variant">VERIFIED INPUT FEATURES</span>
+<span class="font-label-code text-label-code text-outline">Source: Core Banking API &amp; CIBIL</span>
+</div>
+<div class="rounded-lg overflow-hidden bg-surface-container-low">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-px bg-surface-container-high">
+<!-- R1C1 -->
+<div class="p-3.5 bg-surface-container-lowest">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Loan Product</span>
+<span class="font-label-code text-body-sm font-semibold text-on-surface mt-0.5 block">Home Loan</span>
+</div>
+<!-- R1C2 -->
+<div class="p-3.5 bg-surface-container-lowest">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Requested Amount</span>
+<span class="font-metric-md text-metric-md font-semibold text-on-surface mt-0.5 block">₹25,00,000</span>
+</div>
+<!-- R2C1 -->
+<div class="p-3.5 bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Applicant Monthly Income</span>
+<span class="font-metric-md text-body-md font-medium text-on-surface mt-0.5 block">₹85,000 / mo</span>
+</div>
+<!-- R2C2 -->
+<div class="p-3.5 bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Co-Applicant Monthly Income</span>
+<span class="font-metric-md text-body-md font-medium text-on-surface mt-0.5 block">₹35,000 / mo</span>
+</div>
+<!-- R3C1 -->
+<div class="p-3.5 bg-surface-container-lowest">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Employment Class</span>
+<span class="font-label-code text-body-sm font-semibold text-on-surface mt-0.5 block">Salaried (Tier 1 Corporate)</span>
+</div>
+<!-- R3C2 -->
+<div class="p-3.5 bg-surface-container-lowest">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Repayment Tenure</span>
+<span class="font-metric-md text-body-md font-medium text-on-surface mt-0.5 block">240 Months (20 Yrs)</span>
+</div>
+<!-- R4C1 -->
+<div class="p-3.5 bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Credit History Metric</span>
+<span class="font-metric-md text-body-md font-medium text-on-surface mt-0.5 block">Score 792 • Index 1.0 (Prime)</span>
+</div>
+<!-- R4C2 -->
+<div class="p-3.5 bg-surface-container-low">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">Dependents &amp; Marital Status</span>
+<span class="font-body-md text-body-md font-medium text-on-surface mt-0.5 block">1 Dependent • Married</span>
+</div>
+</div>
+</div>
+</div>
+<!-- KYC & Document Verification Checklist -->
+<div class="pt-5 border-t border-surface-container-high">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-code text-label-code uppercase tracking-wider font-semibold text-on-surface-variant">OFFICER DOCUMENT CHECKLIST</span>
+<span class="font-label-code text-label-code text-outline">Mandatory Before Disbursal</span>
+</div>
+<div class="space-y-2.5">
+<!-- Checkbox 1 -->
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer accent-primary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">PAN &amp; Aadhaar Identity Verified</span>
+</div>
+<span class="font-label-code text-label-code px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-semibold shadow-xs">VERIFIED</span>
+</label>
+<!-- Checkbox 2 -->
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer accent-primary" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Last 3 Months Salary Slips &amp; Bank Statement Verified</span>
+</div>
+<span class="font-label-code text-label-code px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-semibold shadow-xs">VERIFIED</span>
+</label>
+<!-- Checkbox 3 -->
+<label class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer">
+<div class="flex items-center gap-3">
+<input class="w-4 h-4 rounded text-primary focus:ring-0 focus:ring-offset-0 cursor-pointer accent-primary" id="check-property" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">Property Title Deed &amp; Valuation Cross-Checked</span>
+</div>
+<span class="font-label-code text-label-code px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-medium" id="badge-property">PENDING CHECK</span>
+</label>
+</div>
+</div>
+<!-- Officer Decision & Audit Remark -->
+<div class="pt-5 border-t border-surface-container-high">
+<label class="block font-body-sm text-body-sm font-medium text-on-surface mb-2" for="officer-remarks">
+            Officer Audit Remark <span class="text-error">*</span> <span class="font-normal text-on-surface-variant">(Required for Approval or Override)</span>
+</label>
+<textarea class="w-full bg-surface-container-low text-on-surface p-3 text-body-sm font-body-sm rounded-lg focus:bg-surface-container-lowest focus:outline-none transition-all placeholder:text-outline" id="officer-remarks" placeholder="e.g., Income proofs and property documents verified. Approved for disbursal." rows="3">Primary salary account credits match with Form 26AS. Title search report clean through panel advocate. Disbursal recommended.</textarea>
+<div class="mt-4 flex flex-wrap items-center gap-3">
+<button class="bg-primary hover:bg-neutral-800 text-on-primary font-body-sm text-body-sm font-medium px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-sm transition-colors" id="btn-approve">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Confirm Final Approval</span>
+</button>
+<button class="bg-surface-container-lowest hover:bg-surface-container-low text-error hover:text-on-error-container font-body-sm text-body-sm font-medium px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-sm transition-colors" id="btn-reject">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+<span>Reject Application</span>
+</button>
+<button class="font-body-sm text-body-sm text-secondary hover:underline flex items-center gap-1 ml-auto">
+<span>Request Re-upload of Documents</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-6 right-6 bg-primary text-on-primary px-4 py-3 rounded-lg shadow-xl font-label-code text-label-code hidden items-center gap-2 z-50" id="toast-notification">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">task_alt</span>
+<span id="toast-text">Decision registered into immutable audit ledger.</span>
+</div>
+<script>
+    (function () {
+      const checkProperty = document.getElementById('check-property');
+      const badgeProperty = document.getElementById('badge-property');
+      const toast = document.getElementById('toast-notification');
+      const toastText = document.getElementById('toast-text');
+      const btnApprove = document.getElementById('btn-approve');
+      const btnReject = document.getElementById('btn-reject');
+      const queueCards = document.querySelectorAll('.queue-card');
+
+      if (checkProperty && badgeProperty) {
+        checkProperty.addEventListener('change', function () {
+          if (this.checked) {
+            badgeProperty.textContent = 'VERIFIED';
+            badgeProperty.className = 'font-label-code text-label-code px-2 py-0.5 rounded bg-surface-container-lowest text-on-surface font-semibold shadow-xs';
+          } else {
+            badgeProperty.textContent = 'PENDING CHECK';
+            badgeProperty.className = 'font-label-code text-label-code px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-medium';
+          }
+        });
+      }
+
+      function showToast(msg) {
+        if (!toast || !toastText) return;
+        toastText.textContent = msg;
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('flex');
+        }, 3200);
+      }
+
+      if (btnApprove) {
+        btnApprove.addEventListener('click', function () {
+          showToast('Approval recorded for CRD-2026-8492. Forwarded to Disbursal Desk.');
+        });
+      }
+
+      if (btnReject) {
+        btnReject.addEventListener('click', function () {
+          showToast('Application marked as REJECTED. Applicant notified via automated dispatch.');
+        });
+      }
+
+      queueCards.forEach(card => {
+        card.addEventListener('click', function () {
+          queueCards.forEach(c => {
+            c.classList.remove('bg-surface-container-low');
+            c.classList.add('bg-surface-container-lowest');
+            const ind = c.querySelector('.absolute.left-0');
+            if (ind) ind.remove();
+          });
+          this.classList.remove('bg-surface-container-lowest');
+          this.classList.add('bg-surface-container-low');
+          const indicator = document.createElement('div');
+          indicator.className = 'absolute left-0 top-0 bottom-0 w-1 bg-primary';
+          this.prepend(indicator);
+        });
+      });
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest border-t border-surface-container-high py-5"><div class="w-full px-gutter text-center font-label-code text-label-code text-on-surface-variant">© 2026 Credora Open Source Organization • Loan Officer Verification Workbench (Project Purpose Only)</div></footer>
+
+</body></html>

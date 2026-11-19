@@ -1,0 +1,141 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="Wqq4mKFEA43o2kKdVvlP">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- 1. Landing & Cookies -->
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" value="User accessing landing pages, about, eligibility (index.html, about.html, eligibility.html)" vertex="1">
+          <mxGeometry height="60" width="220" x="250" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Take Permission of User Cookies for finding Best Results and Seamlessly try to the website popups of login or register" vertex="1">
+          <mxGeometry height="60" width="390" x="520" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-5" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 2. Auth Flow -->
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;" value="Whenever user clicks &quot;Apply For Loan&quot; -&gt; Authenticate User &amp; Redirect to Dashboard.html" vertex="1">
+          <mxGeometry height="60" width="385" x="172.5" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-6" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Authentication Data Store (JWT in localStorage/Cookie)" vertex="1">
+          <mxGeometry height="60" width="200" x="610" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-7" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 3. Dashboard & Features -->
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Dashboard (dashboard.html): If empty, show clean empty state. If previous loans exist, show loan cards." vertex="1">
+          <mxGeometry height="60" width="450" x="140" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-9" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;b&gt;Dashboard Key Features:&lt;/b&gt;&lt;br/&gt;- Application status view page link&lt;br/&gt;- Correction window on each loan card with time limit (24h countdown) &amp; edit button in &quot;i&quot; info modal&lt;br/&gt;- Simple horizontal timeline showing short stage info" vertex="1">
+          <mxGeometry height="90" width="370" x="630" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-21" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 4. Applying for Loan -->
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Applying for loan (Home | Personal)" vertex="1">
+          <mxGeometry height="60" width="450" x="140" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-14" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Input fields included (required) on apply-loan.html" vertex="1">
+          <mxGeometry height="60" width="330" x="200" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-15" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Take data in sections &amp; save in client draft cache (sessionStorage):&lt;/b&gt;&lt;br/&gt;1. Personal data (Name, Gender, Marital, Dependents, Education)&lt;br/&gt;2. Residential data (Address, Property Area: Urban/Semi-Urban/Rural)&lt;br/&gt;3. Financial / Documentation (Income, Loan Amount, Term, CIBIL)&lt;br/&gt;4. Terms and conditions consent" vertex="1">
+          <mxGeometry height="110" width="470" x="130" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-16" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 5. REST API Gateway -->
+        <mxCell id="crd-api-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="REST API Gateway (FastAPI): POST /api/v1/loans/apply&lt;br/&gt;Validates JSON payload via Pydantic DTOs &amp; Bearer JWT" vertex="1">
+          <mxGeometry height="70" width="410" x="160" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-17" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="crd-api-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 6. ML Pre-Screening Engine -->
+        <mxCell id="crd-ml-prep" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="ML Feature Preprocessor: Missing Value Imputation, One-Hot Encoding, Log Transformations, Standard Scaling" vertex="1">
+          <mxGeometry height="60" width="370" x="650" y="705" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-api-ml" edge="1" parent="1" source="crd-api-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="crd-ml-prep">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="crd-ml-models" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" value="Swappable Model Strategy Engine:&lt;br/&gt;• KNN Model (Classification &amp; Unsupervised Outlier/Anomaly Distance)&lt;br/&gt;• Logistic Regression (Compliant Odds-Ratios)&lt;br/&gt;• Naive Bayes (Ultra-fast Probabilistic)&lt;br/&gt;• Random Forest (Benchmark 86.4% Accuracy)" vertex="1">
+          <mxGeometry height="90" width="410" x="630" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-prep-model" edge="1" parent="1" source="crd-ml-prep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="crd-ml-models">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="crd-ml-score" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Pre-Screening Scorer: Outcome (Approved/Rejected/Edge-Case), Confidence %, Risk Band (Low/Med/High), Feature Weights" vertex="1">
+          <mxGeometry height="60" width="410" x="630" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-model-score" edge="1" parent="1" source="crd-ml-models" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="crd-ml-score">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 7. Database -->
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-18" parent="1" style="shape=datastore;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="Database (Neon DB / PostgreSQL):&lt;br/&gt;- users&lt;br/&gt;- loan_applications&lt;br/&gt;- ml_predictions&lt;br/&gt;- officer_audit_logs" vertex="1">
+          <mxGeometry height="120" width="180" x="1110" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-score-db" edge="1" parent="1" source="crd-ml-score" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="7sbwAXsKwDqp63CtfK6e-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-19" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;" target="7sbwAXsKwDqp63CtfK6e-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 8. Status Page Redirect -->
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Redirecting to Application Status (application-status.html)&lt;br/&gt;Real-time ML Pre-Screening Badge, 3-Stage Progress Timeline, &amp; Correction Timer" vertex="1">
+          <mxGeometry height="70" width="370" x="180" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-api-status" edge="1" parent="1" source="crd-api-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7sbwAXsKwDqp63CtfK6e-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7sbwAXsKwDqp63CtfK6e-22" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;" target="7sbwAXsKwDqp63CtfK6e-18">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="1030" />
+              <mxPoint x="1200" y="1030" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 9. Admin Officer Portal -->
+        <mxCell id="crd-admin-queue" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" value="Loan Officer Verification Queue (review-queue.html):&lt;br/&gt;View pending loans, filter by region &amp; ML outcome, audit proofs, and submit Final Decision Override (Approve/Reject)" vertex="1">
+          <mxGeometry height="80" width="350" x="1025" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-db-queue" edge="1" parent="1" source="7sbwAXsKwDqp63CtfK6e-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="crd-admin-queue">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="crd-edge-queue-db" edge="1" parent="1" source="crd-admin-queue" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="7sbwAXsKwDqp63CtfK6e-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
