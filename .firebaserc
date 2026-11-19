@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "credora-a98f0"
+  },
+  "targets": {
+    "credora-a98f0": {
+      "hosting": {
+        "credora-fintech": [
+          "credora-fintech"
+        ]
+      }
+    }
+  }
+}
