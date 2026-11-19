@@ -71,7 +71,7 @@ export class LoanFormManager {
       const formData = new FormData(this.form);
       const payload = {
         personal_details: {
-          full_name: formData.get('full_name') || formData.get('applicant_name') || "Rahul Sharma",
+          full_name: formData.get('full_name') || formData.get('applicant_name') || (localStorage.getItem('credora_user') ? JSON.parse(localStorage.getItem('credora_user')).displayName : "Credora Applicant"),
           gender: formData.get('gender') || "Male",
           married: formData.get('married') || "Yes",
           dependents: formData.get('dependents') || "2",

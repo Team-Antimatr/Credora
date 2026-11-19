@@ -2,6 +2,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign in to Credora — Customer Portal</title>
+  <script>
+    (function() {
+      var user = localStorage.getItem('credora_user');
+      if (user) {
+        var target = sessionStorage.getItem('credora_redirect_after_login') || 'dashboard.html';
+        sessionStorage.removeItem('credora_redirect_after_login');
+        window.location.replace(target);
+      }
+    })();
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -25,14 +35,14 @@
 
   <!-- Top Minimal Bar -->
   <header class="w-full h-16 bg-white border-b border-[#E2E8F0] px-6 lg:px-12 flex items-center justify-between sticky top-0 z-30">
-    <a href="#" class="flex items-center gap-2 text-[#0A0A0A] hover:opacity-90 transition-opacity">
+    <a href="../../index.html" class="flex items-center gap-2 text-[#0A0A0A] hover:opacity-90 transition-opacity">
       <!-- Minimal Piggy Bank SVG Icon -->
       
       <span class="font-heading font-bold text-xl tracking-tight text-[#0A0A0A]">Credora</span>
     </a>
 
     <div>
-      <a href="#" class="text-sm font-medium text-[#475569] hover:text-[#0A0A0A] transition-colors flex items-center gap-1.5">
+      <a href="../../index.html" class="text-sm font-medium text-[#475569] hover:text-[#0A0A0A] transition-colors flex items-center gap-1.5">
         <span class="text-xs">←</span> Back to Home
       </a>
     </div>
@@ -71,7 +81,7 @@
             Email or Mobile
           </label>
           <div class="relative">
-            <input type="text" placeholder="rahul.sharma@example.com" class="w-full px-3.5 py-2.5 bg-white border border-[#CBD5E1] rounded-md text-sm text-[#0A0A0A] placeholder-[#94A3B8] font-normal focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-all" required="">
+            <input type="text" placeholder="name@example.com" class="w-full px-3.5 py-2.5 bg-white border border-[#CBD5E1] rounded-md text-sm text-[#0A0A0A] placeholder-[#94A3B8] font-normal focus:outline-none focus:border-[#0A0A0A] focus:ring-1 focus:ring-[#0A0A0A] transition-all" required="">
           </div>
         </div>
 
@@ -157,7 +167,7 @@
       e.preventDefault();
       const emailInput = form.querySelector('input[type="text"], input[type="email"]');
       const pwdInput = document.getElementById('passwordInput');
-      const email = emailInput && emailInput.value ? emailInput.value : 'rahul.sharma@example.com';
+      const email = emailInput && emailInput.value ? emailInput.value : 'applicant@credora.org';
       const pwd = pwdInput && pwdInput.value ? pwdInput.value : 'password123';
       loginWithEmail(email, pwd);
     });

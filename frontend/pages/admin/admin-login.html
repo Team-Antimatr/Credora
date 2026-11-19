@@ -4,6 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Credora — Staff & Officer Verification Portal</title>
+  <script>
+    (function() {
+      var role = localStorage.getItem('credora_user_role');
+      if (role === 'officer' || role === 'admin') {
+        var target = sessionStorage.getItem('credora_admin_redirect') || 'review-queue.html';
+        sessionStorage.removeItem('credora_admin_redirect');
+        window.location.replace(target);
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
@@ -80,8 +90,9 @@
       // Store staff session in localStorage
       localStorage.setItem('credora_user_role', 'officer');
       localStorage.setItem('credora_officer_name', 'Anita Deshmukh (Central Desk)');
-      // Redirect to review queue
-      window.location.href = 'review-queue.html';
+      var target = sessionStorage.getItem('credora_admin_redirect') || 'review-queue.html';
+      sessionStorage.removeItem('credora_admin_redirect');
+      window.location.replace(target);
     }
   </script>
 </body>

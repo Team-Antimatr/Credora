@@ -2,6 +2,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>New Loan Application — Credora Customer Portal</title>
+  <script>
+    (function() {
+      var user = localStorage.getItem('credora_user');
+      if (!user) {
+        sessionStorage.setItem('credora_redirect_after_login', 'apply-loan.html');
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -66,10 +75,10 @@
     <!-- Right: User Avatar & Sign Out -->
     <div class="flex items-center space-x-4">
       <div class="flex items-center space-x-2 bg-slateLight px-3 py-1.5 rounded-full border border-borderHairline text-[13px]">
-        <div class="w-6 h-6 rounded-full bg-slateDark text-white flex items-center justify-center font-mono text-[11px] font-medium">
-          RS
+        <div class="w-6 h-6 rounded-full bg-slateDark text-white flex items-center justify-center font-mono text-[11px] font-medium user-initials">
+          CU
         </div>
-        <span class="font-medium text-slateBody">Rahul Sharma</span>
+        <span class="font-medium text-slateBody user-name">Applicant</span>
       </div>
       <a href="login.html" class="text-[14px] text-slateMuted hover:text-ink transition-colors font-medium">Sign Out</a>
     </div>
@@ -145,7 +154,7 @@
                   <option value="Semi-Urban">Semi-Urban (Town / Tier-2 City)</option>
                   <option value="Rural">Rural (Village / Taluka)</option>
                 </select>
-                <span class="text-[11px] text-slateMuted mt-1 block">Trained against balanced regional datasets</span>
+                <span class="text-[11px] text-slateMuted mt-1 block">Categorized per standard residential zoning criteria</span>
               </div>
               <div>
                 <label for="loanPurpose" class="block text-[13px] font-medium text-slateBody mb-1.5">Loan Purpose</label>
@@ -166,7 +175,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label for="fullName" class="block text-[13px] font-medium text-slateBody mb-1.5">Full Legal Name</label>
-                <input type="text" id="fullName" value="Rahul Sharma" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                <input type="text" id="fullName" placeholder="e.g. Full Legal Name" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
               </div>
               <div>
                 <label for="gender" class="block text-[13px] font-medium text-slateBody mb-1.5">Applicant Gender</label>
@@ -352,7 +361,7 @@
             <h4 class="font-heading font-semibold text-[13px] text-ink">How Decisioning Works</h4>
           </div>
           <p class="text-[12px] text-slateMuted leading-relaxed">
-            Your inputs are processed instantly by Credora's trained ML classifier against historical benchmark patterns. Approved pre-screenings proceed directly to a Loan Officer for final document verification without manual queue bottlenecks.
+            Your inputs are evaluated instantly through Credora's automated credit eligibility assessment. Approved applications proceed directly to an Underwriting Officer for final document verification without processing delays.
           </p>
         </div>
 
@@ -445,6 +454,7 @@
 
 
 <span id="PING_CONTENT_PUSH_NOTIFICATION" style="display: none;"></span>
+<script type="module" src="../../public/assets/js/core/auth.js"></script>
 <script type="module">
   import { LoanFormManager } from "../../public/assets/js/app/loan_form.js";
   const form = document.querySelector('form');
