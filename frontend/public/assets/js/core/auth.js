@@ -164,7 +164,7 @@ export function syncUserUI() {
   const user = AuthState.getUser();
 
   // Gate "Apply Now" buttons across all pages for unauthenticated visitors
-  document.querySelectorAll('a[href*="apply-loan.html"]').forEach(el => {
+  document.querySelectorAll('a[href*="apply-loan.html"], a[href*="loan-flow.html"]').forEach(el => {
     // Avoid re-attaching
     if (el.dataset.authGated) return;
     el.dataset.authGated = "true";
@@ -172,7 +172,8 @@ export function syncUserUI() {
       const currentUser = AuthState.getUser();
       if (!currentUser) {
         e.preventDefault();
-        sessionStorage.setItem('credora_redirect_after_login', 'apply-loan.html');
+        const targetHref = el.getAttribute('href') || 'apply-loan.html';
+        sessionStorage.setItem('credora_redirect_after_login', targetHref);
         const isInPages = window.location.pathname.includes('/pages/');
         const loginPath = isInPages 
           ? (window.location.pathname.includes('/pages/app/') ? 'login.html' : '../app/login.html') 
