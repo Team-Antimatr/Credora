@@ -6,7 +6,7 @@
     var role = localStorage.getItem('credora_user_role');
     if (role !== 'officer' && role !== 'admin') {
       sessionStorage.setItem('credora_admin_redirect', 'overview.html');
-      window.location.replace('admin-login.html');
+      window.location.replace('../errors/403.html');
     }
   })();
 </script>

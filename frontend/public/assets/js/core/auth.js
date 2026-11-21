@@ -133,6 +133,26 @@ export function syncUserUI() {
   });
 }
 
+// Admin & Role-Guard Enforcer
+export function enforceAdminGuard(redirectPath = '../errors/403.html') {
+  const role = AuthState.getRole();
+  if (role !== 'officer' && role !== 'admin') {
+    const currentFile = window.location.pathname.split('/').pop() || 'overview.html';
+    sessionStorage.setItem('credora_admin_redirect', currentFile);
+    window.location.replace(redirectPath);
+    return false;
+  }
+  return true;
+}
+
+// Automatically enforce guards based on portal route
+export function checkRouteGuards() {
+  const currentPath = window.location.pathname.toLowerCase();
+  if (currentPath.includes('/pages/admin/') && !currentPath.includes('admin-login.html')) {
+    enforceAdminGuard('../errors/403.html');
+  }
+}
+
 // Keep Firebase auth state synced
 try {
   onAuthStateChanged(auth, (user) => {
@@ -147,4 +167,7 @@ try {
   console.warn("Auth listener warning:", e);
 }
 
-document.addEventListener('DOMContentLoaded', syncUserUI);
+document.addEventListener('DOMContentLoaded', () => {
+  checkRouteGuards();
+  syncUserUI();
+});
