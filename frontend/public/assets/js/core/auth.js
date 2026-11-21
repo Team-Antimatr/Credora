@@ -12,6 +12,39 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { showLoader, hideLoader } from "./app.js";
 
+const MAX_PLATFORM_USERS = 100;
+const REGISTERED_USERS_KEY = 'credora_registered_users_registry';
+
+export function getRegisteredUsersCount() {
+  try {
+    const list = JSON.parse(localStorage.getItem(REGISTERED_USERS_KEY) || '[]');
+    return list.length;
+  } catch (e) {
+    return 1;
+  }
+}
+
+export function checkRegistrationCapacity(email) {
+  try {
+    let list = JSON.parse(localStorage.getItem(REGISTERED_USERS_KEY) || '[]');
+    const normalizedEmail = email ? email.toLowerCase() : null;
+    if (normalizedEmail && list.includes(normalizedEmail)) {
+      return true; // Already registered user
+    }
+    if (list.length >= MAX_PLATFORM_USERS) {
+      alert("Platform registration capacity reached (100 user deployment limit). New applicant access is temporarily paused.");
+      return false;
+    }
+    if (normalizedEmail) {
+      list.push(normalizedEmail);
+      localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(list));
+    }
+    return true;
+  } catch (e) {
+    return true;
+  }
+}
+
 export const AuthState = {
   getUser: () => {
     const userStr = localStorage.getItem('credora_user');
@@ -21,6 +54,16 @@ export const AuthState = {
   getRole: () => localStorage.getItem('credora_user_role') || 'applicant',
   
   setSession: (user, token, role = 'applicant') => {
+    if (!checkRegistrationCapacity(user.email)) {
+      return false;
+    }
+
+    // Detect user account switch and clear lingering tab session state
+    const prevUser = AuthState.getUser();
+    if (prevUser && prevUser.email && prevUser.email.toLowerCase() !== (user.email || '').toLowerCase()) {
+      sessionStorage.clear();
+    }
+
     let displayName = user.displayName;
     if (!displayName && user.email) {
       const namePart = user.email.split('@')[0].replace(/[._-]/g, ' ');
@@ -34,12 +77,18 @@ export const AuthState = {
     }));
     if (token) localStorage.setItem('credora_token', token);
     localStorage.setItem('credora_user_role', role);
+    return true;
   },
   
   clearSession: () => {
     localStorage.removeItem('credora_user');
     localStorage.removeItem('credora_token');
     localStorage.removeItem('credora_user_role');
+    try {
+      sessionStorage.clear();
+    } catch (e) {
+      console.warn("Could not clear session storage:", e);
+    }
   }
 };
 
@@ -55,7 +104,11 @@ export async function loginWithGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const token = await result.user.getIdToken();
-    AuthState.setSession(result.user, token, 'applicant');
+    const sessionOk = AuthState.setSession(result.user, token, 'applicant');
+    if (!sessionOk) {
+      hideLoader();
+      return null;
+    }
     window.location.href = getRedirectTarget();
     return result.user;
   } catch (err) {
@@ -72,7 +125,11 @@ export async function loginWithEmail(email, password) {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
     const token = await result.user.getIdToken();
-    AuthState.setSession(result.user, token, 'applicant');
+    const sessionOk = AuthState.setSession(result.user, token, 'applicant');
+    if (!sessionOk) {
+      hideLoader();
+      return null;
+    }
     window.location.href = getRedirectTarget();
     return result.user;
   } catch (err) {
@@ -80,7 +137,11 @@ export async function loginWithEmail(email, password) {
     const namePart = email.split('@')[0].replace(/[._-]/g, ' ');
     const displayName = namePart.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     const demoUser = { uid: "usr-" + Date.now().toString(36), email: email, displayName: displayName };
-    AuthState.setSession(demoUser, "jwt-credora-session-" + Date.now(), 'applicant');
+    const sessionOk = AuthState.setSession(demoUser, "jwt-credora-session-" + Date.now(), 'applicant');
+    if (!sessionOk) {
+      hideLoader();
+      return null;
+    }
     window.location.href = getRedirectTarget();
     return demoUser;
   }
@@ -101,6 +162,26 @@ export async function logoutUser() {
 // Sync UI across dashboard and apply-loan
 export function syncUserUI() {
   const user = AuthState.getUser();
+
+  // Gate "Apply Now" buttons across all pages for unauthenticated visitors
+  document.querySelectorAll('a[href*="apply-loan.html"]').forEach(el => {
+    // Avoid re-attaching
+    if (el.dataset.authGated) return;
+    el.dataset.authGated = "true";
+    el.addEventListener('click', (e) => {
+      const currentUser = AuthState.getUser();
+      if (!currentUser) {
+        e.preventDefault();
+        sessionStorage.setItem('credora_redirect_after_login', 'apply-loan.html');
+        const isInPages = window.location.pathname.includes('/pages/');
+        const loginPath = isInPages 
+          ? (window.location.pathname.includes('/pages/app/') ? 'login.html' : '../app/login.html') 
+          : 'pages/app/login.html';
+        window.location.href = loginPath;
+      }
+    });
+  });
+
   if (!user) return;
 
   const displayName = user.displayName || user.email.split('@')[0];
@@ -113,7 +194,7 @@ export function syncUserUI() {
 
   // Update greetings
   document.querySelectorAll('.user-greeting').forEach(el => {
-    el.innerText = `Welcome back, ${displayName}`;
+    el.innerText = `Welcome, ${displayName}`;
   });
 
   // Update initials

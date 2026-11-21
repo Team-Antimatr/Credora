@@ -1,66 +1,94 @@
 // Credora Loan Form & Draft Caching Manager
 import { apiRequest } from "../core/api_client.js";
 import { setButtonLoading, showLoader, hideLoader } from "../core/app.js";
+import { AuthState } from "../core/auth.js";
 
 const DRAFT_KEY = "credora_loan_draft";
 
 export class LoanFormManager {
-  constructor(formElementId) {
-    this.form = document.getElementById(formElementId);
+  constructor(formId) {
+    this.form = document.getElementById(formId);
     if (!this.form) return;
-    this.init();
+
+    this.initDraftCaching();
+    this.initFormSubmission();
   }
 
-  init() {
-    this.restoreDraft();
-    this.bindAutoSave();
-    this.bindSubmit();
+  getUserKey() {
+    const user = AuthState.getUser();
+    return user && user.email ? user.email.toLowerCase().replace(/[^a-z0-9]/g, '_') : 'guest';
   }
 
-  // Restore draft from sessionStorage
-  restoreDraft() {
-    const raw = sessionStorage.getItem(DRAFT_KEY);
-    if (!raw) return;
-
-    try {
-      const draft = JSON.parse(raw);
-      Object.keys(draft).forEach(key => {
-        const input = this.form.elements[key];
-        if (input) {
-          if (input.type === 'checkbox') {
-            input.checked = Boolean(draft[key]);
-          } else {
-            input.value = draft[key];
+  initDraftCaching() {
+    // Restore cached inputs from session
+    const cached = sessionStorage.getItem(`${DRAFT_KEY}_${this.getUserKey()}`);
+    if (cached) {
+      try {
+        const data = JSON.parse(cached);
+        Object.keys(data).forEach(key => {
+          const field = this.form.elements[key];
+          if (field) {
+            if (field.type === 'radio') {
+              const radio = this.form.querySelector(`input[name="${key}"][value="${data[key]}"]`);
+              if (radio) radio.checked = true;
+            } else {
+              field.value = data[key];
+            }
           }
-        }
-      });
-      console.log("Credora: In-progress loan draft restored from session cache.");
-    } catch (e) {
-      console.warn("Could not parse draft:", e);
+        });
+      } catch (e) {
+        console.warn("Failed to restore draft:", e);
+      }
     }
-  }
 
-  // Autosave any form modification
-  bindAutoSave() {
-    this.form.addEventListener('input', () => this.saveDraft());
-    this.form.addEventListener('change', () => this.saveDraft());
+    // Auto-save form inputs on input change
+    this.form.addEventListener('input', () => {
+      this.saveDraft();
+    });
   }
 
   saveDraft() {
     const formData = new FormData(this.form);
     const draft = {};
-    for (const [k, v] of formData.entries()) {
-      draft[k] = v;
-    }
-    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    formData.forEach((value, key) => {
+      draft[key] = value;
+    });
+    sessionStorage.setItem(`${DRAFT_KEY}_${this.getUserKey()}`, JSON.stringify(draft));
   }
 
   clearDraft() {
-    sessionStorage.removeItem(DRAFT_KEY);
+    sessionStorage.removeItem(`${DRAFT_KEY}_${this.getUserKey()}`);
   }
 
-  // Final Form Submission
-  bindSubmit() {
+  storeUserApplication(app) {
+    const user = AuthState.getUser();
+    const userEmail = (user && user.email) ? user.email.toLowerCase() : '';
+    const userKey = this.getUserKey();
+    const storageKey = `credora_applications_${userKey}`;
+
+    // Tag ownership strictly to current user's email
+    app.applicant_email = userEmail;
+    app.applicant_name = user ? (user.displayName || user.email) : 'Applicant';
+    app.user_key = userKey;
+
+    let apps = [];
+    try {
+      const existing = localStorage.getItem(storageKey);
+      apps = existing ? JSON.parse(existing) : [];
+    } catch (e) {
+      apps = [];
+    }
+
+    // Prepend new application
+    apps.unshift(app);
+    localStorage.setItem(storageKey, JSON.stringify(apps));
+    
+    // User-scoped session caching and clean legacy unscoped key
+    sessionStorage.setItem(`credora_active_application_${userKey}`, JSON.stringify(app));
+    sessionStorage.removeItem('credora_active_application');
+  }
+
+  initFormSubmission() {
     this.form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = this.form.querySelector('button[type="submit"]');
@@ -69,27 +97,31 @@ export class LoanFormManager {
       }
       showLoader();
 
+      const user = AuthState.getUser();
       const formData = new FormData(this.form);
+      const loanProductRadio = this.form.querySelector('input[name="loanProduct"]:checked');
+      const selectedProduct = loanProductRadio ? loanProductRadio.value : (formData.get('loanProduct') || "Personal Loan");
+
       const payload = {
         personal_details: {
-          full_name: formData.get('full_name') || formData.get('applicant_name') || (localStorage.getItem('credora_user') ? JSON.parse(localStorage.getItem('credora_user')).displayName : "Credora Applicant"),
+          full_name: formData.get('fullName') || (user ? user.displayName : "Credora Applicant"),
           gender: formData.get('gender') || "Male",
-          married: formData.get('married') || "Yes",
+          married: formData.get('maritalStatus') || "Married",
           dependents: formData.get('dependents') || "2",
           education: formData.get('education') || "Graduate",
-          self_employed: formData.get('self_employed') || "No"
+          self_employed: formData.get('employmentStatus') || "No"
         },
         financial_details: {
-          applicant_income: parseFloat(formData.get('applicant_income') || 55000),
-          coapplicant_income: parseFloat(formData.get('coapplicant_income') || 15000),
-          loan_amount: parseFloat(formData.get('loan_amount') || 2500000),
-          loan_amount_term_months: parseInt(formData.get('loan_term') || 240, 10),
-          credit_history: parseFloat(formData.get('credit_history') || 1.0),
-          property_area: formData.get('property_area') || "Urban"
+          applicant_income: parseFloat(formData.get('appIncome') || formData.get('applicant_income') || 0),
+          coapplicant_income: parseFloat(formData.get('coIncome') || formData.get('coapplicant_income') || 0),
+          loan_amount: parseFloat(formData.get('loanAmount') || formData.get('loan_amount') || 0),
+          loan_amount_term_months: parseInt(formData.get('loanTenure') || formData.get('loan_term') || 36, 10),
+          credit_history: parseFloat(formData.get('creditHistory') || 1.0),
+          property_area: formData.get('propertyArea') || "Urban"
         },
         loan_parameters: {
-          loan_type: formData.get('loan_type') || "Home",
-          purpose: "Residential Purchase"
+          loan_type: selectedProduct,
+          purpose: formData.get('loanPurpose') || `${selectedProduct} Financing`
         }
       };
 
@@ -99,28 +131,43 @@ export class LoanFormManager {
           body: JSON.stringify(payload)
         });
 
-        // Store active application in session
-        sessionStorage.setItem('credora_active_application', JSON.stringify(response.data));
+        const appData = response.data || response;
+        appData.loan_type = selectedProduct;
+        appData.requested_amount = payload.financial_details.loan_amount;
+        appData.property_area = payload.financial_details.property_area;
+        appData.full_name = payload.personal_details.full_name;
+
+        this.storeUserApplication(appData);
         this.clearDraft();
-        window.location.href = "application-status.html";
+        window.location.href = "dashboard.html";
       } catch (err) {
-        console.warn("API offline or error, generating local demonstration pre-screening:", err.message);
+        console.warn("API offline or error, generating local pre-screening record:", err.message);
         
-        // Graceful client fallback for demo
+        // Client fallback calculation for demo
+        const isApproved = payload.financial_details.credit_history >= 1.0 && payload.financial_details.applicant_income > 0;
+        const now = new Date();
         const demoApp = {
-          application_id: "CRD-" + Math.floor(100000 + Math.random() * 900000),
+          application_id: "0000" + Math.floor(1000 + Math.random() * 9000),
           tracking_number: "TRK-" + Math.floor(100000 + Math.random() * 900000),
-          status: "UNDER_OFFICER_REVIEW",
-          submitted_at: new Date().toISOString(),
+          status: "Pending",
+          flag: "N/A",
+          reason: "Pre-Screening Under Officer Review",
+          loan_type: selectedProduct,
+          requested_amount: payload.financial_details.loan_amount,
+          property_area: payload.financial_details.property_area,
+          full_name: payload.personal_details.full_name,
+          issue_date: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+          submitted_at: now.toISOString(),
           ml_pre_screening: {
-            outcome: "PRE_APPROVED",
-            confidence_score: 0.884,
-            risk_band: "LOW"
+            outcome: isApproved ? "PRE_APPROVED" : "EDGE_CASE_REVIEW",
+            confidence_score: isApproved ? 0.884 : 0.54,
+            risk_band: isApproved ? "LOW" : "MEDIUM"
           }
         };
-        sessionStorage.setItem('credora_active_application', JSON.stringify(demoApp));
+
+        this.storeUserApplication(demoApp);
         this.clearDraft();
-        window.location.href = "application-status.html";
+        window.location.href = "dashboard.html";
       }
     });
   }

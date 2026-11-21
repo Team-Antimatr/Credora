@@ -1,7 +1,9 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Loan Application — Credora Customer Portal</title>
+  <title>Apply for Loan — Credora Customer Portal</title>
   <script>
     (function() {
       var user = localStorage.getItem('credora_user');
@@ -14,7 +16,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -54,21 +57,18 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-  <!-- Authenticated Top Navigation Bar -->
+  <!-- Authenticated Top Navigation Bar (Figma Node 552:645) -->
   <header class="h-16 bg-white border-b border-borderHairline sticky top-0 z-40 px-6 sm:px-10 flex items-center justify-between">
     <!-- Left: Brand Logo & Wordmark -->
     <div class="flex items-center space-x-8">
       <a href="../../index.html" class="flex items-center space-x-2.5 text-ink group">
-        <!-- SVG Piggy Bank Icon -->
-        
         <span class="font-heading font-bold text-xl tracking-tight text-ink">Credora</span>
       </a>
 
-      <!-- Center Navigation -->
+      <!-- Center Navigation (Removed Application Status per Issue #8) -->
       <nav class="hidden md:flex items-center space-x-6 text-[14px]">
         <a href="dashboard.html" class="text-slateMuted hover:text-ink transition-colors">Dashboard</a>
         <a href="apply-loan.html" class="text-ink font-semibold border-b-2 border-ink py-5">Apply for Loan</a>
-        <a href="application-status.html" class="text-slateMuted hover:text-ink transition-colors">Application Status</a>
       </nav>
     </div>
 
@@ -87,287 +87,328 @@
   <!-- Main Container -->
   <main class="max-w-[1120px] w-full mx-auto px-6 py-10 flex-grow">
     
-    <!-- Page Header -->
-    <div class="mb-8">
-      
-      <h1 class="font-heading font-bold text-[28px] leading-tight text-ink tracking-tight">
-        New Loan Application
+    <!-- Hero Title (Figma Node 552:728, 552:729) -->
+    <div class="text-center mb-10">
+      <h1 class="font-heading font-light text-3xl sm:text-5xl text-ink tracking-tight">
+        Active Loans From Credora
       </h1>
-      <p class="text-[14px] text-slateMuted mt-1.5 max-w-2xl leading-relaxed">
-        Provide accurate financial and regional details below. Our automated verification evaluates your profile objectively and fairly in seconds.
+      <p class="font-heading font-light text-lg sm:text-2xl text-slateMuted mt-2">
+        Best for your Financial growth
       </p>
     </div>
 
-    <!-- Two-Column Form Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
-      <!-- Left Column: Structured Form (8 cols) -->
-      <div class="lg:col-span-8 bg-white border border-borderHairline rounded-lg p-7 sm:p-9 shadow-none">
-        <form id="loanForm" class="space-y-7" onsubmit="event.preventDefault();">
-
-          <!-- Section 01: Loan Type & Property Region -->
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 01</span>
-              <span class="text-[12px] font-mono text-slateMuted">Loan Parameters</span>
-            </div>
-            <h2 class="font-heading font-semibold text-[17px] text-ink mb-4">Loan Type &amp; Region</h2>
-
-            <!-- Product Selection Cards -->
-            <label class="block text-[13px] font-medium text-slateBody mb-2">Loan Product</label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-              <!-- Personal Loan Card -->
-              <label class="relative flex flex-col p-4 border border-ink bg-slateLight rounded-md cursor-pointer transition-all hover:bg-slateLight/80">
-                <div class="flex items-center justify-between mb-1.5">
-                  <div class="flex items-center space-x-2.5">
-                    <input type="radio" name="loanProduct" value="Personal Loan" checked="" class="w-4 h-4 text-ink focus:ring-ink" onchange="updateSummary()">
-                    <span class="font-medium text-[14px] text-ink">Personal Loan</span>
-                  </div>
-                  <span class="text-[11px] font-mono bg-white border border-borderHairline px-2 py-0.5 rounded text-slateMuted">Unsecured</span>
-                </div>
-                <p class="text-[12px] text-slateMuted leading-relaxed pl-6.5">
-                  Fast funds for medical, education, wedding, or business expansion.
-                </p>
-              </label>
-
-              <!-- Home Loan Card -->
-              <label class="relative flex flex-col p-4 border border-borderHairline rounded-md cursor-pointer transition-all hover:border-slateBody">
-                <div class="flex items-center justify-between mb-1.5">
-                  <div class="flex items-center space-x-2.5">
-                    <input type="radio" name="loanProduct" value="Home Loan" class="w-4 h-4 text-ink focus:ring-ink" onchange="updateSummary()">
-                    <span class="font-medium text-[14px] text-ink">Home Loan</span>
-                  </div>
-                  <span class="text-[11px] font-mono bg-slateLight border border-borderHairline px-2 py-0.5 rounded text-slateMuted">Secured</span>
-                </div>
-                <p class="text-[12px] text-slateMuted leading-relaxed pl-6.5">
-                  Housing purchase, property construction, or major renovation.
-                </p>
-              </label>
-            </div>
-
-            <!-- Property Area & Loan Purpose Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label for="propertyArea" class="block text-[13px] font-medium text-slateBody mb-1.5">Property Area / Location</label>
-                <select id="propertyArea" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink" onchange="updateSummary()">
-                  <option value="Urban">Urban (Metro / Tier-1 City)</option>
-                  <option value="Semi-Urban">Semi-Urban (Town / Tier-2 City)</option>
-                  <option value="Rural">Rural (Village / Taluka)</option>
-                </select>
-                <span class="text-[11px] text-slateMuted mt-1 block">Categorized per standard residential zoning criteria</span>
-              </div>
-              <div>
-                <label for="loanPurpose" class="block text-[13px] font-medium text-slateBody mb-1.5">Loan Purpose</label>
-                <input type="text" id="loanPurpose" placeholder="e.g. Home renovation, shop expansion" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink placeholder:text-slate-400">
-                <span class="text-[11px] text-slateMuted mt-1 block">Brief context for loan officer notes</span>
-              </div>
-            </div>
+    <!-- Two Main Product Cards (Figma Node 552:726, 552:727) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      
+      <!-- Personal Loan Card -->
+      <div class="bg-white border-2 border-ink/40 rounded-xl p-8 sm:p-9 shadow-sm flex flex-col justify-between hover:border-ink transition-colors">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-heading text-2xl sm:text-3xl text-ink font-normal">Personal Loan</h2>
+            <span class="border border-ink rounded-full px-3.5 py-1 text-xs font-mono font-medium text-ink uppercase">Unsecured</span>
           </div>
 
-          <!-- Section 02: Applicant & Household Profile -->
-          <div class="pt-6 border-t border-borderHairline">
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 02</span>
-              <span class="text-[12px] font-mono text-slateMuted">Demographics &amp; Household</span>
-            </div>
-            <h2 class="font-heading font-semibold text-[17px] text-ink mb-4">Applicant &amp; Household Profile</h2>
+          <p class="text-sm text-slateMuted leading-relaxed mb-6">
+            Fast funds for medical, education, wedding, or emergency expenses with zero collateral required.
+          </p>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label for="fullName" class="block text-[13px] font-medium text-slateBody mb-1.5">Full Legal Name</label>
-                <input type="text" id="fullName" placeholder="e.g. Full Legal Name" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
-              </div>
-              <div>
-                <label for="gender" class="block text-[13px] font-medium text-slateBody mb-1.5">Applicant Gender</label>
-                <select id="gender" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
-                  <option value="Male" selected="">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div>
-                <label for="maritalStatus" class="block text-[13px] font-medium text-slateBody mb-1.5">Marital Status</label>
-                <select id="maritalStatus" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
-                  <option value="Married" selected="">Married</option>
-                  <option value="Single">Single</option>
-                </select>
-              </div>
-              <div>
-                <label for="dependents" class="block text-[13px] font-medium text-slateBody mb-1.5">Number of Dependents</label>
-                <select id="dependents" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
-                  <option value="0">0 (Zero)</option>
-                  <option value="1">1 Dependent</option>
-                  <option value="2" selected="">2 Dependents</option>
-                  <option value="3+">3+ Dependents</option>
-                </select>
-              </div>
-              <div class="sm:col-span-2">
-                <label for="education" class="block text-[13px] font-medium text-slateBody mb-1.5">Education Level</label>
-                <select id="education" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
-                  <option value="Graduate" selected="">Graduate (University Degree)</option>
-                  <option value="Not Graduate">Not Graduate (Higher Secondary / Vocational)</option>
-                </select>
-              </div>
-            </div>
+          <div class="space-y-3 font-sans text-sm sm:text-base border-t border-borderHairline pt-5 mb-8">
+            <p><span class="font-bold text-ink">Amount:</span> <span class="text-slateBody">₹50,000 to ₹10,00,000</span></p>
+            <p><span class="font-bold text-ink">Tenure:</span> <span class="text-slateBody">12 to 60 Months</span></p>
+            <p><span class="font-bold text-ink">Collateral:</span> <span class="text-slateBody">None Required</span></p>
+            <p><span class="font-bold text-ink">Disbursal:</span> <span class="text-slateBody">Within 24 hours of officer verification</span></p>
           </div>
+        </div>
 
-          <!-- Section 03: Employment & Monthly Income -->
-          <div class="pt-6 border-t border-borderHairline">
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 03</span>
-              <span class="text-[12px] font-mono text-slateMuted">Financial Standing</span>
-            </div>
-            <h2 class="font-heading font-semibold text-[17px] text-ink mb-4">Employment &amp; Monthly Income</h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label for="employment" class="block text-[13px] font-medium text-slateBody mb-1.5">Employment Category</label>
-                <select id="employment" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
-                  <option value="Salaried" selected="">Salaried Professional (Formal)</option>
-                  <option value="Self-Employed">Self-Employed / Business Owner</option>
-                </select>
-              </div>
-              <div>
-                <label for="creditHistory" class="block text-[13px] font-medium text-slateBody mb-1.5">Credit History Record</label>
-                <select id="creditHistory" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink font-mono text-[13px]">
-                  <option value="1.0" selected="">Good Credit Track Record (Score 1.0)</option>
-                  <option value="0.0">Limited / Past Repayment Delays (Score 0.0)</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="appIncome" class="block text-[13px] font-medium text-slateBody mb-1.5">Applicant Monthly Income (₹)</label>
-                <div class="relative">
-                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 font-mono text-[14px] text-slateMuted">₹</span>
-                  <input type="number" id="appIncome" value="45000" class="w-full h-11 pl-8 pr-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" oninput="updateSummary()">
-                </div>
-                <span class="text-[11px] text-slateMuted mt-1 block">Net monthly take-home income</span>
-              </div>
-
-              <div>
-                <label for="coIncome" class="block text-[13px] font-medium text-slateBody mb-1.5">Co-Applicant Monthly Income (₹)</label>
-                <div class="relative">
-                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 font-mono text-[14px] text-slateMuted">₹</span>
-                  <input type="number" id="coIncome" value="0" class="w-full h-11 pl-8 pr-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" oninput="updateSummary()">
-                </div>
-                <span class="text-[11px] text-slateMuted mt-1 block">Enter 0 if applying individually</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Section 04: Requested Loan Amount & Tenure -->
-          <div class="pt-6 border-t border-borderHairline">
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 04</span>
-              <span class="text-[12px] font-mono text-slateMuted">Loan Sizing</span>
-            </div>
-            <h2 class="font-heading font-semibold text-[17px] text-ink mb-4">Requested Principal &amp; Tenure</h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label for="loanAmount" class="block text-[13px] font-medium text-slateBody mb-1.5">Requested Loan Amount (₹)</label>
-                <div class="relative">
-                  <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 font-mono text-[14px] text-slateMuted">₹</span>
-                  <input type="number" id="loanAmount" value="500000" step="50000" class="w-full h-11 pl-8 pr-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" oninput="updateSummary()">
-                </div>
-                <span class="text-[11px] text-slateMuted mt-1 block">Min ₹50,000 — Max ₹75,00,000</span>
-              </div>
-
-              <div>
-                <label for="loanTenure" class="block text-[13px] font-medium text-slateBody mb-1.5">Repayment Tenure</label>
-                <select id="loanTenure" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" onchange="updateSummary()">
-                  <option value="12 Months">12 Months (1 Year)</option>
-                  <option value="24 Months">24 Months (2 Years)</option>
-                  <option value="36 Months" selected="">36 Months (3 Years)</option>
-                  <option value="60 Months">60 Months (5 Years)</option>
-                  <option value="120 Months">120 Months (10 Years)</option>
-                  <option value="240 Months">240 Months (20 Years)</option>
-                </select>
-                <span class="text-[11px] text-slateMuted mt-1 block">Flexible tenure with structured monthly EMIs</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Declaration & Submit -->
-          <div class="pt-6 border-t border-borderHairline space-y-5">
-            <div class="flex items-start space-x-3">
-              <input id="declaration" type="checkbox" required="" checked="" class="w-4 h-4 mt-1 rounded border-borderInput text-ink focus:ring-ink">
-              <label for="declaration" class="text-[13px] text-slateBody leading-relaxed">
-                I confirm that the income, employment, and credit details entered above are accurate for instant pre-approval evaluation and subsequent loan officer verification.
-              </label>
-            </div>
-
-            <button type="submit" class="w-full h-12 bg-ink text-white font-medium text-[15px] rounded-md flex items-center justify-center space-x-2 transition-all hover:bg-slate-900 active:scale-[0.99]">
-              <span>&nbsp;Submit Application</span>
-              <span class="font-mono">→</span>
-            </button>
-            <div class="flex items-center justify-center space-x-3 text-[12px] text-slateMuted">
-              <span class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block mr-1.5"></span> Instant Evaluation: &lt; 5s</span>
-              <span>•</span>
-              <span>Encrypted SSL 256-bit</span>
-            </div>
-          </div>
-
-        </form>
+        <button type="button" onclick="selectLoanType('Personal Loan')" class="w-full bg-ink hover:bg-slateDark text-white py-3.5 px-6 rounded-md text-sm sm:text-base font-medium transition-colors shadow-sm flex items-center justify-center gap-2">
+          <span>Apply for Personal Loan</span>
+          <span>↓</span>
+        </button>
       </div>
 
-      <!-- Right Column: Sticky Live Summary Sidebar (4 cols) -->
-      <div class="lg:col-span-4 sticky top-24 space-y-4">
-        
-        <!-- Live Summary Card -->
-        <div class="bg-white border border-borderHairline rounded-lg p-6">
-          <div class="flex items-center justify-between pb-3.5 border-b border-borderHairline">
-            <h3 class="font-heading font-semibold text-[14px] text-ink uppercase tracking-wide">Application Summary</h3>
-            <span class="font-mono text-[11px] text-trustBlue">LIVE METRICS</span>
+      <!-- Home Loan Card -->
+      <div class="bg-white border-2 border-ink/40 rounded-xl p-8 sm:p-9 shadow-sm flex flex-col justify-between hover:border-ink transition-colors">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-heading text-2xl sm:text-3xl text-ink font-normal">Home Loan</h2>
+            <span class="border border-ink rounded-full px-3.5 py-1 text-xs font-mono font-medium text-ink uppercase">Secured</span>
           </div>
 
-          <div class="divide-y divide-borderHairline">
-            <div class="py-3 flex items-center justify-between text-[13px]">
-              <span class="text-slateMuted">Selected Product</span>
-              <span id="summaryProduct" class="font-mono font-medium text-ink">Personal Loan</span>
-            </div>
-            <div class="py-3 flex items-center justify-between text-[13px]">
-              <span class="text-slateMuted">Region Category</span>
-              <span id="summaryRegion" class="font-mono font-medium text-ink">Urban</span>
-            </div>
-            <div class="py-3 flex items-center justify-between text-[13px]">
-              <span class="text-slateMuted">Combined Monthly Income</span>
-              <span id="summaryIncome" class="font-mono font-medium text-ink">₹45,000</span>
-            </div>
-            <div class="py-3 flex items-center justify-between text-[13px]">
-              <span class="text-slateMuted">Requested Principal</span>
-              <span id="summaryAmount" class="font-mono font-semibold text-ink text-[14px]">₹5,00,000</span>
-            </div>
-            <div class="py-3 flex items-center justify-between text-[13px]">
-              <span class="text-slateMuted">Repayment Tenure</span>
-              <span id="summaryTenure" class="font-mono font-medium text-ink">36 Months</span>
-            </div>
-          </div>
-
-          <!-- Estimated EMI Calculation -->
-          <div class="mt-4 pt-4 border-t border-borderHairline bg-slateLight -mx-6 -mb-6 p-6 rounded-b-lg">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[12px] font-medium text-slateBody">Estimated Monthly EMI</span>
-              <span id="summaryEMI" class="font-mono font-bold text-ink text-[16px]">₹16,488 / mo</span>
-            </div>
-            <span class="text-[11px] text-slateMuted block">Calculated at indicative annual interest rate</span>
-          </div>
-        </div>
-
-        <!-- How Decisioning Works Box -->
-        <div class="bg-slateLight border border-borderHairline rounded-lg p-5">
-          <div class="flex items-center space-x-2 mb-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-trustBlue"></span>
-            <h4 class="font-heading font-semibold text-[13px] text-ink">How Decisioning Works</h4>
-          </div>
-          <p class="text-[12px] text-slateMuted leading-relaxed">
-            Your inputs are evaluated instantly through Credora's automated credit eligibility assessment. Approved applications proceed directly to an Underwriting Officer for final document verification without processing delays.
+          <p class="text-sm text-slateMuted leading-relaxed mb-6">
+            Affordable financing for property purchase, home construction, or major renovation with attractive long-term rates.
           </p>
+
+          <div class="space-y-3 font-sans text-sm sm:text-base border-t border-borderHairline pt-5 mb-8">
+            <p><span class="font-bold text-ink">Amount:</span> <span class="text-slateBody">₹5,00,000 to ₹1,00,00,000</span></p>
+            <p><span class="font-bold text-ink">Tenure:</span> <span class="text-slateBody">5 to 30 Years (60 to 360 Months)</span></p>
+            <p><span class="font-bold text-ink">Collateral:</span> <span class="text-slateBody">Residential / Commercial Property</span></p>
+            <p><span class="font-bold text-ink">Disbursal:</span> <span class="text-slateBody">Post property & legal document verification</span></p>
+          </div>
         </div>
 
-        <!-- Security & Privacy note -->
-        <div class="p-3 text-center text-[11px] text-slateMuted">
-          Compliant with RBI Fair Practices Code • MIT Licensed Open Source Research
+        <button type="button" onclick="selectLoanType('Home Loan')" class="w-full bg-ink hover:bg-slateDark text-white py-3.5 px-6 rounded-md text-sm sm:text-base font-medium transition-colors shadow-sm flex items-center justify-center gap-2">
+          <span>Apply for Home Loan</span>
+          <span>↓</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Application Form Section -->
+    <div id="applicationFormSection" class="pt-6 border-t-2 border-borderHairline">
+      
+      <div class="mb-8">
+        <span class="font-mono text-xs uppercase tracking-wider text-trustBlue font-semibold">APPLICATION FORM</span>
+        <h2 class="font-heading font-bold text-2xl sm:text-3xl text-ink tracking-tight mt-1">
+          Complete Your Loan Parameters
+        </h2>
+        <p class="text-[14px] text-slateMuted mt-1 leading-relaxed">
+          Provide accurate financial and regional details below. Our automated verification evaluates your profile objectively in seconds.
+        </p>
+      </div>
+
+      <!-- Two-Column Form Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- Left Column: Structured Form (8 cols) -->
+        <div class="lg:col-span-8 bg-white border border-borderHairline rounded-lg p-7 sm:p-9 shadow-none">
+          <form id="loanForm" class="space-y-7" onsubmit="event.preventDefault();">
+
+            <!-- Section 01: Loan Product Selection & Region -->
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 01</span>
+                <span class="text-[12px] font-mono text-slateMuted">Loan Parameters</span>
+              </div>
+              <h3 class="font-heading font-semibold text-[17px] text-ink mb-4">Selected Product &amp; Region</h3>
+
+              <label class="block text-[13px] font-medium text-slateBody mb-2">Loan Product</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                <!-- Personal Loan Radio -->
+                <label class="relative flex flex-col p-4 border border-ink bg-slateLight rounded-md cursor-pointer transition-all hover:bg-slateLight/80">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center space-x-2.5">
+                      <input type="radio" name="loanProduct" value="Personal Loan" checked class="w-4 h-4 text-ink focus:ring-0 cursor-pointer" onchange="updateSummary()">
+                      <span class="font-heading font-semibold text-[15px] text-ink">Personal Loan</span>
+                    </div>
+                    <span class="text-[11px] font-mono bg-white border border-borderHairline px-2 py-0.5 rounded text-slateMuted">Unsecured</span>
+                  </div>
+                  <p class="text-[12px] text-slateMuted leading-relaxed pl-6.5">
+                    Fast funds for medical, education, wedding, or business expansion.
+                  </p>
+                </label>
+
+                <!-- Home Loan Radio -->
+                <label class="relative flex flex-col p-4 border border-borderHairline bg-white rounded-md cursor-pointer transition-all hover:bg-slateLight/50">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center space-x-2.5">
+                      <input type="radio" name="loanProduct" value="Home Loan" class="w-4 h-4 text-ink focus:ring-0 cursor-pointer" onchange="updateSummary()">
+                      <span class="font-heading font-semibold text-[15px] text-ink">Home Loan</span>
+                    </div>
+                    <span class="text-[11px] font-mono bg-slateLight border border-borderHairline px-2 py-0.5 rounded text-slateMuted">Secured</span>
+                  </div>
+                  <p class="text-[12px] text-slateMuted leading-relaxed pl-6.5">
+                    Housing purchase, property construction, or major renovation.
+                  </p>
+                </label>
+              </div>
+
+              <!-- Property Area & Purpose Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="propertyArea" class="block text-[13px] font-medium text-slateBody mb-1.5">Property Area / Location</label>
+                  <select id="propertyArea" name="propertyArea" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink" onchange="updateSummary()">
+                    <option value="Urban">Urban (Metro / Tier-1 City)</option>
+                    <option value="Semiurban">Semiurban (Town / Tier-2 City)</option>
+                    <option value="Rural">Rural (Village / Taluka)</option>
+                  </select>
+                  <span class="text-[11px] text-slateMuted mt-1 block">Categorized per standard residential zoning criteria</span>
+                </div>
+                <div>
+                  <label for="loanPurpose" class="block text-[13px] font-medium text-slateBody mb-1.5">Loan Purpose</label>
+                  <input type="text" id="loanPurpose" name="loanPurpose" placeholder="e.g. Home renovation, wedding, shop expansion" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink placeholder:text-slate-400">
+                  <span class="text-[11px] text-slateMuted mt-1 block">Brief context for underwriting notes</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 02: Applicant & Household Profile -->
+            <div class="pt-6 border-t border-borderHairline">
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 02</span>
+                <span class="text-[12px] font-mono text-slateMuted">Demographics &amp; Household</span>
+              </div>
+              <h3 class="font-heading font-semibold text-[17px] text-ink mb-4">Applicant &amp; Household Profile</h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="fullName" class="block text-[13px] font-medium text-slateBody mb-1.5">Full Legal Name</label>
+                  <input type="text" id="fullName" name="fullName" placeholder="Full Legal Name" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                </div>
+                <div>
+                  <label for="gender" class="block text-[13px] font-medium text-slateBody mb-1.5">Applicant Gender</label>
+                  <select id="gender" name="gender" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                    <option value="Male" selected="">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="maritalStatus" class="block text-[13px] font-medium text-slateBody mb-1.5">Marital Status</label>
+                  <select id="maritalStatus" name="maritalStatus" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                    <option value="Married" selected="">Married</option>
+                    <option value="Single">Single / Unmarried</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="dependents" class="block text-[13px] font-medium text-slateBody mb-1.5">Number of Dependents</label>
+                  <select id="dependents" name="dependents" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                    <option value="0">0 Dependents</option>
+                    <option value="1">1 Dependent</option>
+                    <option value="2" selected="">2 Dependents</option>
+                    <option value="3+">3+ Dependents</option>
+                  </select>
+                </div>
+                <div class="sm:col-span-2">
+                  <label for="education" class="block text-[13px] font-medium text-slateBody mb-1.5">Education Level</label>
+                  <select id="education" name="education" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                    <option value="Graduate" selected="">Graduate (University Degree)</option>
+                    <option value="Not Graduate">Not Graduate (Higher Secondary / Vocational)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 03: Employment & Monthly Income -->
+            <div class="pt-6 border-t border-borderHairline">
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 03</span>
+                <span class="text-[12px] font-mono text-slateMuted">Financial Standing</span>
+              </div>
+              <h3 class="font-heading font-semibold text-[17px] text-ink mb-4">Employment &amp; Monthly Income</h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="employmentStatus" class="block text-[13px] font-medium text-slateBody mb-1.5">Employment Category</label>
+                  <select id="employmentStatus" name="employmentStatus" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink">
+                    <option value="No" selected="">Salaried Professional (Formal)</option>
+                    <option value="Yes">Self-Employed / Business Owner</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="creditHistory" class="block text-[13px] font-medium text-slateBody mb-1.5">Credit History Record</label>
+                  <select id="creditHistory" name="creditHistory" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] text-ink font-mono text-[13px]">
+                    <option value="1.0" selected="">Good Credit Track Record (Score 1.0)</option>
+                    <option value="0.0">Limited / Past Repayment Delays (Score 0.0)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="appIncome" class="block text-[13px] font-medium text-slateBody mb-1.5">Applicant Monthly Income (₹)</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 font-mono text-[14px] text-slateMuted">₹</span>
+                    <input type="number" id="appIncome" name="appIncome" placeholder="e.g. 50000" class="w-full h-11 pl-8 pr-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" oninput="updateSummary()">
+                  </div>
+                  <span class="text-[11px] text-slateMuted mt-1 block">Net monthly take-home income</span>
+                </div>
+
+                <div>
+                  <label for="coIncome" class="block text-[13px] font-medium text-slateBody mb-1.5">Co-Applicant Monthly Income (₹)</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 font-mono text-[14px] text-slateMuted">₹</span>
+                    <input type="number" id="coIncome" name="coIncome" placeholder="0 if none" class="w-full h-11 pl-8 pr-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" oninput="updateSummary()">
+                  </div>
+                  <span class="text-[11px] text-slateMuted mt-1 block">Enter 0 if applying individually</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 04: Requested Principal & Tenure -->
+            <div class="pt-6 border-t border-borderHairline">
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[11px] font-semibold text-trustBlue uppercase tracking-wider">SECTION 04</span>
+                <span class="text-[12px] font-mono text-slateMuted">Loan Sizing</span>
+              </div>
+              <h3 class="font-heading font-semibold text-[17px] text-ink mb-4">Requested Principal &amp; Tenure</h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="loanAmount" class="block text-[13px] font-medium text-slateBody mb-1.5">Requested Loan Amount (₹)</label>
+                  <div class="relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 font-mono text-[14px] text-slateMuted">₹</span>
+                    <input type="number" id="loanAmount" name="loanAmount" placeholder="e.g. 500000" step="25000" class="w-full h-11 pl-8 pr-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" oninput="updateSummary()">
+                  </div>
+                  <span class="text-[11px] text-slateMuted mt-1 block">Min ₹50,000 — Max ₹1,00,00,000</span>
+                </div>
+
+                <div>
+                  <label for="loanTenure" class="block text-[13px] font-medium text-slateBody mb-1.5">Repayment Tenure</label>
+                  <select id="loanTenure" name="loanTenure" class="w-full h-11 px-3.5 bg-white border border-borderInput rounded-md text-[14px] font-mono text-ink" onchange="updateSummary()">
+                    <option value="12">12 Months (1 Year)</option>
+                    <option value="24">24 Months (2 Years)</option>
+                    <option value="36" selected="">36 Months (3 Years)</option>
+                    <option value="60">60 Months (5 Years)</option>
+                    <option value="120">120 Months (10 Years)</option>
+                    <option value="240">240 Months (20 Years)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="pt-6 border-t border-borderHairline flex items-center justify-between">
+              <a href="dashboard.html" class="text-sm text-slateMuted hover:text-ink transition-colors font-medium">Cancel</a>
+              <button type="submit" class="bg-ink hover:bg-slateDark text-white px-8 py-3 rounded-md text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+                <span>Submit Loan Application</span>
+                <span class="font-mono text-xs">→</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Right Column: Live Summary & Transparency (4 cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="bg-white border border-borderHairline rounded-lg p-6 shadow-none">
+            <div class="flex items-center justify-between border-b border-borderHairline pb-3 mb-4">
+              <h4 class="font-heading font-semibold text-[14px] text-ink uppercase tracking-wider">Summary</h4>
+              <span class="text-[11px] font-mono text-trustBlue">Live Estimate</span>
+            </div>
+
+            <div class="space-y-3 text-[13px]">
+              <div class="flex items-center justify-between">
+                <span class="text-slateMuted">Product</span>
+                <span id="summaryProduct" class="font-medium text-ink">Personal Loan</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slateMuted">Region</span>
+                <span id="summaryRegion" class="font-medium text-ink">Urban</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slateMuted">Combined Income</span>
+                <span id="summaryIncome" class="font-mono text-ink font-medium">₹0</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slateMuted">Requested Principal</span>
+                <span id="summaryAmount" class="font-mono text-ink font-semibold">₹0</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-slateMuted">Repayment Tenure</span>
+                <span id="summaryTenure" class="font-mono text-ink font-medium">36 Months</span>
+              </div>
+              <div class="pt-3 border-t border-borderHairline flex items-center justify-between">
+                <span class="text-slateBody font-medium">Estimated EMI</span>
+                <span id="summaryEMI" class="font-mono font-bold text-trustBlue text-base">₹0 / mo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slateLight border border-borderHairline rounded-lg p-5">
+            <h5 class="font-heading font-semibold text-[13px] text-ink mb-1.5">Automated Pre-Screening</h5>
+            <p class="text-[12px] text-slateMuted leading-relaxed">
+              Your application details are evaluated instantly using standardized criteria. Approved applicants progress directly to an Underwriting Officer for final document sign-off.
+            </p>
+          </div>
         </div>
 
       </div>
@@ -376,92 +417,74 @@
 
   </main>
 
-  <!-- Minimal Single-Line Footer -->
-  <footer class="border-t border-borderHairline bg-white py-5 px-6 mt-16">
-    <div class="max-w-[1120px] mx-auto flex flex-col sm:flex-row items-center justify-between text-[12px] text-slateMuted">
-      <div class="flex items-center space-x-2">
-        <span class="font-heading font-semibold text-ink">Credora</span>
-        <span>•</span>
-        <span>© 2026 Credora Open Source Organization</span>
-      </div>
-      <div class="mt-2 sm:mt-0 font-mono text-[11px]">
-        Credora Smart Credit Evaluation
-      </div>
-    </div>
+  <!-- Minimal Footer -->
+  <footer class="w-full bg-white border-t border-borderHairline py-5 px-6 text-center">
+    <p class="font-mono text-xs text-slateMuted">
+      © 2026 Credora Open Source Organization • Fast Automated Pre-Screening (Project Purpose Only)
+    </p>
   </footer>
 
-  <!-- Real-time Interaction Script -->
   <script>
+    function selectLoanType(type) {
+      const radio = document.querySelector(`input[name="loanProduct"][value="${type}"]`);
+      if (radio) {
+        radio.checked = true;
+        updateSummary();
+      }
+      document.getElementById('applicationFormSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
     function formatINR(val) {
-      return '₹' + Number(val).toLocaleString('en-IN');
+      return '₹' + Number(val || 0).toLocaleString('en-IN');
     }
 
     function calculateEMI(p, tenureMonths) {
       if (!p || p <= 0) return '₹0 / mo';
-      const annualRate = 11.5; // Indicative rate
+      const annualRate = 11.5;
       const monthlyRate = (annualRate / 12) / 100;
       const emi = (p * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) / (Math.pow(1 + monthlyRate, tenureMonths) - 1);
       return formatINR(Math.round(emi)) + ' / mo';
     }
 
     function updateSummary() {
-      // Product
       const selectedProductRadio = document.querySelector('input[name="loanProduct"]:checked');
       const product = selectedProductRadio ? selectedProductRadio.value : 'Personal Loan';
       document.getElementById('summaryProduct').textContent = product;
 
-      // Region
       const region = document.getElementById('propertyArea').value;
       document.getElementById('summaryRegion').textContent = region;
 
-      // Incomes
       const appInc = parseFloat(document.getElementById('appIncome').value) || 0;
       const coInc = parseFloat(document.getElementById('coIncome').value) || 0;
-      const combined = appInc + coInc;
-      document.getElementById('summaryIncome').textContent = formatINR(combined);
+      document.getElementById('summaryIncome').textContent = formatINR(appInc + coInc);
 
-      // Amount
       const amt = parseFloat(document.getElementById('loanAmount').value) || 0;
       document.getElementById('summaryAmount').textContent = formatINR(amt);
 
-      // Tenure
-      const tenureStr = document.getElementById('loanTenure').value;
-      document.getElementById('summaryTenure').textContent = tenureStr;
+      const tenure = parseInt(document.getElementById('loanTenure').value, 10) || 36;
+      document.getElementById('summaryTenure').textContent = `${tenure} Months`;
+      document.getElementById('summaryEMI').textContent = calculateEMI(amt, tenure);
 
-      // Parse tenure months
-      const months = parseInt(tenureStr) || 36;
-      document.getElementById('summaryEMI').textContent = calculateEMI(amt, months);
-
-      // Card border active state styling
+      // Card active states
       document.querySelectorAll('input[name="loanProduct"]').forEach(radio => {
         const parentCard = radio.closest('label');
         if (radio.checked) {
           parentCard.classList.add('border-ink', 'bg-slateLight');
-          parentCard.classList.remove('border-borderHairline');
+          parentCard.classList.remove('border-borderHairline', 'bg-white');
         } else {
           parentCard.classList.remove('border-ink', 'bg-slateLight');
-          parentCard.classList.add('border-borderHairline');
+          parentCard.classList.add('border-borderHairline', 'bg-white');
         }
       });
     }
 
-    // Run on init
     window.addEventListener('DOMContentLoaded', updateSummary);
   </script>
 
-
-
-
-
-<span id="PING_CONTENT_PUSH_NOTIFICATION" style="display: none;"></span>
-<script type="module" src="../../public/assets/js/core/auth.js"></script>
-<script type="module">
-  import { LoanFormManager } from "../../public/assets/js/app/loan_form.js";
-  const form = document.querySelector('form');
-  if (form) {
-    form.id = form.id || 'loanApplicationForm';
-    new LoanFormManager(form.id);
-  }
-</script>
-
-</body></html>
+  <script type="module" src="../../public/assets/js/core/auth.js"></script>
+  <script type="module">
+    import { LoanFormManager } from "../../public/assets/js/app/loan_form.js";
+    new LoanFormManager('loanForm');
+  </script>
+</body>
+</html>
