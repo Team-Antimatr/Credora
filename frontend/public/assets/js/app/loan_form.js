@@ -1,5 +1,6 @@
 // Credora Loan Form & Draft Caching Manager
 import { apiRequest } from "../core/api_client.js";
+import { setButtonLoading, showLoader, hideLoader } from "../core/app.js";
 
 const DRAFT_KEY = "credora_loan_draft";
 
@@ -64,9 +65,9 @@ export class LoanFormManager {
       e.preventDefault();
       const submitBtn = this.form.querySelector('button[type="submit"]');
       if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Evaluating Profile & Pre-Screening...";
+        setButtonLoading(submitBtn, true, "Running ML Pre-Screening...");
       }
+      showLoader();
 
       const formData = new FormData(this.form);
       const payload = {
