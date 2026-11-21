@@ -1,5 +1,6 @@
 // Credora API Client Wrapper
 import { AuthState } from "./auth.js";
+import { showLoader, hideLoader } from "./app.js";
 
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:8000/api/v1'
@@ -15,6 +16,7 @@ export async function apiRequest(endpoint, options = {}) {
     ...(options.headers || {})
   };
 
+  showLoader();
   try {
     const response = await fetch(url, {
       ...options,
@@ -32,5 +34,7 @@ export async function apiRequest(endpoint, options = {}) {
   } catch (err) {
     console.error(`[API Request Error] ${endpoint}:`, err);
     throw err;
+  } finally {
+    hideLoader();
   }
 }
