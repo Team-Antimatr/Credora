@@ -84,16 +84,26 @@
     </div>
   </main>
 
-  <script>
-    function handleAdminLogin(e) {
+  <script type="module">
+    import { setButtonLoading, showLoader } from "../../public/assets/js/core/app.js";
+
+    window.handleAdminLogin = function(e) {
       e.preventDefault();
+      const form = e.target;
+      const submitBtn = form.querySelector('button[type="submit"]') || form;
+      if (submitBtn) {
+        setButtonLoading(submitBtn, true, "Authenticating Officer Session...");
+      }
+      showLoader();
       // Store staff session in localStorage
       localStorage.setItem('credora_user_role', 'officer');
       localStorage.setItem('credora_officer_name', 'Anita Deshmukh (Central Desk)');
       var target = sessionStorage.getItem('credora_admin_redirect') || 'review-queue.html';
       sessionStorage.removeItem('credora_admin_redirect');
-      window.location.replace(target);
-    }
+      setTimeout(function() {
+        window.location.replace(target);
+      }, 150);
+    };
   </script>
 </body>
 </html>

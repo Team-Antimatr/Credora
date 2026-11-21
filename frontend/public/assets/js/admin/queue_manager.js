@@ -1,4 +1,5 @@
 // Credora Loan Officer Review Queue Manager
+import { setButtonLoading, showLoader, hideLoader } from "../core/app.js";
 
 export function initQueueManager() {
   const searchInput = document.getElementById('search-input');
@@ -24,9 +25,15 @@ export function initQueueManager() {
         e.preventDefault();
         const confirmed = confirm("Confirm Sanction & Approval for this loan application?");
         if (confirmed) {
-          btn.innerText = "Approved ✓";
-          btn.className = "bg-emerald-600 text-white text-xs px-3 py-1.5 rounded";
-          btn.disabled = true;
+          setButtonLoading(btn, true, "Saving Decision...");
+          showLoader();
+          setTimeout(() => {
+            hideLoader();
+            btn.removeAttribute('aria-busy');
+            btn.innerHTML = "Approved ✓";
+            btn.className = "bg-emerald-600 text-white text-xs px-3 py-1.5 rounded";
+            btn.disabled = true;
+          }, 450);
         }
       });
     } else if (text === 'Reject' || text === 'Decline') {
@@ -34,9 +41,15 @@ export function initQueueManager() {
         e.preventDefault();
         const reason = prompt("Enter mandatory regulatory rationale for loan rejection:");
         if (reason) {
-          btn.innerText = "Rejected ✗";
-          btn.className = "bg-rose-600 text-white text-xs px-3 py-1.5 rounded";
-          btn.disabled = true;
+          setButtonLoading(btn, true, "Saving Decision...");
+          showLoader();
+          setTimeout(() => {
+            hideLoader();
+            btn.removeAttribute('aria-busy');
+            btn.innerHTML = "Rejected ✗";
+            btn.className = "bg-rose-600 text-white text-xs px-3 py-1.5 rounded";
+            btn.disabled = true;
+          }, 450);
         }
       });
     }

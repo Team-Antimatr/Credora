@@ -154,22 +154,36 @@
 <span id="PING_CONTENT_PUSH_NOTIFICATION" style="display: none;"></span>
 <script type="module">
   import { loginWithGoogle, loginWithEmail } from "../../public/assets/js/core/auth.js";
+  import { setButtonLoading } from "../../public/assets/js/core/app.js";
 
   document.querySelectorAll('button').forEach(btn => {
     if (btn.innerText.includes('Continue with Google')) {
-      btn.addEventListener('click', () => loginWithGoogle());
+      btn.addEventListener('click', async () => {
+        setButtonLoading(btn, true, 'Connecting to Google...');
+        try {
+          await loginWithGoogle();
+        } catch (e) {
+          setButtonLoading(btn, false);
+        }
+      });
     }
   });
 
   const form = document.querySelector('form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) setButtonLoading(submitBtn, true, 'Signing In...');
       const emailInput = form.querySelector('input[type="text"], input[type="email"]');
       const pwdInput = document.getElementById('passwordInput');
       const email = emailInput && emailInput.value ? emailInput.value : 'applicant@credora.org';
       const pwd = pwdInput && pwdInput.value ? pwdInput.value : 'password123';
-      loginWithEmail(email, pwd);
+      try {
+        await loginWithEmail(email, pwd);
+      } catch (err) {
+        if (submitBtn) setButtonLoading(submitBtn, false);
+      }
     });
   }
 </script>

@@ -10,6 +10,7 @@ import {
   signOut as fbSignOut, 
   onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { showLoader, hideLoader } from "./app.js";
 
 export const AuthState = {
   getUser: () => {
@@ -50,6 +51,7 @@ function getRedirectTarget() {
 
 // Google Sign-In
 export async function loginWithGoogle() {
+  showLoader();
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const token = await result.user.getIdToken();
@@ -57,6 +59,7 @@ export async function loginWithGoogle() {
     window.location.href = getRedirectTarget();
     return result.user;
   } catch (err) {
+    hideLoader();
     console.error("Google sign in error:", err);
     alert("Authentication failed: " + err.message);
     throw err;
@@ -65,6 +68,7 @@ export async function loginWithGoogle() {
 
 // Email/Password Sign-In
 export async function loginWithEmail(email, password) {
+  showLoader();
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
     const token = await result.user.getIdToken();
@@ -84,6 +88,7 @@ export async function loginWithEmail(email, password) {
 
 // User Sign-Out
 export async function logoutUser() {
+  showLoader();
   try {
     await fbSignOut(auth);
   } catch (e) {
