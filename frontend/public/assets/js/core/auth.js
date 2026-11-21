@@ -58,6 +58,12 @@ export const AuthState = {
       return false;
     }
 
+    // Detect user account switch and clear lingering tab session state
+    const prevUser = AuthState.getUser();
+    if (prevUser && prevUser.email && prevUser.email.toLowerCase() !== (user.email || '').toLowerCase()) {
+      sessionStorage.clear();
+    }
+
     let displayName = user.displayName;
     if (!displayName && user.email) {
       const namePart = user.email.split('@')[0].replace(/[._-]/g, ' ');
@@ -78,6 +84,11 @@ export const AuthState = {
     localStorage.removeItem('credora_user');
     localStorage.removeItem('credora_token');
     localStorage.removeItem('credora_user_role');
+    try {
+      sessionStorage.clear();
+    } catch (e) {
+      console.warn("Could not clear session storage:", e);
+    }
   }
 };
 

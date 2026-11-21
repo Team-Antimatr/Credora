@@ -13,31 +13,55 @@ export class DashboardManager {
   }
 
   getApplications() {
+    // Purge legacy unscoped session key to prevent cross-account pollution
+    sessionStorage.removeItem('credora_active_application');
+
+    const currentUserEmail = this.user && this.user.email ? this.user.email.toLowerCase() : '';
     const storageKey = `credora_applications_${this.userKey}`;
+    let apps = [];
+
     try {
       const data = localStorage.getItem(storageKey);
       if (data) {
-        const apps = JSON.parse(data);
-        if (Array.isArray(apps)) return apps;
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed)) {
+          apps = parsed;
+        }
       }
     } catch (e) {
       console.warn("Error reading user applications:", e);
     }
 
-    // Check if an active session application was just submitted
-    const sessionApp = sessionStorage.getItem('credora_active_application');
-    if (sessionApp) {
+    // Strict account isolation: verify ownership against currently logged-in user email
+    // Any record lacking applicant_email or belonging to another email was leaked and is purged
+    const originalCount = apps.length;
+    apps = apps.filter(a => {
+      if (!a) return false;
+      return a.applicant_email && a.applicant_email.toLowerCase() === currentUserEmail;
+    });
+
+    // Check user-scoped session storage in case of fresh submission redirect
+    const userSessionApp = sessionStorage.getItem(`credora_active_application_${this.userKey}`);
+    if (userSessionApp) {
       try {
-        const parsed = JSON.parse(sessionApp);
-        const list = [parsed];
-        localStorage.setItem(storageKey, JSON.stringify(list));
-        return list;
+        const parsedSession = JSON.parse(userSessionApp);
+        if (parsedSession && parsedSession.applicant_email === currentUserEmail) {
+          const alreadyExists = apps.some(a => a.application_id === parsedSession.application_id);
+          if (!alreadyExists) {
+            apps.unshift(parsedSession);
+          }
+        }
       } catch (e) {
-        console.warn("Error reading session application:", e);
+        console.warn("Error checking user session application:", e);
       }
     }
 
-    return [];
+    // Resave cleaned list if any foreign or legacy records were purged
+    if (apps.length !== originalCount) {
+      localStorage.setItem(storageKey, JSON.stringify(apps));
+    }
+
+    return apps;
   }
 
   formatINR(amount) {

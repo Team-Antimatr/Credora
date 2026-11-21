@@ -61,8 +61,16 @@ export class LoanFormManager {
   }
 
   storeUserApplication(app) {
+    const user = AuthState.getUser();
+    const userEmail = (user && user.email) ? user.email.toLowerCase() : '';
     const userKey = this.getUserKey();
     const storageKey = `credora_applications_${userKey}`;
+
+    // Tag ownership strictly to current user's email
+    app.applicant_email = userEmail;
+    app.applicant_name = user ? (user.displayName || user.email) : 'Applicant';
+    app.user_key = userKey;
+
     let apps = [];
     try {
       const existing = localStorage.getItem(storageKey);
@@ -74,7 +82,10 @@ export class LoanFormManager {
     // Prepend new application
     apps.unshift(app);
     localStorage.setItem(storageKey, JSON.stringify(apps));
-    sessionStorage.setItem('credora_active_application', JSON.stringify(app));
+    
+    // User-scoped session caching and clean legacy unscoped key
+    sessionStorage.setItem(`credora_active_application_${userKey}`, JSON.stringify(app));
+    sessionStorage.removeItem('credora_active_application');
   }
 
   initFormSubmission() {
