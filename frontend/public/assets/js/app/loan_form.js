@@ -65,7 +65,7 @@ export class LoanFormManager {
       e.preventDefault();
       const submitBtn = this.form.querySelector('button[type="submit"]');
       if (submitBtn) {
-        setButtonLoading(submitBtn, true, "Running ML Pre-Screening...");
+        setButtonLoading(submitBtn, true, "Evaluating Application...");
       }
       showLoader();
 
