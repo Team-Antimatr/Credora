@@ -84,9 +84,8 @@ Credora/
 │   │   │   └── model-analytics.html    # Model card, fairness metrics & feature weights
 │   │   ├── app/
 │   │   │   ├── login.html              # Customer login & sign-up
-│   │   │   ├── dashboard.html          # Customer applications overview
-│   │   │   ├── apply-loan.html         # Multi-step loan application form
-│   │   │   └── application-status.html # Real-time ML pre-screening outcome & timeline
+│   │   │   ├── dashboard.html          # Consolidated dashboard with empty states & status tracking
+│   │   │   └── apply-loan.html         # Active loan product cards & application form
 │   │   └── landing/
 │   │       ├── about.html              # Organization & ML transparency documentation
 │   │       └── eligibility.html        # Criteria tables & KYC document checklist
@@ -132,7 +131,7 @@ flowchart TD
     subgraph Client["Frontend Client (Browser)"]
         Landing["Landing & Eligibility"]
         Applicant["Customer Portal (apply-loan.html)"]
-        Tracker["Status Tracker (application-status.html)"]
+        Tracker["Dashboard & Status Modal (dashboard.html)"]
         Officer["Admin Portal (review-queue.html)"]
     end
 

@@ -90,7 +90,7 @@ flowchart TD
     end
 
     %% 7. Real-Time Status & Tracking
-    subgraph StatusTier["7. Real-Time Status Tracking (application-status.html)"]
+    subgraph StatusTier["7. Consolidated Status Tracking (dashboard.html)"]
         StatusPage["Application Status View"]
         StatusTimeline["Interactive 3-Step Timeline:<br/>1. Submitted → 2. ML Pre-Screened → 3. Officer Review"]
         PreScreenCard["ML Pre-Screening Result Card<br/>(Confidence Score, Latency, Risk Band)"]
