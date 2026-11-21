@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Loan — Credora</title>
+  
+  <!-- Inter, Outfit & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            canvas: '#F8FAFC',
+            surface: '#FFFFFF',
+            ink: '#0A0A0A',
+            slateDark: '#1E293B',
+            slateBody: '#334155',
+            slateMuted: '#64748B',
+            slateLight: '#F1F5F9',
+            borderHairline: '#E2E8F0',
+            trustBlue: '#0066FF',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      background: linear-gradient(90deg, #F8FAFC 0%, #FFFFFF 100%);
+      color: #334155;
+    }
+    input:focus, select:focus {
+      outline: 2px solid #0A0A0A;
+      outline-offset: -1px;
+      border-color: #0A0A0A;
+    }
+    .otp-input::-webkit-outer-spin-button,
+    .otp-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .otp-input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- Authenticated Top Navigation Bar (Figma Node 555:1196) -->
+  <header class="h-16 bg-white border-b border-borderHairline sticky top-0 z-40 px-6 sm:px-10 flex items-center justify-between">
+    <!-- Left: Brand Logo & Wordmark -->
+    <div class="flex items-center space-x-8">
+      <a href="../../index.html" class="flex items-center space-x-2.5 text-ink group">
+        <span class="font-heading font-bold text-xl tracking-tight text-ink">Credora</span>
+      </a>
+
+      <!-- Center Navigation -->
+      <nav class="hidden md:flex items-center space-x-6 text-[14px]">
+        <a href="dashboard.html" class="text-slateMuted hover:text-ink transition-colors">Dashboard</a>
+        <a href="apply-loan.html" class="text-ink font-semibold border-b-2 border-ink py-5">Apply for Loan</a>
+      </nav>
+    </div>
+
+    <!-- Right: User Avatar & Sign Out -->
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-2 bg-slateLight px-3 py-1.5 rounded-full border border-borderHairline text-[13px]">
+        <div class="w-6 h-6 rounded-full bg-slateDark text-white flex items-center justify-center font-mono text-[11px] font-medium user-initials">
+          CU
+        </div>
+        <span class="font-medium text-slateBody user-name">Applicant</span>
+      </div>
+      <a href="login.html" class="text-[14px] text-slateMuted hover:text-ink transition-colors font-medium">Sign Out</a>
+    </div>
+  </header>
+
+  <!-- Multi-Step Flow Container -->
+  <main class="max-w-[1120px] w-full mx-auto px-6 py-10 flex-grow">
+
+    <!-- Top Visual Progress Bar (Figma Node 555:1301 / 555:1187 / 555:1188) -->
+    <div class="max-w-[920px] mx-auto mb-10">
+      <!-- Step Text Labels -->
+      <div class="flex items-center justify-between text-[18px] font-heading mb-3">
+        <span id="stepLabel1" class="font-light text-black transition-opacity">Verification</span>
+        <span id="stepLabel2" class="font-light text-black opacity-55 transition-opacity">Loan Details</span>
+        <span id="stepLabel3" class="font-light text-black opacity-55 transition-opacity">Submission</span>
+      </div>
+
+      <!-- Outer Track with Inner Filled Progress Bar -->
+      <div class="w-full bg-white border border-black/25 rounded-full h-[14px] overflow-hidden p-[1px]">
+        <div id="progressBar" class="bg-black h-full rounded-full transition-all duration-300 ease-out w-[12.5%]"></div>
+      </div>
+    </div>
+
+    <!-- Active Loan Product Badge -->
+    <div class="max-w-[920px] mx-auto mb-6 flex items-center justify-between">
+      <div class="inline-flex items-center gap-2 bg-white border border-borderHairline px-3.5 py-1.5 rounded-full text-xs font-mono">
+        <span class="text-slateMuted">Applying for:</span>
+        <span id="activeProductBadge" class="font-semibold text-ink">Personal Loan</span>
+      </div>
+      <a href="apply-loan.html" class="text-xs text-slateMuted hover:text-ink transition-colors font-medium">
+        ← Change loan type
+      </a>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- STEP 1: VERIFICATION (Figma Node 555:1195) -->
+    <!-- ========================================== -->
+    <section id="step-verification" class="block">
+      <div class="bg-white border border-[#e2e8f0] rounded-[16px] p-8 sm:p-10 max-w-[600px] mx-auto shadow-sm">
+        
+        <!-- Heading -->
+        <div class="mb-7">
+          <h1 class="font-heading font-medium text-[30px] text-[#111827] leading-tight">
+            Verify your email
+          </h1>
+          <p class="font-heading text-[16px] text-[#64748b] mt-2 leading-relaxed">
+            Enter your email address and verify it with a one-time password to continue your loan application.
+          </p>
+        </div>
+
+        <form id="verificationForm" onsubmit="event.preventDefault();" class="space-y-6">
+          
+          <!-- Email field group -->
+          <div class="space-y-2">
+            <label for="verifyEmail" class="block font-heading font-medium text-[16px] text-[#172033]">
+              Email address
+            </label>
+            <div class="flex gap-3 items-center">
+              <input 
+                type="email" 
+                id="verifyEmail" 
+                name="email"
+                placeholder="you@example.com"
+                required
+                class="flex-1 h-[52px] border border-[#cbd5e1] rounded-[8px] px-4 font-heading text-[16px] text-[#111827] placeholder:text-[#64748b] bg-white transition-colors"
+              />
+              <button 
+                type="button" 
+                id="sendOtpBtn" 
+                class="h-[52px] px-5 bg-[#f1f5f9] hover:bg-slate-200 text-[#172033] rounded-[8px] font-heading font-medium text-[16px] transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed">
+                Send OTP
+              </button>
+            </div>
+            <p id="otpStatusMsg" class="text-xs text-slateMuted"></p>
+          </div>
+
+          <!-- Mock / Dev OTP Alert (For instant frictionless testing) -->
+          <div id="devOtpBox" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900 flex items-center justify-between">
+            <div>
+              <span class="font-mono font-semibold">Dev Mode Code:</span> <span id="devOtpValue" class="font-mono font-bold tracking-widest text-sm text-trustBlue"></span>
+            </div>
+            <button type="button" id="autoFillOtpBtn" class="text-[11px] bg-white border border-blue-300 px-2.5 py-1 rounded font-medium hover:bg-blue-100">
+              Auto Fill
+            </button>
+          </div>
+
+          <!-- OTP field group -->
+          <div class="space-y-2.5">
+            <label class="block font-heading font-medium text-[16px] text-[#172033]">
+              One-time password (OTP)
+            </label>
+            
+            <!-- 6-digit OTP Inputs -->
+            <div class="flex gap-2.5 sm:gap-3 items-center justify-between" id="otpInputsContainer">
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-[60px] text-center font-mono text-[24px] border border-[#cbd5e1] rounded-[8px] text-ink focus:border-ink transition-colors" data-index="0" autocomplete="off" />
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-[60px] text-center font-mono text-[24px] border border-[#cbd5e1] rounded-[8px] text-ink focus:border-ink transition-colors" data-index="1" autocomplete="off" />
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-[60px] text-center font-mono text-[24px] border border-[#cbd5e1] rounded-[8px] text-ink focus:border-ink transition-colors" data-index="2" autocomplete="off" />
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-[60px] text-center font-mono text-[24px] border border-[#cbd5e1] rounded-[8px] text-ink focus:border-ink transition-colors" data-index="3" autocomplete="off" />
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-[60px] text-center font-mono text-[24px] border border-[#cbd5e1] rounded-[8px] text-ink focus:border-ink transition-colors" data-index="4" autocomplete="off" />
+              <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input w-full h-[60px] text-center font-mono text-[24px] border border-[#cbd5e1] rounded-[8px] text-ink focus:border-ink transition-colors" data-index="5" autocomplete="off" />
+            </div>
+            
+            <p class="font-heading text-[14px] text-[#64748b]">
+              Enter the 6-digit code sent to your email address.
+            </p>
+          </div>
+
+          <!-- Actions -->
+          <div class="space-y-4 pt-2">
+            <button 
+              type="button" 
+              id="verifyContinueBtn" 
+              class="w-full h-[52px] bg-[#111] hover:bg-black text-white rounded-[8px] font-heading font-medium text-[16px] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+              Verify & continue
+            </button>
+
+            <div class="flex items-center justify-center gap-1.5 text-[14px] font-heading text-[#64748b]">
+              <span>Didn’t receive a code?</span>
+              <button type="button" id="resendOtpBtn" class="font-medium text-[#172033] underline hover:text-black">
+                Resend OTP
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- STEP 2: LOAN DETAILS (Figma Node 555:994)  -->
+    <!-- ========================================== -->
+    <section id="step-loan-details" class="hidden">
+      <div class="max-w-[920px] mx-auto">
+        
+        <!-- Heading -->
+        <div class="mb-8">
+          <h1 class="font-sans font-semibold text-[32px] text-[#090e17] leading-tight">
+            Personal details
+          </h1>
+          <p class="font-sans text-[16px] text-[#5e708a] mt-1.5">
+            Tell us about yourself and the loan you need.
+          </p>
+        </div>
+
+        <form id="loanDetailsForm" onsubmit="event.preventDefault();" class="space-y-8">
+          
+          <!-- Card 1: Applicant & Household Profile (Figma 556:5) -->
+          <div class="bg-white border border-[#e3e8f0] rounded-[10px] p-7 sm:p-8 shadow-sm">
+            <h2 class="font-sans font-semibold text-[22px] text-[#090e17] mb-6">
+              Applicant & Household Profile
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Full Legal Name -->
+              <div>
+                <label for="fullName" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Full Legal Name
+                </label>
+                <input 
+                  type="text" 
+                  id="fullName" 
+                  name="fullName" 
+                  required
+                  placeholder="e.g. Parth Sonavane"
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white"
+                />
+              </div>
+
+              <!-- Applicant Gender -->
+              <div>
+                <label for="gender" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Applicant Gender
+                </label>
+                <select 
+                  id="gender" 
+                  name="gender" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="Male" selected>Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <!-- Marital Status -->
+              <div>
+                <label for="maritalStatus" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Marital Status
+                </label>
+                <select 
+                  id="maritalStatus" 
+                  name="maritalStatus" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="Married" selected>Married</option>
+                  <option value="Single">Single / Unmarried</option>
+                </select>
+              </div>
+
+              <!-- Number of Dependents -->
+              <div>
+                <label for="dependents" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Number of Dependents
+                </label>
+                <select 
+                  id="dependents" 
+                  name="dependents" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="0">0 Dependents</option>
+                  <option value="1">1 Dependent</option>
+                  <option value="2" selected>2 Dependents</option>
+                  <option value="3+">3+ Dependents</option>
+                </select>
+              </div>
+
+              <!-- Education Level (Full Width) -->
+              <div class="md:col-span-2">
+                <label for="education" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Education Level
+                </label>
+                <select 
+                  id="education" 
+                  name="education" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="Graduate" selected>Graduate (University Degree)</option>
+                  <option value="Post-Graduate">Post-Graduate (Master / Doctorate)</option>
+                  <option value="Not Graduate">Non-Graduate / High School Diploma</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Employment & Monthly Income (Figma 556:35) -->
+          <div class="bg-white border border-[#e3e8f0] rounded-[10px] p-7 sm:p-8 shadow-sm">
+            <h2 class="font-sans font-semibold text-[22px] text-[#090e17] mb-6">
+              Employment & Monthly Income
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Employment Category -->
+              <div>
+                <label for="employmentStatus" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Employment Category
+                </label>
+                <select 
+                  id="employmentStatus" 
+                  name="employmentStatus" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="No" selected>Salaried Professional (Formal)</option>
+                  <option value="Yes">Self-Employed / Business Owner</option>
+                  <option value="Contract">Freelancer / Contract Specialist</option>
+                </select>
+              </div>
+
+              <!-- Credit History Record -->
+              <div>
+                <label for="creditHistory" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Credit History Record
+                </label>
+                <select 
+                  id="creditHistory" 
+                  name="creditHistory" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="1.0" selected>Good Credit Track Record (Score ≥ 700)</option>
+                  <option value="0.0">Poor / Default Credit History</option>
+                </select>
+              </div>
+
+              <!-- Applicant Monthly Income -->
+              <div>
+                <label for="appIncome" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Applicant Monthly Income (₹)
+                </label>
+                <input 
+                  type="number" 
+                  id="appIncome" 
+                  name="appIncome" 
+                  required
+                  min="5000"
+                  step="1000"
+                  placeholder="₹  e.g. 50000"
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white"
+                />
+                <p class="font-sans text-[13px] text-[#213d66] mt-2">
+                  Net monthly take-home income
+                </p>
+              </div>
+
+              <!-- Co-Applicant Monthly Income -->
+              <div>
+                <label for="coIncome" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Co-Applicant Monthly Income (₹)
+                </label>
+                <input 
+                  type="number" 
+                  id="coIncome" 
+                  name="coIncome" 
+                  min="0"
+                  step="1000"
+                  placeholder="₹  0 if none"
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white"
+                />
+                <p class="font-sans text-[13px] text-[#213d66] mt-2">
+                  Enter 0 if applying individually
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Requested Principal & Tenure (Figma 556:59) -->
+          <div class="bg-white border border-[#e3e8f0] rounded-[10px] p-7 sm:p-8 shadow-sm">
+            <h2 class="font-sans font-semibold text-[22px] text-[#090e17] mb-6">
+              Requested Principal & Tenure
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Requested Loan Amount -->
+              <div>
+                <label for="loanAmount" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Requested Loan Amount (₹)
+                </label>
+                <input 
+                  type="number" 
+                  id="loanAmount" 
+                  name="loanAmount" 
+                  required
+                  min="50000"
+                  max="10000000"
+                  step="10000"
+                  placeholder="₹  e.g. 500000"
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white"
+                />
+                <p class="font-sans text-[13px] text-[#213d66] mt-2">
+                  Min ₹50,000 — Max ₹1,00,00,000
+                </p>
+              </div>
+
+              <!-- Repayment Tenure -->
+              <div>
+                <label for="loanTenure" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Repayment Tenure
+                </label>
+                <select 
+                  id="loanTenure" 
+                  name="loanTenure" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="12">12 Months (1 Year)</option>
+                  <option value="24">24 Months (2 Years)</option>
+                  <option value="36" selected>36 Months (3 Years)</option>
+                  <option value="60">60 Months (5 Years)</option>
+                  <option value="120">120 Months (10 Years)</option>
+                  <option value="240">240 Months (20 Years)</option>
+                  <option value="360">360 Months (30 Years)</option>
+                </select>
+              </div>
+
+              <!-- Property Area -->
+              <div class="md:col-span-2">
+                <label for="propertyArea" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Property / Residence Area
+                </label>
+                <select 
+                  id="propertyArea" 
+                  name="propertyArea" 
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white">
+                  <option value="Urban" selected>Urban (Metro / City Center)</option>
+                  <option value="Semiurban">Semiurban (Developing Suburb)</option>
+                  <option value="Rural">Rural</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions (Figma Node 555:1173 & 555:1176) -->
+          <div class="flex items-center justify-center gap-4 pt-4">
+            <button 
+              type="button" 
+              id="step2NextBtn" 
+              class="w-[164px] h-[64px] bg-black hover:bg-slate-800 text-white rounded-[10px] font-heading font-light text-[22px] transition-colors shadow-sm">
+              Next
+            </button>
+            <a 
+              href="apply-loan.html" 
+              class="w-[164px] h-[64px] bg-white hover:bg-slate-50 border border-black text-black rounded-[10px] font-heading font-light text-[22px] transition-colors flex items-center justify-center">
+              Cancel
+            </a>
+          </div>
+
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- STEP 3: SUBMISSION (Figma Node 555:1029)       -->
+    <!-- ============================================== -->
+    <section id="step-submission" class="hidden">
+      <div class="bg-white border border-[#e2e8f0] rounded-[16px] p-8 sm:p-10 max-w-[920px] mx-auto shadow-sm">
+        
+        <!-- Heading (Figma 560:3) -->
+        <div class="mb-8">
+          <h1 class="font-heading font-semibold text-[30px] text-[#111827] leading-tight">
+            Upload your documents
+          </h1>
+          <p class="font-heading text-[17px] text-[#64748b] mt-1.5">
+            Add your identity documents to complete your loan application.
+          </p>
+        </div>
+
+        <div class="space-y-7">
+          
+          <!-- Dropzone 1: PAN Card (Required) -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-2.5">
+              <span class="font-heading font-medium text-[18px] text-[#111827]">PAN card</span>
+              <span class="bg-[#f1f5f9] text-[#475569] px-2 py-0.5 rounded-[6px] font-heading font-medium text-[13px]">
+                Required
+              </span>
+            </div>
+            
+            <div id="dropzone-pan" class="doc-dropzone bg-[#f8fafc] border border-dashed border-[#cbd5e1] rounded-[10px] p-6 text-center cursor-pointer hover:bg-slate-100 transition-colors">
+              <input type="file" id="filePan" class="hidden" accept=".pdf,.jpg,.jpeg,.png" />
+              <div class="space-y-1">
+                <p class="font-heading text-[16px]">
+                  <span class="font-medium text-[#111827]">Choose a file</span>
+                  <span class="font-normal text-[#64748b]"> or drag and drop it here</span>
+                </p>
+                <p class="font-heading font-normal text-[14px] text-[#64748b]">
+                  Upload a clear copy of your PAN card.
+                </p>
+                <p class="font-heading font-normal text-[13px] text-[#64748b]">
+                  PDF, JPG or PNG
+                </p>
+              </div>
+              <div id="badge-pan" class="hidden mt-3 inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1 rounded-md text-xs font-mono">
+                <span class="file-name font-medium truncate max-w-xs"></span>
+                <span class="file-size text-emerald-600"></span>
+                <button type="button" class="remove-file text-emerald-700 hover:text-emerald-950 font-bold ml-1">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropzone 2: Aadhaar Card (Required) -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-2.5">
+              <span class="font-heading font-medium text-[18px] text-[#111827]">Aadhaar card</span>
+              <span class="bg-[#f1f5f9] text-[#475569] px-2 py-0.5 rounded-[6px] font-heading font-medium text-[13px]">
+                Required
+              </span>
+            </div>
+            
+            <div id="dropzone-aadhaar" class="doc-dropzone bg-[#f8fafc] border border-dashed border-[#cbd5e1] rounded-[10px] p-6 text-center cursor-pointer hover:bg-slate-100 transition-colors">
+              <input type="file" id="fileAadhaar" class="hidden" accept=".pdf,.jpg,.jpeg,.png" />
+              <div class="space-y-1">
+                <p class="font-heading text-[16px]">
+                  <span class="font-medium text-[#111827]">Choose a file</span>
+                  <span class="font-normal text-[#64748b]"> or drag and drop it here</span>
+                </p>
+                <p class="font-heading font-normal text-[14px] text-[#64748b]">
+                  Upload a clear copy showing both sides of your Aadhaar card.
+                </p>
+                <p class="font-heading font-normal text-[13px] text-[#64748b]">
+                  PDF, JPG or PNG
+                </p>
+              </div>
+              <div id="badge-aadhaar" class="hidden mt-3 inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1 rounded-md text-xs font-mono">
+                <span class="file-name font-medium truncate max-w-xs"></span>
+                <span class="file-size text-emerald-600"></span>
+                <button type="button" class="remove-file text-emerald-700 hover:text-emerald-950 font-bold ml-1">✕</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropzone 3: Other Documents (Optional) -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-2.5">
+              <span class="font-heading font-medium text-[18px] text-[#111827]">Other documents</span>
+              <span class="bg-[#f8fafc] text-[#64748b] px-2 py-0.5 rounded-[6px] font-heading font-medium text-[13px] border border-borderHairline">
+                Optional
+              </span>
+            </div>
+            
+            <div id="dropzone-other" class="doc-dropzone bg-[#f8fafc] border border-dashed border-[#cbd5e1] rounded-[10px] p-6 text-center cursor-pointer hover:bg-slate-100 transition-colors">
+              <input type="file" id="fileOther" class="hidden" accept=".pdf,.jpg,.jpeg,.png" />
+              <div class="space-y-1">
+                <p class="font-heading text-[16px]">
+                  <span class="font-medium text-[#111827]">Choose a file</span>
+                  <span class="font-normal text-[#64748b]"> or drag and drop it here</span>
+                </p>
+                <p class="font-heading font-normal text-[14px] text-[#64748b]">
+                  Add any additional supporting documents (Salary slips, Bank statement).
+                </p>
+                <p class="font-heading font-normal text-[13px] text-[#64748b]">
+                  PDF, JPG or PNG
+                </p>
+              </div>
+              <div id="badge-other" class="hidden mt-3 inline-flex items-center gap-2 bg-slate-100 border border-slate-300 text-slate-800 px-3 py-1 rounded-md text-xs font-mono">
+                <span class="file-name font-medium truncate max-w-xs"></span>
+                <span class="file-size text-slate-600"></span>
+                <button type="button" class="remove-file text-slate-700 hover:text-black font-bold ml-1">✕</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Form Actions (Figma Node 560:42) -->
+        <div class="border-t border-[#e2e8f0] mt-9 pt-7 flex items-center justify-between">
+          <button 
+            type="button" 
+            id="step3BackBtn" 
+            class="h-[48px] w-[150px] bg-white border border-[#cbd5e1] hover:bg-slate-50 text-[#334155] rounded-[8px] font-heading font-medium text-[16px] transition-colors">
+            Back
+          </button>
+          
+          <button 
+            type="button" 
+            id="finalSubmitBtn" 
+            class="h-[48px] w-[200px] bg-[#111827] hover:bg-black text-white rounded-[8px] font-heading font-medium text-[16px] transition-colors shadow-sm flex items-center justify-center gap-2">
+            <span>Continue</span>
+            <span>→</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Minimal Single-Line Footer -->
+  <footer class="bg-white border-t border-borderHairline py-5 px-6 sm:px-10 text-[12px] text-slateMuted">
+    <div class="max-w-[1120px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center space-x-2">
+        <span class="font-heading font-semibold text-ink">Credora</span>
+        <span>•</span>
+        <span>© 2026 Credora Open Source Organization</span>
+      </div>
+      <div class="font-mono text-[11px] text-slateMuted">
+        Instant ML Credit Evaluation (Project Purpose Only)
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Core & Workflow Scripts -->
+  <script type="module" src="../../public/assets/js/core/app.js"></script>
+  <script type="module" src="../../public/assets/js/core/auth.js"></script>
+  <script type="module" src="../../public/assets/js/app/loan_workflow.js"></script>
+</body>
+</html>
