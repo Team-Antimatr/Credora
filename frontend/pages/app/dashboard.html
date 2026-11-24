@@ -13,9 +13,10 @@
       }
     })();
   </script>
+  <!-- Google Sans Flex Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -23,9 +24,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            heading: ['Outfit', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
+            heading: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
           },
           colors: {
             ink: '#0A0A0A',
@@ -41,10 +41,12 @@
     }
   </script>
   <style>
+    * {
+      font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
     body {
       background-color: #F7F9FB;
       color: #191C1E;
-      font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
   </style>
@@ -178,163 +180,100 @@
 
   </main>
 
-  <!-- Immutable Read-Only Application Preview Modal -->
+  <!-- Application Summary Modal -->
   <div id="applicationDetailModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div id="modalOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-    <div class="relative bg-white rounded-xl max-w-2xl w-full shadow-2xl z-10 max-h-[90vh] overflow-hidden border border-borderHairline flex flex-col">
+    <div id="modalOverlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-xl max-w-xl w-full shadow-2xl z-10 overflow-hidden border border-borderHairline">
       
-      <!-- Security Banner -->
-      <div class="bg-slate-900 text-white px-6 py-3 flex items-center justify-between border-b border-slate-800">
-        <div class="flex items-center gap-2">
-          <span class="text-xs">🔒</span>
-          <span class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-200">
-            Immutable Application Record
-          </span>
-          <span class="bg-slate-800 text-slate-300 text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700">
-            READ-ONLY
-          </span>
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-borderHairline flex items-center justify-between bg-white">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h3 id="modalAppId" class="font-heading font-bold text-lg text-ink">CRD-2026-0001</h3>
+            <span id="modalStatusBadge"></span>
+          </div>
+          <p class="text-xs text-slateMuted mt-0.5" id="modalSubtitle">Application Overview</p>
         </div>
-        <button id="closeModalBtn" class="text-slate-400 hover:text-white font-mono text-lg font-bold">✕</button>
+        <button id="closeModalBtn" class="text-slateMuted hover:text-ink text-xl font-medium w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors">✕</button>
       </div>
 
-      <!-- Scrollable Record Body -->
-      <div class="p-6 overflow-y-auto space-y-6">
+      <!-- Modal Body -->
+      <div class="p-6 space-y-5 text-xs text-slateBody">
         
-        <!-- Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderHairline">
-          <div>
-            <div class="text-[11px] font-mono uppercase text-slateMuted">Application Tracking ID</div>
-            <div id="modalAppId" class="font-heading font-bold text-2xl text-ink mt-0.5">CRD-2026-0001</div>
-            <div class="text-xs text-slateBody mt-1" id="modalApplicantName">Parth Sonavane</div>
-          </div>
-          <div class="text-left sm:text-right">
-            <div class="text-[11px] font-mono uppercase text-slateMuted">Status</div>
-            <div class="mt-1" id="modalStatusBadge">
-              <span id="modalStatus" class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
-                Pending Review
-              </span>
+        <!-- Loan Details -->
+        <div>
+          <div class="text-[11px] font-semibold text-slateMuted uppercase tracking-wider mb-2">Loan Details</div>
+          <div class="grid grid-cols-3 gap-3 bg-slateLight p-3.5 rounded-lg border border-borderHairline">
+            <div>
+              <span class="text-slateMuted block text-[11px]">Product</span>
+              <span id="modalProduct" class="font-medium text-ink mt-0.5 block">Personal Loan</span>
+            </div>
+            <div>
+              <span class="text-slateMuted block text-[11px]">Requested Amount</span>
+              <span id="modalAmount" class="font-medium font-mono text-ink mt-0.5 block">₹5,00,000</span>
+            </div>
+            <div>
+              <span class="text-slateMuted block text-[11px]">Tenure</span>
+              <span id="modalTenure" class="font-medium font-mono text-ink mt-0.5 block">36 Months</span>
             </div>
           </div>
         </div>
 
-        <!-- 1. Applicant Demographics -->
+        <!-- Applicant Information -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
-            1. Applicant Demographics
-          </h4>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slateLight p-3.5 rounded-lg border border-borderHairline text-xs">
+          <div class="text-[11px] font-semibold text-slateMuted uppercase tracking-wider mb-2">Applicant Information</div>
+          <div class="grid grid-cols-3 gap-y-3 gap-x-4 bg-slateLight p-3.5 rounded-lg border border-borderHairline">
             <div>
-              <div class="text-slateMuted text-[11px]">Age</div>
-              <div class="font-medium text-ink mt-0.5" id="modalAge">28 Years</div>
+              <span class="text-slateMuted block text-[11px]">Full Name</span>
+              <span id="modalApplicantName" class="font-medium text-ink mt-0.5 block truncate">Parth Sonavane</span>
             </div>
             <div>
-              <div class="text-slateMuted text-[11px]">Gender</div>
-              <div class="font-medium text-ink mt-0.5" id="modalGender">Male</div>
+              <span class="text-slateMuted block text-[11px]">Age</span>
+              <span id="modalAge" class="font-medium text-ink mt-0.5 block">28 Years</span>
             </div>
             <div>
-              <div class="text-slateMuted text-[11px]">Marital Status</div>
-              <div class="font-medium text-ink mt-0.5" id="modalMarital">Married</div>
+              <span class="text-slateMuted block text-[11px]">Gender</span>
+              <span id="modalGender" class="font-medium text-ink mt-0.5 block">Male</span>
             </div>
             <div>
-              <div class="text-slateMuted text-[11px]">Dependents</div>
-              <div class="font-medium text-ink mt-0.5" id="modalDependents">2</div>
+              <span class="text-slateMuted block text-[11px]">Employment</span>
+              <span id="modalEmployment" class="font-medium text-ink mt-0.5 block truncate">Salaried Professional</span>
             </div>
-            <div class="sm:col-span-2">
-              <div class="text-slateMuted text-[11px]">Education</div>
-              <div class="font-medium text-ink mt-0.5" id="modalEducation">Graduate</div>
+            <div>
+              <span class="text-slateMuted block text-[11px]">Monthly Income</span>
+              <span id="modalIncome" class="font-medium font-mono text-ink mt-0.5 block">₹50,000</span>
             </div>
-            <div class="sm:col-span-2">
-              <div class="text-slateMuted text-[11px]">Employment</div>
-              <div class="font-medium text-ink mt-0.5" id="modalEmployment">Salaried Professional</div>
+            <div>
+              <span class="text-slateMuted block text-[11px]">Credit Score</span>
+              <span id="modalCreditScore" class="font-medium font-mono text-ink mt-0.5 block">750</span>
             </div>
           </div>
         </div>
 
-        <!-- 2. Underwriting & Loan Parameters -->
+        <!-- Documents Attached -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
-            2. Underwriting & Loan Parameters
-          </h4>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slateLight p-3.5 rounded-lg border border-borderHairline text-xs">
-            <div>
-              <div class="text-slateMuted text-[11px]">Product Type</div>
-              <div class="font-medium text-ink mt-0.5" id="modalProduct">Personal Loan</div>
+          <div class="text-[11px] font-semibold text-slateMuted uppercase tracking-wider mb-2">Submitted Documents</div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex items-center justify-between p-2.5 rounded-lg border border-borderHairline bg-slateLight">
+              <span class="text-slateBody">PAN Card</span>
+              <span class="text-emerald-700 font-medium font-mono text-[11px]">Attached ✓</span>
             </div>
-            <div>
-              <div class="text-slateMuted text-[11px]">Principal Amount</div>
-              <div class="font-medium font-mono text-ink mt-0.5" id="modalAmount">₹5,00,000</div>
-            </div>
-            <div>
-              <div class="text-slateMuted text-[11px]">Repayment Tenure</div>
-              <div class="font-medium font-mono text-ink mt-0.5" id="modalTenure">36 Months</div>
-            </div>
-            <div>
-              <div class="text-slateMuted text-[11px]">Credit Score</div>
-              <div class="font-medium font-mono text-ink mt-0.5" id="modalCreditScore">750</div>
-            </div>
-            <div>
-              <div class="text-slateMuted text-[11px]">Monthly Income</div>
-              <div class="font-medium font-mono text-ink mt-0.5" id="modalIncome">₹50,000</div>
-            </div>
-            <div>
-              <div class="text-slateMuted text-[11px]">Property Location</div>
-              <div class="font-medium text-ink mt-0.5" id="modalProperty">Urban</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3. Automated Pre-Screening Evaluation -->
-        <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
-            3. Automated Pre-Screening Evaluation
-          </h4>
-          <div class="bg-slateLight p-4 rounded-lg border border-borderHairline space-y-2.5 text-xs">
-            <div class="flex items-center justify-between">
-              <span class="text-slateMuted">Model Pre-Screening Result:</span>
-              <span class="font-mono font-bold px-2 py-0.5 rounded text-xs" id="modalScoreBadge">
-                PRE-APPROVED
-              </span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-slateMuted">Model Confidence:</span>
-              <span class="font-mono text-ink font-semibold" id="modalScore">88%</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <span class="text-slateMuted">Assessed Risk Band:</span>
-              <span class="font-mono text-ink font-semibold" id="modalRisk">LOW RISK</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4. Verified Documents -->
-        <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
-            4. Verified Supporting Documents
-          </h4>
-          <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="p-3 bg-slateLight rounded border border-borderHairline flex items-center justify-between">
-              <span class="text-slateBody">PAN Document</span>
-              <span class="text-emerald-700 font-mono text-[11px] font-medium">VERIFIED ✓</span>
-            </div>
-            <div class="p-3 bg-slateLight rounded border border-borderHairline flex items-center justify-between">
+            <div class="flex items-center justify-between p-2.5 rounded-lg border border-borderHairline bg-slateLight">
               <span class="text-slateBody">Aadhaar Card</span>
-              <span class="text-emerald-700 font-mono text-[11px] font-medium">VERIFIED ✓</span>
+              <span class="text-emerald-700 font-medium font-mono text-[11px]">Attached ✓</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- Footer -->
-      <div class="bg-slate-50 px-6 py-3.5 border-t border-borderHairline flex items-center justify-between">
-        <span class="text-[11px] text-slateMuted font-mono">
-          Cryptographic Hash: SHA-256 Verified • Record Locked
-        </span>
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 bg-slate-50 border-t border-borderHairline flex items-center justify-end">
         <button 
           type="button" 
           onclick="document.getElementById('applicationDetailModal').classList.add('hidden')"
-          class="bg-ink hover:bg-slate-800 text-white text-xs px-4 py-2 rounded font-medium transition-colors">
-          Close Preview
+          class="bg-ink hover:bg-slate-800 text-white text-xs px-4 py-2 rounded-md font-medium transition-colors">
+          Close
         </button>
       </div>
 

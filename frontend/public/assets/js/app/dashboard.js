@@ -125,7 +125,7 @@ export class DashboardManager {
         const issueDate = app.issue_date || (app.submitted_at ? new Date(app.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Today');
 
         tr.innerHTML = `
-          <td class="py-4 px-6 font-mono text-[14px] text-ink font-medium whitespace-nowrap">
+          <td class="py-4 px-6 text-[14px] text-ink font-medium whitespace-nowrap">
             ${appId}
           </td>
           <td class="py-4 px-6 whitespace-nowrap">
@@ -134,7 +134,7 @@ export class DashboardManager {
               ${statusText}
             </span>
           </td>
-          <td class="py-4 px-6 font-mono text-[13px] text-slateMuted whitespace-nowrap">
+          <td class="py-4 px-6 text-[13px] text-slateMuted whitespace-nowrap">
             ${flagText}
           </td>
           <td class="py-4 px-6 text-[14px] text-slateBody max-w-xs truncate">
@@ -172,42 +172,29 @@ export class DashboardManager {
       if (el) el.textContent = val;
     };
 
+    const formatEmployment = (val) => {
+      if (val === 'Yes') return 'Self-Employed';
+      if (val === 'No') return 'Salaried Professional';
+      if (val === 'Contract') return 'Freelancer / Contract';
+      return val || 'Salaried Professional';
+    };
+
     const appId = app.application_id || 'CRD-2026-0001';
     const amount = app.loan_amount || app.requested_amount || (app.financial_details ? app.financial_details.loan_amount : 500000);
     const product = app.loan_type || 'Personal Loan';
-    const ml = app.ml_pre_screening || { outcome: 'PRE_APPROVED', confidence_score: 0.884, risk_band: 'LOW' };
+    const applicantName = app.full_name || (this.user ? this.user.displayName : 'Borrower');
 
     setVal('modalAppId', appId);
-    setVal('modalApplicantName', app.full_name || (this.user ? this.user.displayName : 'Borrower'));
+    setVal('modalApplicantName', applicantName);
+    setVal('modalSubtitle', `Submitted on ${app.issue_date || '24 Nov 2026'}`);
     setVal('modalProduct', product);
     setVal('modalAmount', this.formatINR(amount));
-    setVal('modalScore', `${Math.round((ml.confidence_score || 0.88) * 100)}%`);
-    setVal('modalRisk', `${ml.risk_band || 'LOW'} RISK`);
-
+    setVal('modalTenure', `${app.loan_tenure || 36} Months`);
     setVal('modalAge', `${app.age || 28} Years`);
     setVal('modalGender', app.gender || 'Male');
-    setVal('modalMarital', app.marital_status || 'Married');
-    setVal('modalDependents', app.dependents || '2');
-    setVal('modalEducation', app.education || 'Graduate');
-    setVal('modalEmployment', app.employment || 'Salaried Professional');
-
-    setVal('modalTenure', `${app.loan_tenure || 36} Months`);
-    setVal('modalCreditScore', `${app.credit_score || 750}`);
+    setVal('modalEmployment', formatEmployment(app.employment));
     setVal('modalIncome', `${this.formatINR(app.income || 50000)} / mo`);
-    setVal('modalProperty', app.property_area || 'Urban');
-
-    const scoreBadge = document.getElementById('modalScoreBadge');
-    if (scoreBadge) {
-      const outcome = ml.outcome || 'PRE_APPROVED';
-      scoreBadge.textContent = outcome;
-      if (outcome === 'PRE_APPROVED') {
-        scoreBadge.className = "font-mono font-bold px-2.5 py-0.5 rounded text-xs bg-emerald-50 text-emerald-700 border border-emerald-200";
-      } else if (outcome === 'REJECTED') {
-        scoreBadge.className = "font-mono font-bold px-2.5 py-0.5 rounded text-xs bg-rose-50 text-rose-700 border border-rose-200";
-      } else {
-        scoreBadge.className = "font-mono font-bold px-2.5 py-0.5 rounded text-xs bg-amber-50 text-amber-700 border border-amber-200";
-      }
-    }
+    setVal('modalCreditScore', `${app.credit_score || 750}`);
 
     const statusBadge = document.getElementById('modalStatusBadge');
     if (statusBadge) {
@@ -216,13 +203,13 @@ export class DashboardManager {
       const isHold = app.status === 'Hold' || app.status === 'On Hold';
 
       if (isApproved) {
-        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">Approved & Disbursed</span>`;
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">Approved</span>`;
       } else if (isDenied) {
-        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">Application Denied</span>`;
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-rose-50 text-rose-700 border border-rose-200">Denied</span>`;
       } else if (isHold) {
-        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">On Hold (Docs Pending)</span>`;
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-amber-50 text-amber-700 border border-amber-200">On Hold</span>`;
       } else {
-        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">Under Review</span>`;
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-blue-50 text-blue-700 border border-blue-200">Pending Review</span>`;
       }
     }
 

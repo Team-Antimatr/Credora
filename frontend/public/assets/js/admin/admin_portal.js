@@ -462,21 +462,21 @@ export class AdminPortalManager {
 
       if (predCode === 'APPROVE') {
         predBadge = `
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#03a626]/20 border border-[#03a626]/40 text-[#03a626] font-semibold font-mono">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#03a626]/20 border border-[#03a626]/40 text-[#03a626] font-semibold">
             <span class="w-2 h-2 rounded-full bg-[#03a626]"></span>
             Approve (${Math.round((ml.confidence_score || 0.88) * 100)}%)
           </span>
         `;
       } else if (predCode === 'DENIED') {
         predBadge = `
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#9c3c3c]/20 border border-[#9c3c3c]/40 text-[#f87171] font-semibold font-mono">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#9c3c3c]/20 border border-[#9c3c3c]/40 text-[#f87171] font-semibold">
             <span class="w-2 h-2 rounded-full bg-[#9c3c3c]"></span>
             Denied (${Math.round((ml.confidence_score || 0.20) * 100)}%)
           </span>
         `;
       } else {
         predBadge = `
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#fdae06]/20 border border-[#fdae06]/40 text-[#fdae06] font-semibold font-mono">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#fdae06]/20 border border-[#fdae06]/40 text-[#fdae06] font-semibold">
             <span class="w-2 h-2 rounded-full bg-[#fdae06]"></span>
             Hold (${Math.round((ml.confidence_score || 0.50) * 100)}%)
           </span>
@@ -491,18 +491,18 @@ export class AdminPortalManager {
       tr.innerHTML = `
         <td class="py-4 px-4 font-medium text-white whitespace-nowrap">
           <div class="font-medium text-white">${app.full_name || 'Applicant'}</div>
-          <div class="text-[10px] text-zinc-500 font-mono">${app.application_id || 'CRD-0000'}</div>
+          <div class="text-[10px] text-zinc-500">${app.application_id || 'CRD-0000'}</div>
         </td>
-        <td class="py-4 px-3 font-mono font-medium whitespace-nowrap ${creditScoreVal >= 700 ? 'text-[#03a626]' : (creditScoreVal >= 650 ? 'text-[#fdae06]' : 'text-[#9c3c3c]')}">
+        <td class="py-4 px-3 font-medium whitespace-nowrap ${creditScoreVal >= 700 ? 'text-[#03a626]' : (creditScoreVal >= 650 ? 'text-[#fdae06]' : 'text-[#9c3c3c]')}">
           ${creditScoreVal}
         </td>
-        <td class="py-4 px-3 font-mono text-zinc-300 whitespace-nowrap">
+        <td class="py-4 px-3 text-zinc-300 whitespace-nowrap">
           ${ageVal}
         </td>
-        <td class="py-4 px-3 font-mono text-zinc-300 whitespace-nowrap">
+        <td class="py-4 px-3 text-zinc-300 whitespace-nowrap">
           ${this.formatINR(incomeVal)}
         </td>
-        <td class="py-4 px-3 font-mono text-white font-medium whitespace-nowrap">
+        <td class="py-4 px-3 text-white font-medium whitespace-nowrap">
           ${this.formatINR(loanAmountVal)}
         </td>
         <td class="py-4 px-3 whitespace-nowrap">
@@ -671,7 +671,7 @@ export class AdminPortalManager {
           </span>
         `;
         actionColumn = `
-          <span class="text-[11px] text-zinc-500 font-mono">
+          <span class="text-[11px] text-zinc-500">
             ✓ ${app.human_verification.verified_by || 'Officer Verified'}
           </span>
         `;
@@ -697,19 +697,19 @@ export class AdminPortalManager {
         <td class="py-4 px-4 font-medium text-white whitespace-nowrap">
           ${app.full_name || 'Applicant'}
         </td>
-        <td class="py-4 px-3 font-mono text-zinc-400 whitespace-nowrap">
+        <td class="py-4 px-3 text-zinc-400 whitespace-nowrap">
           ${app.application_id || 'CRD-0000'}
         </td>
-        <td class="py-4 px-3 font-mono font-medium text-[#03a626] whitespace-nowrap">
+        <td class="py-4 px-3 font-medium text-[#03a626] whitespace-nowrap">
           ${creditScoreVal}
         </td>
-        <td class="py-4 px-3 font-mono text-white font-medium whitespace-nowrap">
+        <td class="py-4 px-3 text-white font-medium whitespace-nowrap">
           ${this.formatINR(loanAmountVal)}
         </td>
         <td class="py-4 px-4 whitespace-nowrap">
           ${statusBadge}
         </td>
-        <td class="py-4 px-3 font-mono text-zinc-400 whitespace-nowrap">
+        <td class="py-4 px-3 text-zinc-400 whitespace-nowrap">
           ${sanctionDate}
         </td>
         <td class="py-4 px-3 whitespace-nowrap">
@@ -758,19 +758,19 @@ export class AdminPortalManager {
 
       let actorBadge = '';
       if (act.actor === 'Applicant') {
-        actorBadge = `<span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 font-mono text-[10px]">USER</span>`;
+        actorBadge = `<span class="px-2 py-0.5 rounded bg-blue-950 text-blue-300 text-[10px]">USER</span>`;
       } else if (act.actor === 'ML Model Baseline') {
-        actorBadge = `<span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 font-mono text-[10px]">ML ENGINE</span>`;
+        actorBadge = `<span class="px-2 py-0.5 rounded bg-purple-950 text-purple-300 text-[10px]">ML ENGINE</span>`;
       } else {
-        actorBadge = `<span class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200 font-mono text-[10px]">ADMIN / OFFICER</span>`;
+        actorBadge = `<span class="px-2 py-0.5 rounded bg-zinc-800 text-zinc-200 text-[10px]">ADMIN / OFFICER</span>`;
       }
 
       tr.innerHTML = `
-        <td class="py-2.5 px-4 font-mono text-zinc-400 whitespace-nowrap">${act.timestamp}</td>
+        <td class="py-2.5 px-4 text-zinc-400 whitespace-nowrap">${act.timestamp}</td>
         <td class="py-2.5 px-3 whitespace-nowrap">${actorBadge}</td>
         <td class="py-2.5 px-3 font-medium text-white whitespace-nowrap">${act.action}</td>
         <td class="py-2.5 px-4 text-zinc-200 whitespace-nowrap">${act.applicant}</td>
-        <td class="py-2.5 px-3 font-mono text-zinc-400 whitespace-nowrap">${act.application_id}</td>
+        <td class="py-2.5 px-3 text-zinc-400 whitespace-nowrap">${act.application_id}</td>
         <td class="py-2.5 px-4 text-zinc-400 max-w-sm truncate">${act.details}</td>
       `;
 
@@ -779,7 +779,7 @@ export class AdminPortalManager {
   }
 
   // ----------------------------------------------------
-  // IMMUTABLE READ-ONLY PREVIEW MODAL
+  // CLEAN APPLICATION PREVIEW MODAL
   // ----------------------------------------------------
   openPreviewModal(app) {
     const modal = document.getElementById('appPreviewModal');
@@ -790,41 +790,47 @@ export class AdminPortalManager {
       if (el) el.textContent = val;
     };
 
-    setVal('previewAppId', app.application_id || 'CRD-2026-0000');
-    setVal('previewApplicantName', app.full_name || 'Borrower');
-    setVal('previewTimestamp', app.submitted_at ? new Date(app.submitted_at).toLocaleString() : '2026-11-24 12:00:00');
+    const formatEmployment = (val) => {
+      if (val === 'Yes') return 'Self-Employed';
+      if (val === 'No') return 'Salaried Professional';
+      if (val === 'Contract') return 'Freelancer / Contract';
+      return val || 'Salaried Professional';
+    };
 
-    setVal('previewAge', `${app.age || 32} Years`);
-    setVal('previewGender', app.gender || 'Male');
-    setVal('previewMarital', app.marital_status || 'Married');
-    setVal('previewDependents', app.dependents || '2');
-    setVal('previewEducation', app.education || 'Graduate');
-    setVal('previewEmployment', app.employment || 'Salaried Professional');
+    const appId = app.application_id || 'CRD-2026-0000';
+    const amount = app.loan_amount || app.requested_amount || 500000;
+    const applicantName = app.full_name || 'Borrower';
+
+    setVal('previewAppId', appId);
+    setVal('previewApplicantName', applicantName);
+    setVal('previewApplicantSubtitle', `Submitted on ${app.issue_date || '24 Nov 2026'}`);
 
     setVal('previewProduct', app.loan_type || 'Personal Loan');
-    setVal('previewAmount', this.formatINR(app.loan_amount || app.requested_amount || 500000));
+    setVal('previewAmount', this.formatINR(amount));
     setVal('previewTenure', `${app.loan_tenure || 36} Months`);
-    setVal('previewCreditScore', `${app.credit_score || 750}`);
+
+    setVal('previewAge', `${app.age || 28} Years`);
+    setVal('previewGender', app.gender || 'Male');
+    setVal('previewEmployment', formatEmployment(app.employment));
     setVal('previewIncome', `${this.formatINR(app.income || 50000)} / mo`);
-    setVal('previewProperty', app.property_area || 'Urban');
+    setVal('previewCreditScore', `${app.credit_score || 750}`);
 
     const ml = app.ml_pre_screening || {};
     const outcomeEl = document.getElementById('previewMlOutcome');
     const outcome = ml.outcome || 'PRE_APPROVED';
 
     if (outcomeEl) {
-      outcomeEl.textContent = outcome;
       if (outcome === 'PRE_APPROVED') {
-        outcomeEl.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#03a626]/20 text-[#03a626] border border-[#03a626]/40";
+        outcomeEl.textContent = 'Approve (Low Risk)';
+        outcomeEl.className = "text-xs font-bold px-2 py-0.5 rounded bg-[#03a626]/20 text-[#03a626] border border-[#03a626]/40";
       } else if (outcome === 'REJECTED') {
-        outcomeEl.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#9c3c3c]/20 text-[#f87171] border border-[#9c3c3c]/40";
+        outcomeEl.textContent = 'Denied (High Risk)';
+        outcomeEl.className = "text-xs font-bold px-2 py-0.5 rounded bg-[#9c3c3c]/20 text-[#f87171] border border-[#9c3c3c]/40";
       } else {
-        outcomeEl.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#fdae06]/20 text-[#fdae06] border border-[#fdae06]/40";
+        outcomeEl.textContent = 'Hold (Needs Review)';
+        outcomeEl.className = "text-xs font-bold px-2 py-0.5 rounded bg-[#fdae06]/20 text-[#fdae06] border border-[#fdae06]/40";
       }
     }
-
-    setVal('previewConfidence', `${Math.round((ml.confidence_score || 0.88) * 100)}%`);
-    setVal('previewRiskBand', `${ml.risk_band || 'LOW'} RISK`);
 
     const statusBadgeContainer = document.getElementById('previewStatusBadge');
     if (statusBadgeContainer) {

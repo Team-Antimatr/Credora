@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Apply for Loan — Credora</title>
   
-  <!-- Inter, Outfit & JetBrains Mono Fonts -->
+  <!-- Google Sans Flex Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,9 +17,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            heading: ['Outfit', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
+            heading: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
           },
           colors: {
             canvas: '#F8FAFC',
@@ -38,6 +37,9 @@
   </script>
   
   <style>
+    * {
+      font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
     body {
       background: linear-gradient(90deg, #F8FAFC 0%, #FFFFFF 100%);
       color: #334155;
