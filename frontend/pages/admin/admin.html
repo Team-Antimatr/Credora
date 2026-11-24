@@ -540,149 +540,92 @@
   </main>
 
   <!-- ======================================================== -->
-  <!-- IMMUTABLE READ-ONLY APPLICATION PREVIEW MODAL            -->
-  <!-- Shared between Admin and User dashboards: Cannot be      -->
-  <!-- edited or modified by anyone once submitted              -->
+  <!-- APPLICATION PREVIEW MODAL                                -->
   <!-- ======================================================== -->
-  <div id="appPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-    <div class="bg-zinc-900 border border-zinc-700 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden text-zinc-100 my-8">
+  <div id="appPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="bg-zinc-900 border border-zinc-700 w-full max-w-xl rounded-xl shadow-2xl overflow-hidden text-zinc-100">
       
-      <!-- Security / Immutability Banner -->
-      <div class="bg-zinc-950 px-6 py-3 border-b border-zinc-800 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-zinc-400 text-xs">🔒</span>
-          <span class="font-mono text-xs font-semibold text-zinc-300 tracking-wider uppercase">
-            Immutable Application Record
-          </span>
-          <span class="bg-zinc-800 text-zinc-400 text-[10px] font-mono px-2 py-0.5 rounded">
-            READ-ONLY
-          </span>
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-950">
+        <div>
+          <div class="flex items-center gap-3">
+            <h3 class="font-heading font-bold text-lg text-white" id="previewAppId">CRD-0000</h3>
+            <span id="previewStatusBadge"></span>
+          </div>
+          <p class="text-xs text-zinc-400 mt-0.5" id="previewApplicantSubtitle">Parth Sonavane</p>
         </div>
-        <button type="button" id="closePreviewModalBtn" class="text-zinc-400 hover:text-white text-lg font-bold">
+        <button type="button" id="closePreviewModalBtn" class="text-zinc-400 hover:text-white text-xl font-bold w-8 h-8 rounded-full flex items-center justify-center hover:bg-zinc-800 transition-colors">
           ✕
         </button>
       </div>
 
-      <!-- Record Header Details -->
-      <div class="p-6 space-y-6">
+      <!-- Record Details Body -->
+      <div class="p-6 space-y-5 text-xs text-zinc-300">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
-          <div>
-            <div class="text-xs text-zinc-500 font-mono uppercase tracking-wider">Application Tracking Number</div>
-            <div class="text-xl font-heading font-bold text-white mt-0.5" id="previewAppId">CRD-0000</div>
-            <div class="text-xs text-zinc-400 mt-1" id="previewApplicantName">Parth Sonavane</div>
-          </div>
-          <div class="text-left sm:text-right">
-            <div class="text-xs text-zinc-500 font-mono uppercase tracking-wider">Submission Timestamp</div>
-            <div class="text-xs font-mono text-zinc-300 mt-0.5" id="previewTimestamp">2026-11-24 12:00:00</div>
-            <div class="mt-1" id="previewStatusBadge">
-              <!-- Status Badge -->
+        <!-- Loan Details -->
+        <div>
+          <div class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">Loan Details</div>
+          <div class="grid grid-cols-3 gap-3 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800">
+            <div>
+              <span class="text-zinc-500 block text-[11px]">Product</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewProduct">Personal Loan</span>
+            </div>
+            <div>
+              <span class="text-zinc-500 block text-[11px]">Principal Amount</span>
+              <span class="font-medium font-mono text-white mt-0.5 block" id="previewAmount">₹5,00,000</span>
+            </div>
+            <div>
+              <span class="text-zinc-500 block text-[11px]">Tenure</span>
+              <span class="font-medium font-mono text-white mt-0.5 block" id="previewTenure">36 Months</span>
             </div>
           </div>
         </div>
 
-        <!-- Section 1: Personal & Demographics -->
+        <!-- Applicant Information -->
         <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
-            1. Applicant Demographics
-          </h4>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800 text-xs">
+          <div class="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">Applicant Information</div>
+          <div class="grid grid-cols-3 gap-y-3 gap-x-4 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800">
             <div>
-              <div class="text-zinc-500 text-[11px]">Age</div>
-              <div class="font-medium text-white mt-0.5" id="previewAge">28 Years</div>
+              <span class="text-zinc-500 block text-[11px]">Full Name</span>
+              <span class="font-medium text-white mt-0.5 block truncate" id="previewApplicantName">Parth Sonavane</span>
             </div>
             <div>
-              <div class="text-zinc-500 text-[11px]">Gender</div>
-              <div class="font-medium text-white mt-0.5" id="previewGender">Male</div>
+              <span class="text-zinc-500 block text-[11px]">Age</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewAge">28 Years</span>
             </div>
             <div>
-              <div class="text-zinc-500 text-[11px]">Marital Status</div>
-              <div class="font-medium text-white mt-0.5" id="previewMarital">Married</div>
+              <span class="text-zinc-500 block text-[11px]">Gender</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewGender">Male</span>
             </div>
             <div>
-              <div class="text-zinc-500 text-[11px]">Dependents</div>
-              <div class="font-medium text-white mt-0.5" id="previewDependents">2</div>
+              <span class="text-zinc-500 block text-[11px]">Employment</span>
+              <span class="font-medium text-white mt-0.5 block truncate" id="previewEmployment">Salaried Professional</span>
             </div>
-            <div class="sm:col-span-2">
-              <div class="text-zinc-500 text-[11px]">Education</div>
-              <div class="font-medium text-white mt-0.5" id="previewEducation">Graduate</div>
+            <div>
+              <span class="text-zinc-500 block text-[11px]">Monthly Income</span>
+              <span class="font-medium font-mono text-white mt-0.5 block" id="previewIncome">₹50,000</span>
             </div>
-            <div class="sm:col-span-2">
-              <div class="text-zinc-500 text-[11px]">Employment</div>
-              <div class="font-medium text-white mt-0.5" id="previewEmployment">Salaried Professional</div>
+            <div>
+              <span class="text-zinc-500 block text-[11px]">Credit Score</span>
+              <span class="font-medium font-mono text-white mt-0.5 block" id="previewCreditScore">750</span>
             </div>
           </div>
         </div>
 
-        <!-- Section 2: Underwriting & Financial Terms -->
-        <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
-            2. Underwriting & Loan Parameters
-          </h4>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800 text-xs">
-            <div>
-              <div class="text-zinc-500 text-[11px]">Product Type</div>
-              <div class="font-medium text-white mt-0.5" id="previewProduct">Personal Loan</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 text-[11px]">Requested Principal</div>
-              <div class="font-medium font-mono text-white mt-0.5" id="previewAmount">₹5,00,000</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 text-[11px]">Tenure</div>
-              <div class="font-medium font-mono text-white mt-0.5" id="previewTenure">36 Months</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 text-[11px]">Credit Score</div>
-              <div class="font-medium font-mono text-white mt-0.5" id="previewCreditScore">750</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 text-[11px]">Monthly Income</div>
-              <div class="font-medium font-mono text-white mt-0.5" id="previewIncome">₹50,000</div>
-            </div>
-            <div>
-              <div class="text-zinc-500 text-[11px]">Property / Location</div>
-              <div class="font-medium text-white mt-0.5" id="previewProperty">Urban</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section 3: Machine Learning Evaluation -->
-        <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
-            3. Automated Pre-Screening Evaluation
-          </h4>
-          <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-zinc-400">Baseline Model Recommendation:</span>
+        <!-- Pre-Screening & Documents Grid -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3 bg-zinc-950 rounded-lg border border-zinc-800">
+            <span class="text-zinc-500 block text-[11px]">Model Pre-Screening</span>
+            <div class="mt-1" id="previewMlOutcomeContainer">
               <span class="text-xs font-mono font-bold px-2 py-0.5 rounded" id="previewMlOutcome">
                 PRE_APPROVED
               </span>
             </div>
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-zinc-400">Model Confidence:</span>
-              <span class="font-mono text-white font-medium" id="previewConfidence">88.4%</span>
-            </div>
-            <div class="flex items-center justify-between text-xs">
-              <span class="text-zinc-400">Assessed Risk Band:</span>
-              <span class="font-mono text-white font-medium" id="previewRiskBand">LOW RISK</span>
-            </div>
           </div>
-        </div>
-
-        <!-- Section 4: Document Verification -->
-        <div>
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
-            4. Verified Supporting Documents
-          </h4>
-          <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="p-3 bg-zinc-950 rounded border border-zinc-800 flex items-center justify-between">
-              <span class="text-zinc-300">PAN Document</span>
-              <span class="text-emerald-400 font-mono text-[11px]">VERIFIED ✓</span>
-            </div>
-            <div class="p-3 bg-zinc-950 rounded border border-zinc-800 flex items-center justify-between">
-              <span class="text-zinc-300">Aadhaar Card</span>
-              <span class="text-emerald-400 font-mono text-[11px]">VERIFIED ✓</span>
+          <div class="p-3 bg-zinc-950 rounded-lg border border-zinc-800">
+            <span class="text-zinc-500 block text-[11px]">Documents Verified</span>
+            <div class="mt-1 font-mono text-emerald-400 font-semibold text-xs">
+              PAN & Aadhaar Attached ✓
             </div>
           </div>
         </div>
@@ -690,15 +633,12 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="bg-zinc-950 px-6 py-4 border-t border-zinc-800 flex items-center justify-between">
-        <span class="text-[11px] text-zinc-500 font-mono">
-          Cryptographic Hash: SHA-256 Verified • Tamper Protected
-        </span>
+      <div class="bg-zinc-950 px-6 py-3.5 border-t border-zinc-800 flex items-center justify-end">
         <button 
           type="button" 
           id="closePreviewModalFooterBtn"
-          class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs px-4 py-2 rounded font-medium transition-colors">
-          Close Preview
+          class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs px-4 py-2 rounded-md font-medium transition-colors">
+          Close
         </button>
       </div>
 

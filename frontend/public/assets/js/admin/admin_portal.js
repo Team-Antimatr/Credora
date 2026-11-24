@@ -779,7 +779,7 @@ export class AdminPortalManager {
   }
 
   // ----------------------------------------------------
-  // IMMUTABLE READ-ONLY PREVIEW MODAL
+  // CLEAN APPLICATION PREVIEW MODAL
   // ----------------------------------------------------
   openPreviewModal(app) {
     const modal = document.getElementById('appPreviewModal');
@@ -790,41 +790,47 @@ export class AdminPortalManager {
       if (el) el.textContent = val;
     };
 
-    setVal('previewAppId', app.application_id || 'CRD-2026-0000');
-    setVal('previewApplicantName', app.full_name || 'Borrower');
-    setVal('previewTimestamp', app.submitted_at ? new Date(app.submitted_at).toLocaleString() : '2026-11-24 12:00:00');
+    const formatEmployment = (val) => {
+      if (val === 'Yes') return 'Self-Employed';
+      if (val === 'No') return 'Salaried Professional';
+      if (val === 'Contract') return 'Freelancer / Contract';
+      return val || 'Salaried Professional';
+    };
 
-    setVal('previewAge', `${app.age || 32} Years`);
-    setVal('previewGender', app.gender || 'Male');
-    setVal('previewMarital', app.marital_status || 'Married');
-    setVal('previewDependents', app.dependents || '2');
-    setVal('previewEducation', app.education || 'Graduate');
-    setVal('previewEmployment', app.employment || 'Salaried Professional');
+    const appId = app.application_id || 'CRD-2026-0000';
+    const amount = app.loan_amount || app.requested_amount || 500000;
+    const applicantName = app.full_name || 'Borrower';
+
+    setVal('previewAppId', appId);
+    setVal('previewApplicantName', applicantName);
+    setVal('previewApplicantSubtitle', `Submitted on ${app.issue_date || '24 Nov 2026'}`);
 
     setVal('previewProduct', app.loan_type || 'Personal Loan');
-    setVal('previewAmount', this.formatINR(app.loan_amount || app.requested_amount || 500000));
+    setVal('previewAmount', this.formatINR(amount));
     setVal('previewTenure', `${app.loan_tenure || 36} Months`);
-    setVal('previewCreditScore', `${app.credit_score || 750}`);
+
+    setVal('previewAge', `${app.age || 28} Years`);
+    setVal('previewGender', app.gender || 'Male');
+    setVal('previewEmployment', formatEmployment(app.employment));
     setVal('previewIncome', `${this.formatINR(app.income || 50000)} / mo`);
-    setVal('previewProperty', app.property_area || 'Urban');
+    setVal('previewCreditScore', `${app.credit_score || 750}`);
 
     const ml = app.ml_pre_screening || {};
     const outcomeEl = document.getElementById('previewMlOutcome');
     const outcome = ml.outcome || 'PRE_APPROVED';
 
     if (outcomeEl) {
-      outcomeEl.textContent = outcome;
       if (outcome === 'PRE_APPROVED') {
+        outcomeEl.textContent = 'Approve (Low Risk)';
         outcomeEl.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#03a626]/20 text-[#03a626] border border-[#03a626]/40";
       } else if (outcome === 'REJECTED') {
+        outcomeEl.textContent = 'Denied (High Risk)';
         outcomeEl.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#9c3c3c]/20 text-[#f87171] border border-[#9c3c3c]/40";
       } else {
+        outcomeEl.textContent = 'Hold (Needs Review)';
         outcomeEl.className = "text-xs font-mono font-bold px-2 py-0.5 rounded bg-[#fdae06]/20 text-[#fdae06] border border-[#fdae06]/40";
       }
     }
-
-    setVal('previewConfidence', `${Math.round((ml.confidence_score || 0.88) * 100)}%`);
-    setVal('previewRiskBand', `${ml.risk_band || 'LOW'} RISK`);
 
     const statusBadgeContainer = document.getElementById('previewStatusBadge');
     if (statusBadgeContainer) {
