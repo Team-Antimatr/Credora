@@ -125,7 +125,7 @@ export class DashboardManager {
         const issueDate = app.issue_date || (app.submitted_at ? new Date(app.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Today');
 
         tr.innerHTML = `
-          <td class="py-4 px-6 font-mono text-[14px] text-ink font-medium whitespace-nowrap">
+          <td class="py-4 px-6 text-[14px] text-ink font-medium whitespace-nowrap">
             ${appId}
           </td>
           <td class="py-4 px-6 whitespace-nowrap">
@@ -134,7 +134,7 @@ export class DashboardManager {
               ${statusText}
             </span>
           </td>
-          <td class="py-4 px-6 font-mono text-[13px] text-slateMuted whitespace-nowrap">
+          <td class="py-4 px-6 text-[13px] text-slateMuted whitespace-nowrap">
             ${flagText}
           </td>
           <td class="py-4 px-6 text-[14px] text-slateBody max-w-xs truncate">

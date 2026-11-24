@@ -13,9 +13,10 @@
       }
     })();
   </script>
+  <!-- Google Sans Flex Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -23,9 +24,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            heading: ['Outfit', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
+            heading: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
           },
           colors: {
             ink: '#0A0A0A',
@@ -41,10 +41,12 @@
     }
   </script>
   <style>
+    * {
+      font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
     body {
       background-color: #F7F9FB;
       color: #191C1E;
-      font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
   </style>

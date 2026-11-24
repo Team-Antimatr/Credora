@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Credora — Officer Administration & Underwriting Portal</title>
   
-  <!-- Inter, Outfit & JetBrains Mono Fonts -->
+  <!-- Google Sans Flex Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,9 +17,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            heading: ['Outfit', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Google Sans Flex"', 'system-ui', '-apple-system', 'sans-serif'],
+            heading: ['"Google Sans Flex"', 'system-ui', '-apple-system', 'sans-serif'],
           },
           colors: {
             credoraGreen: '#03a626',
@@ -36,6 +35,9 @@
   </script>
   
   <style>
+    * {
+      font-family: 'Google Sans Flex', system-ui, -apple-system, sans-serif !important;
+    }
     body {
       background-color: #0a0a0a;
       color: #f4f4f5;
@@ -59,18 +61,11 @@
   <!-- TOP NAVIGATION HEADER (Figma Node 585:2 Pattern)         -->
   <!-- ======================================================== -->
   <header class="h-16 bg-white border-b border-[#e4e4e7] sticky top-0 z-40 px-6 sm:px-10 flex items-center justify-between text-zinc-900 shadow-sm">
-    <!-- Brand Wordmark & Role Badge -->
+    <!-- Brand Wordmark -->
     <div class="flex items-center space-x-3">
       <a href="../../index.html" class="flex items-center space-x-2">
-        <span class="font-heading font-bold text-2xl tracking-tight text-black">Credora</span>
+        <span class="font-bold text-2xl tracking-tight text-black">Credora</span>
       </a>
-      <span class="text-[11px] font-mono font-semibold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded">
-        Officer Desk
-      </span>
-      <span class="hidden sm:inline-flex items-center gap-1.5 ml-4 text-[12px] font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#03a626] animate-pulse"></span>
-        Live ML Sync
-      </span>
     </div>
 
     <!-- Officer Profile & Session Actions -->
@@ -81,7 +76,7 @@
         </div>
         <div class="hidden sm:block text-left leading-tight">
           <div class="font-medium text-zinc-900 text-[13px]" id="officerNameDisplay">Anita Deshmukh</div>
-          <div class="text-[11px] text-zinc-500 font-mono">Senior Credit Officer</div>
+          <div class="text-[11px] text-zinc-500">Credit Officer</div>
         </div>
       </div>
       
@@ -102,7 +97,7 @@
     <!-- Portal Header Banner -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-zinc-800">
       <div>
-        <h1 class="font-heading font-semibold text-2xl sm:text-3xl text-white tracking-tight">
+        <h1 class="font-semibold text-2xl sm:text-3xl text-white tracking-tight">
           Credit Officer Underwriting Console
         </h1>
         <p class="text-sm text-zinc-400 mt-1">
@@ -112,7 +107,7 @@
 
       <!-- Quick Action: Refresh Feed -->
       <div class="flex items-center gap-3">
-        <span class="text-xs text-zinc-500 font-mono" id="lastSyncTimestamp">Last synced: Just now</span>
+        <span class="text-xs text-zinc-500" id="lastSyncTimestamp">Last synced: Just now</span>
         <button 
           type="button" 
           id="refreshDataBtn"
@@ -139,7 +134,7 @@
           data-tab="pending" 
           class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-white text-white">
           <span>Pending Application</span>
-          <span id="badgePendingCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-mono font-normal">
+          <span id="badgePendingCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-normal">
             0
           </span>
         </button>
@@ -151,7 +146,7 @@
           data-tab="approved" 
           class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-zinc-400 hover:text-zinc-200">
           <span>Approved Application</span>
-          <span id="badgeApprovedCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-mono font-normal">
+          <span id="badgeApprovedCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-normal">
             0
           </span>
         </button>
@@ -163,7 +158,7 @@
           data-tab="users" 
           class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-zinc-400 hover:text-zinc-200">
           <span>Total Users</span>
-          <span id="badgeUsersCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-mono font-normal">
+          <span id="badgeUsersCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-normal">
             0
           </span>
         </button>
@@ -175,9 +170,6 @@
           data-tab="statistics" 
           class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-zinc-400 hover:text-zinc-200">
           <span>Statistics</span>
-          <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[11px] px-1.5 py-0.5 rounded font-mono">
-            86.8% Acc
-          </span>
         </button>
 
       </nav>
@@ -313,28 +305,28 @@
         <!-- Total Users / Applicants -->
         <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg">
           <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Total Applicants</div>
-          <div class="text-2xl sm:text-3xl font-heading font-bold text-white mt-2" id="kpiTotalUsers">0</div>
+          <div class="text-2xl sm:text-3xl font-bold text-white mt-2" id="kpiTotalUsers">0</div>
           <div class="text-[11px] text-zinc-500 mt-1">Unique borrowers evaluated</div>
         </div>
 
         <!-- Total Approved -->
         <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg border-l-4 border-l-[#03a626]">
           <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Approved Loans</div>
-          <div class="text-2xl sm:text-3xl font-heading font-bold text-[#03a626] mt-2" id="kpiApprovedUsers">0</div>
+          <div class="text-2xl sm:text-3xl font-bold text-[#03a626] mt-2" id="kpiApprovedUsers">0</div>
           <div class="text-[11px] text-zinc-500 mt-1">Pre-approved & Verified</div>
         </div>
 
         <!-- Total Denied -->
         <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg border-l-4 border-l-[#9c3c3c]">
           <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Denied / Rejected</div>
-          <div class="text-2xl sm:text-3xl font-heading font-bold text-[#9c3c3c] mt-2" id="kpiDeniedUsers">0</div>
+          <div class="text-2xl sm:text-3xl font-bold text-[#9c3c3c] mt-2" id="kpiDeniedUsers">0</div>
           <div class="text-[11px] text-zinc-500 mt-1">High risk profile declined</div>
         </div>
 
         <!-- Total On Hold -->
         <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg border-l-4 border-l-[#fdae06]">
           <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">On Hold</div>
-          <div class="text-2xl sm:text-3xl font-heading font-bold text-[#fdae06] mt-2" id="kpiHoldUsers">0</div>
+          <div class="text-2xl sm:text-3xl font-bold text-[#fdae06] mt-2" id="kpiHoldUsers">0</div>
           <div class="text-[11px] text-zinc-500 mt-1">Supplementary review pending</div>
         </div>
 
@@ -343,8 +335,8 @@
       <!-- User & Officer Activity Log Table -->
       <div class="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5 space-y-4">
         <div class="flex items-center justify-between">
-          <h2 class="font-heading font-semibold text-lg text-white">System Activity & Audit Trail</h2>
-          <span class="text-xs text-zinc-400 font-mono">Real-time combined User & Admin stream</span>
+          <h2 class="font-semibold text-lg text-white">System Activity & Audit Trail</h2>
+          <span class="text-xs text-zinc-400">Real-time combined User & Admin stream</span>
         </div>
 
         <div class="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-950/60">
@@ -372,7 +364,7 @@
 
     <!-- ======================================================== -->
     <!-- TAB 4: STATISTICS (MODEL TELEMETRY & PERFORMANCE)        -->
-    <!-- Baseline Model Metrics, Confusion Matrix, Top Weights    -->
+    <!-- Clean, human, Google Sans design                          -->
     <!-- ======================================================== -->
     <section id="tabContent-statistics" class="admin-tab-content hidden space-y-6">
       
@@ -380,55 +372,49 @@
       <div class="bg-zinc-900/70 border border-zinc-800 rounded-lg p-6">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
           <div>
-            <div class="flex items-center gap-3">
-              <h2 class="font-heading font-semibold text-xl text-white">
-                Logistic Regression Pre-Screening Baseline
-              </h2>
-              <span class="text-xs bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-mono">
-                Production Artifact v1.0
-              </span>
-            </div>
+            <h2 class="font-semibold text-xl text-white">
+              Logistic Regression Pre-Screening Model
+            </h2>
             <p class="text-xs text-zinc-400 mt-1">
-              Trained on 1,000 real banking records with Stratified 80/20 train/test split. Serialized L2 Regularization.
+              Trained on 1,000 banking records with Stratified 80/20 split. Evaluated on 190 unseen test samples.
             </p>
           </div>
-          <div class="text-right text-xs font-mono text-zinc-400">
-            <div>Inference Latency: <span class="text-emerald-400 font-semibold">&lt; 3.0 ms</span></div>
-            <div>Evaluated on 190 unseen test samples</div>
+          <div class="text-right text-xs text-zinc-400">
+            <div>Evaluation latency: <span class="text-emerald-400 font-medium">&lt; 3 ms</span></div>
           </div>
         </div>
 
         <!-- 5 Performance Metric Badges -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-5">
           
-          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md text-center">
             <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Accuracy</div>
-            <div class="text-2xl font-bold font-mono text-white mt-1">86.84%</div>
+            <div class="text-2xl font-bold text-white mt-1">86.84%</div>
             <div class="text-[11px] text-emerald-400 mt-0.5">165 / 190 correct</div>
           </div>
 
-          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md text-center">
             <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">ROC-AUC</div>
-            <div class="text-2xl font-bold font-mono text-white mt-1">0.9190</div>
+            <div class="text-2xl font-bold text-white mt-1">0.9190</div>
             <div class="text-[11px] text-emerald-400 mt-0.5">High separability</div>
           </div>
 
-          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
-            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Precision (Appr)</div>
-            <div class="text-2xl font-bold font-mono text-white mt-1">81.82%</div>
-            <div class="text-[11px] text-zinc-400 mt-0.5">Low false positives</div>
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Precision</div>
+            <div class="text-2xl font-bold text-white mt-1">81.82%</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">Approval accuracy</div>
           </div>
 
-          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
-            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Recall (Appr)</div>
-            <div class="text-2xl font-bold font-mono text-white mt-1">75.00%</div>
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Recall</div>
+            <div class="text-2xl font-bold text-white mt-1">75.00%</div>
             <div class="text-[11px] text-zinc-400 mt-0.5">45 of 60 captured</div>
           </div>
 
-          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
-            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">F1-Score (Appr)</div>
-            <div class="text-2xl font-bold font-mono text-white mt-1">78.26%</div>
-            <div class="text-[11px] text-zinc-400 mt-0.5">Harmonic mean</div>
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">F1-Score</div>
+            <div class="text-2xl font-bold text-white mt-1">78.26%</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">Harmonic balance</div>
           </div>
 
         </div>
@@ -440,94 +426,79 @@
         <!-- 2x2 Confusion Matrix -->
         <div class="bg-zinc-900/70 border border-zinc-800 rounded-lg p-5 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="font-heading font-semibold text-base text-white">Confusion Matrix (190 Test Records)</h3>
-            <span class="text-xs text-zinc-400 font-mono">Threshold = 0.50</span>
+            <h3 class="font-semibold text-base text-white">Confusion Matrix (190 Test Records)</h3>
+            <span class="text-xs text-zinc-400">Threshold 0.50</span>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 text-center font-mono text-xs">
+          <div class="grid grid-cols-2 gap-3 text-center text-xs">
             
             <!-- True Negative -->
             <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
               <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">True Negatives (TN)</div>
               <div class="text-2xl font-bold text-white mt-1">120</div>
-              <div class="text-emerald-400 text-[11px] mt-0.5">Actual Reject → Correctly Denied</div>
+              <div class="text-emerald-400 text-[11px] mt-0.5">Correctly Denied</div>
             </div>
 
             <!-- False Positive -->
             <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
               <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">False Positives (FP)</div>
               <div class="text-2xl font-bold text-[#9c3c3c] mt-1">10</div>
-              <div class="text-zinc-400 text-[11px] mt-0.5">Actual Reject → Predicted Approve</div>
+              <div class="text-zinc-400 text-[11px] mt-0.5">Type I Error</div>
             </div>
 
             <!-- False Negative -->
             <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
               <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">False Negatives (FN)</div>
               <div class="text-2xl font-bold text-[#fdae06] mt-1">15</div>
-              <div class="text-zinc-400 text-[11px] mt-0.5">Actual Approve → Predicted Reject</div>
+              <div class="text-zinc-400 text-[11px] mt-0.5">Type II Error</div>
             </div>
 
             <!-- True Positive -->
             <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
               <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">True Positives (TP)</div>
               <div class="text-2xl font-bold text-[#03a626] mt-1">45</div>
-              <div class="text-emerald-400 text-[11px] mt-0.5">Actual Approve → Correctly Approved</div>
+              <div class="text-emerald-400 text-[11px] mt-0.5">Correctly Approved</div>
             </div>
 
           </div>
 
           <p class="text-[11px] text-zinc-400 leading-relaxed">
-            The model achieves a 92.3% True Negative Rate (specificity), prioritizing protection against high-risk borrower default while accurately approving eligible applicants.
+            The model achieves a 92.3% True Negative Rate, prioritizing protection against borrower default while approving eligible applicants.
           </p>
         </div>
 
         <!-- Top Feature Weights & Odds Ratios -->
         <div class="bg-zinc-900/70 border border-zinc-800 rounded-lg p-5 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="font-heading font-semibold text-base text-white">Key Underwriting Drivers</h3>
-            <span class="text-xs text-zinc-400 font-mono">Odds Ratio Impact</span>
+            <h3 class="font-semibold text-base text-white">Key Underwriting Drivers</h3>
+            <span class="text-xs text-zinc-400">Impact Ratio</span>
           </div>
 
           <div class="space-y-2.5 text-xs">
             
-            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
-              <div>
-                <span class="font-medium text-white">Credit Score</span>
-                <span class="text-zinc-500 ml-2 font-mono">Coeff: +2.05</span>
-              </div>
-              <span class="font-mono font-semibold text-[#03a626]">+7.77x Approval Odds</span>
+            <div class="flex items-center justify-between p-3 bg-zinc-950 rounded border border-zinc-800">
+              <span class="font-medium text-white">Credit Score</span>
+              <span class="font-semibold text-[#03a626]">+7.77x Approval Odds</span>
             </div>
 
-            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
-              <div>
-                <span class="font-medium text-white">Applicant Monthly Income</span>
-                <span class="text-zinc-500 ml-2 font-mono">Coeff: +0.53</span>
-              </div>
-              <span class="font-mono font-semibold text-[#03a626]">+1.69x Approval Odds</span>
+            <div class="flex items-center justify-between p-3 bg-zinc-950 rounded border border-zinc-800">
+              <span class="font-medium text-white">Applicant Monthly Income</span>
+              <span class="font-semibold text-[#03a626]">+1.69x Approval Odds</span>
             </div>
 
-            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
-              <div>
-                <span class="font-medium text-white">Semiurban Property Area</span>
-                <span class="text-zinc-500 ml-2 font-mono">Coeff: +0.27</span>
-              </div>
-              <span class="font-mono font-semibold text-[#03a626]">+1.32x Approval Odds</span>
+            <div class="flex items-center justify-between p-3 bg-zinc-950 rounded border border-zinc-800">
+              <span class="font-medium text-white">Semiurban Property Area</span>
+              <span class="font-semibold text-[#03a626]">+1.32x Approval Odds</span>
             </div>
 
-            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
-              <div>
-                <span class="font-medium text-white">Loan Principal Amount</span>
-                <span class="text-zinc-500 ml-2 font-mono">Coeff: -0.28</span>
-              </div>
-              <span class="font-mono font-semibold text-[#9c3c3c]">0.76x Odds (Risk Factor)</span>
+            <div class="flex items-center justify-between p-3 bg-zinc-950 rounded border border-zinc-800">
+              <span class="font-medium text-white">Loan Principal Amount</span>
+              <span class="font-semibold text-[#9c3c3c]">0.76x (Higher Risk)</span>
             </div>
 
-            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
-              <div>
-                <span class="font-medium text-white">Debt-to-Income (DTI) Ratio</span>
-                <span class="text-zinc-500 ml-2 font-mono">Coeff: -2.07</span>
-              </div>
-              <span class="font-mono font-semibold text-[#9c3c3c]">0.13x Odds (Severe Risk)</span>
+            <div class="flex items-center justify-between p-3 bg-zinc-950 rounded border border-zinc-800">
+              <span class="font-medium text-white">Debt-to-Income (DTI) Ratio</span>
+              <span class="font-semibold text-[#9c3c3c]">0.13x (High Risk)</span>
             </div>
 
           </div>
@@ -549,7 +520,7 @@
       <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between bg-zinc-950">
         <div>
           <div class="flex items-center gap-3">
-            <h3 class="font-heading font-bold text-lg text-white" id="previewAppId">CRD-0000</h3>
+            <h3 class="font-bold text-lg text-white" id="previewAppId">CRD-0000</h3>
             <span id="previewStatusBadge"></span>
           </div>
           <p class="text-xs text-zinc-400 mt-0.5" id="previewApplicantSubtitle">Parth Sonavane</p>
@@ -572,11 +543,11 @@
             </div>
             <div>
               <span class="text-zinc-500 block text-[11px]">Principal Amount</span>
-              <span class="font-medium font-mono text-white mt-0.5 block" id="previewAmount">₹5,00,000</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewAmount">₹5,00,000</span>
             </div>
             <div>
               <span class="text-zinc-500 block text-[11px]">Tenure</span>
-              <span class="font-medium font-mono text-white mt-0.5 block" id="previewTenure">36 Months</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewTenure">36 Months</span>
             </div>
           </div>
         </div>
@@ -603,11 +574,11 @@
             </div>
             <div>
               <span class="text-zinc-500 block text-[11px]">Monthly Income</span>
-              <span class="font-medium font-mono text-white mt-0.5 block" id="previewIncome">₹50,000</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewIncome">₹50,000</span>
             </div>
             <div>
               <span class="text-zinc-500 block text-[11px]">Credit Score</span>
-              <span class="font-medium font-mono text-white mt-0.5 block" id="previewCreditScore">750</span>
+              <span class="font-medium text-white mt-0.5 block" id="previewCreditScore">750</span>
             </div>
           </div>
         </div>
@@ -617,14 +588,14 @@
           <div class="p-3 bg-zinc-950 rounded-lg border border-zinc-800">
             <span class="text-zinc-500 block text-[11px]">Model Pre-Screening</span>
             <div class="mt-1" id="previewMlOutcomeContainer">
-              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded" id="previewMlOutcome">
-                PRE_APPROVED
+              <span class="text-xs font-bold px-2 py-0.5 rounded" id="previewMlOutcome">
+                Approve (Low Risk)
               </span>
             </div>
           </div>
           <div class="p-3 bg-zinc-950 rounded-lg border border-zinc-800">
             <span class="text-zinc-500 block text-[11px]">Documents Verified</span>
-            <div class="mt-1 font-mono text-emerald-400 font-semibold text-xs">
+            <div class="mt-1 text-emerald-400 font-semibold text-xs">
               PAN & Aadhaar Attached ✓
             </div>
           </div>

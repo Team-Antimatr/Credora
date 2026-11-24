@@ -2,10 +2,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Credora — Smart, Unbiased Loan Approvals</title>
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Google Sans Flex -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -13,9 +13,8 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Outfit', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
+            display: ['"Google Sans Flex"', 'system-ui', 'sans-serif'],
           },
           colors: {
             brand: {
@@ -36,18 +35,13 @@
     }
   </script>
   <style>
+    * {
+      font-family: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
     body {
-      font-family: 'Inter', sans-serif;
       color: #334155;
       background-color: #FFFFFF;
       -webkit-font-smoothing: antialiased;
-    }
-    h1, h2, h3, h4, .font-heading {
-      font-family: 'Outfit', sans-serif;
-      letter-spacing: -0.02em;
-    }
-    .font-mono-num {
-      font-family: 'JetBrains Mono', monospace;
     }
   </style>
 </head>
