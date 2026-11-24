@@ -92,9 +92,18 @@ export const AuthState = {
   }
 };
 
-function getRedirectTarget() {
-  const target = sessionStorage.getItem('credora_redirect_after_login') || 'dashboard.html';
+export function getRedirectTarget() {
+  let target = sessionStorage.getItem('credora_redirect_after_login');
   sessionStorage.removeItem('credora_redirect_after_login');
+  if (!target) return 'dashboard.html';
+  if (target.includes('pages/app/')) {
+    target = target.substring(target.indexOf('pages/app/') + 'pages/app/'.length);
+  } else if (target.includes('../app/')) {
+    target = target.substring(target.indexOf('../app/') + '../app/'.length);
+  }
+  if (!target || target === '/' || target.includes('index.html') || target.includes('login.html')) {
+    return 'dashboard.html';
+  }
   return target;
 }
 
@@ -172,7 +181,12 @@ export function syncUserUI() {
       const currentUser = AuthState.getUser();
       if (!currentUser) {
         e.preventDefault();
-        const targetHref = el.getAttribute('href') || 'apply-loan.html';
+        let targetHref = el.getAttribute('href') || 'apply-loan.html';
+        if (targetHref.includes('pages/app/')) {
+          targetHref = targetHref.substring(targetHref.indexOf('pages/app/') + 'pages/app/'.length);
+        } else if (targetHref.includes('../app/')) {
+          targetHref = targetHref.substring(targetHref.indexOf('../app/') + '../app/'.length);
+        }
         sessionStorage.setItem('credora_redirect_after_login', targetHref);
         const isInPages = window.location.pathname.includes('/pages/');
         const loginPath = isInPages 
