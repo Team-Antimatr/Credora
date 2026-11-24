@@ -1,0 +1,87 @@
+{
+  "model_type": "Logistic Regression (L2 Regularized)",
+  "model_version": "Credora-v1.0-Baseline",
+  "sample_counts": {
+    "test_set_total": 190,
+    "actual_rejected_0": 130,
+    "actual_approved_1": 60
+  },
+  "performance_metrics": {
+    "accuracy": 0.8684,
+    "roc_auc_score": 0.919,
+    "approved_class_1": {
+      "precision": 0.8182,
+      "recall": 0.75,
+      "f1_score": 0.7826
+    },
+    "rejected_class_0": {
+      "precision": 0.8889,
+      "recall": 0.9231,
+      "f1_score": 0.9057
+    },
+    "macro_f1": 0.8441,
+    "weighted_f1": 0.8668
+  },
+  "confusion_matrix": {
+    "true_negatives_tn": 120,
+    "false_positives_fp": 10,
+    "false_negatives_fn": 15,
+    "true_positives_tp": 45
+  },
+  "key_drivers": {
+    "top_approval_drivers": [
+      {
+        "feature": "Credit_Score",
+        "coefficient": 2.050542746025565,
+        "odds_ratio": 7.772118248074147
+      },
+      {
+        "feature": "Applicant_Income",
+        "coefficient": 0.5271713537706146,
+        "odds_ratio": 1.6941334205279013
+      },
+      {
+        "feature": "Property_Area_Semiurban",
+        "coefficient": 0.2744047195471678,
+        "odds_ratio": 1.3157472031071669
+      },
+      {
+        "feature": "Property_Area_Urban",
+        "coefficient": 0.23220819317188893,
+        "odds_ratio": 1.2613823126779398
+      },
+      {
+        "feature": "Employer_Category_MNC",
+        "coefficient": 0.1944955382811886,
+        "odds_ratio": 1.214698063231754
+      }
+    ],
+    "top_risk_drivers": [
+      {
+        "feature": "Loan_Purpose_Home",
+        "coefficient": -0.2586893917150831,
+        "odds_ratio": 0.772062794904786
+      },
+      {
+        "feature": "Loan_Amount",
+        "coefficient": -0.27567300048378424,
+        "odds_ratio": 0.759061102796355
+      },
+      {
+        "feature": "Loan_Purpose_Education",
+        "coefficient": -0.3029584259722486,
+        "odds_ratio": 0.7386298035481184
+      },
+      {
+        "feature": "Loan_Purpose_Car",
+        "coefficient": -0.45146345646350716,
+        "odds_ratio": 0.6366956930546477
+      },
+      {
+        "feature": "DTI_Ratio",
+        "coefficient": -2.07012636235047,
+        "odds_ratio": 0.12616983758045633
+      }
+    ]
+  }
+}
