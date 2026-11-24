@@ -8,6 +8,14 @@
       if (user) {
         var target = sessionStorage.getItem('credora_redirect_after_login') || 'dashboard.html';
         sessionStorage.removeItem('credora_redirect_after_login');
+        if (target.indexOf('pages/app/') !== -1) {
+          target = target.substring(target.indexOf('pages/app/') + 10);
+        } else if (target.indexOf('../app/') !== -1) {
+          target = target.substring(target.indexOf('../app/') + 7);
+        }
+        if (!target || target === '/' || target.indexOf('index.html') !== -1 || target.indexOf('login.html') !== -1) {
+          target = 'dashboard.html';
+        }
         window.location.replace(target);
       }
     })();
