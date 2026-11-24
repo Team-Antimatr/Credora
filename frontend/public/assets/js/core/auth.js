@@ -224,7 +224,7 @@ export function syncUserUI() {
 export function enforceAdminGuard(redirectPath = '../errors/403.html') {
   const role = AuthState.getRole();
   if (role !== 'officer' && role !== 'admin') {
-    const currentFile = window.location.pathname.split('/').pop() || 'overview.html';
+    const currentFile = window.location.pathname.split('/').pop() || 'admin.html';
     sessionStorage.setItem('credora_admin_redirect', currentFile);
     window.location.replace(redirectPath);
     return false;

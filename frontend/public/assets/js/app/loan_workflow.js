@@ -471,17 +471,25 @@ export class LoanWorkflowManager {
       const loanAmount = parseFloat(formData.get('loanAmount') || 0);
       const loanTenure = parseInt(formData.get('loanTenure') || 36, 10);
       const creditHistory = parseFloat(formData.get('creditHistory') || 1.0);
+      const creditScore = parseInt(formData.get('creditScore') || (creditHistory >= 1.0 ? 750 : 580), 10);
+      const applicantAge = parseInt(formData.get('applicantAge') || 28, 10);
       const propertyArea = formData.get('propertyArea') || "Urban";
       const fullName = formData.get('fullName') || (this.user ? this.user.displayName : "Credora Applicant");
+      const gender = formData.get('gender') || "Male";
+      const maritalStatus = formData.get('maritalStatus') || "Married";
+      const dependents = formData.get('dependents') || "2";
+      const education = formData.get('education') || "Graduate";
+      const employmentStatus = formData.get('employmentStatus') || "Salaried Professional";
 
       const payload = {
         personal_details: {
           full_name: fullName,
-          gender: formData.get('gender') || "Male",
-          married: formData.get('maritalStatus') || "Married",
-          dependents: formData.get('dependents') || "2",
-          education: formData.get('education') || "Graduate",
-          self_employed: formData.get('employmentStatus') || "No"
+          age: applicantAge,
+          gender: gender,
+          married: maritalStatus,
+          dependents: dependents,
+          education: education,
+          self_employed: employmentStatus
         },
         financial_details: {
           applicant_income: appIncome,
@@ -489,6 +497,7 @@ export class LoanWorkflowManager {
           loan_amount: loanAmount,
           loan_amount_term_months: loanTenure,
           credit_history: creditHistory,
+          credit_score: creditScore,
           property_area: propertyArea
         },
         loan_parameters: {
@@ -505,6 +514,29 @@ export class LoanWorkflowManager {
       const now = new Date();
       const userEmail = this.user && this.user.email ? this.user.email.toLowerCase() : '';
 
+      // Baseline ML Pre-Screening logic based on model weights
+      let mlOutcome = "PRE_APPROVED";
+      let predCode = "APPROVE";
+      let confidence = 0.884;
+      let riskBand = "LOW";
+
+      if (creditScore >= 700 && appIncome >= 25000) {
+        mlOutcome = "PRE_APPROVED";
+        predCode = "APPROVE";
+        confidence = 0.895;
+        riskBand = "LOW";
+      } else if (creditScore < 620 || appIncome < 18000) {
+        mlOutcome = "REJECTED";
+        predCode = "DENIED";
+        confidence = 0.185;
+        riskBand = "HIGH";
+      } else {
+        mlOutcome = "EDGE_CASE_REVIEW";
+        predCode = "HOLD";
+        confidence = 0.540;
+        riskBand = "MEDIUM";
+      }
+
       try {
         const response = await apiRequest('/loans/apply', {
           method: 'POST',
@@ -512,12 +544,37 @@ export class LoanWorkflowManager {
         });
 
         const appData = response.data || response;
+        appData.application_id = appData.application_id || ("CRD-2026-" + Math.floor(1000 + Math.random() * 9000));
         appData.loan_type = this.selectedProduct;
         appData.requested_amount = loanAmount;
+        appData.loan_amount = loanAmount;
+        appData.loan_tenure = loanTenure;
         appData.property_area = propertyArea;
         appData.full_name = fullName;
+        appData.age = applicantAge;
+        appData.credit_score = creditScore;
+        appData.income = appIncome;
+        appData.coapplicant_income = coIncome;
+        appData.gender = gender;
+        appData.marital_status = maritalStatus;
+        appData.dependents = dependents;
+        appData.education = education;
+        appData.employment = employmentStatus;
         appData.applicant_email = userEmail;
         appData.user_key = this.userKey;
+        appData.status = "Pending";
+        appData.is_immutable = true;
+        appData.ml_pre_screening = appData.ml_pre_screening || {
+          outcome: mlOutcome,
+          prediction_code: predCode,
+          confidence_score: confidence,
+          risk_band: riskBand
+        };
+        appData.human_verification = {
+          verified: false,
+          verified_by: null,
+          verified_at: null
+        };
 
         this.storeApplication(appData);
         this.clearDraft();
@@ -525,25 +582,42 @@ export class LoanWorkflowManager {
       } catch (err) {
         console.warn("API offline or error, generating local pre-screening record:", err.message);
 
-        const isApproved = creditHistory >= 1.0 && appIncome > 0;
         const demoApp = {
-          application_id: "0000" + Math.floor(1000 + Math.random() * 9000),
+          application_id: "CRD-2026-" + Math.floor(1000 + Math.random() * 9000),
           tracking_number: "TRK-" + Math.floor(100000 + Math.random() * 900000),
           status: "Pending",
           flag: "N/A",
           reason: "Pre-Screening Under Officer Review",
           loan_type: this.selectedProduct,
           requested_amount: loanAmount,
+          loan_amount: loanAmount,
+          loan_tenure: loanTenure,
           property_area: propertyArea,
           full_name: fullName,
+          age: applicantAge,
+          credit_score: creditScore,
+          income: appIncome,
+          coapplicant_income: coIncome,
+          gender: gender,
+          marital_status: maritalStatus,
+          dependents: dependents,
+          education: education,
+          employment: employmentStatus,
           applicant_email: userEmail,
           user_key: this.userKey,
           issue_date: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
           submitted_at: now.toISOString(),
+          is_immutable: true,
           ml_pre_screening: {
-            outcome: isApproved ? "PRE_APPROVED" : "EDGE_CASE_REVIEW",
-            confidence_score: isApproved ? 0.884 : 0.54,
-            risk_band: isApproved ? "LOW" : "MEDIUM"
+            outcome: mlOutcome,
+            prediction_code: predCode,
+            confidence_score: confidence,
+            risk_band: riskBand
+          },
+          human_verification: {
+            verified: false,
+            verified_by: null,
+            verified_at: null
           }
         };
 
@@ -555,6 +629,7 @@ export class LoanWorkflowManager {
   }
 
   storeApplication(app) {
+    // 1. Store in user's isolated application storage
     const storageKey = `credora_applications_${this.userKey}`;
     let apps = [];
     try {
@@ -563,12 +638,54 @@ export class LoanWorkflowManager {
     } catch (e) {
       apps = [];
     }
-
-    // Prepend new application
     apps.unshift(app);
     localStorage.setItem(storageKey, JSON.stringify(apps));
 
-    // User-scoped session caching
+    // 2. Store in global admin portal applications queue
+    try {
+      const allAppsKey = "credora_all_applications";
+      const rawAll = localStorage.getItem(allAppsKey);
+      let allApps = rawAll ? JSON.parse(rawAll) : [];
+      // Prepend so latest appears at top
+      allApps.unshift(app);
+      localStorage.setItem(allAppsKey, JSON.stringify(allApps));
+    } catch (e) {
+      console.warn("Failed saving to global admin applications:", e);
+    }
+
+    // 3. Record system activity in audit stream for Total Users tab
+    try {
+      const auditKey = "credora_audit_activity";
+      const rawAudit = localStorage.getItem(auditKey);
+      let auditStream = rawAudit ? JSON.parse(rawAudit) : [];
+      const timestampStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      // User submission event
+      auditStream.unshift({
+        timestamp: timestampStr,
+        actor: "Applicant",
+        action: "Form Submission",
+        applicant: app.full_name || "Borrower",
+        application_id: app.application_id,
+        details: `Submitted ${app.loan_type} for ₹${Number(app.loan_amount || 0).toLocaleString('en-IN')}. Record Locked.`
+      });
+
+      // Model evaluation event
+      auditStream.unshift({
+        timestamp: timestampStr,
+        actor: "ML Model Baseline",
+        action: "Pre-Screening",
+        applicant: app.full_name || "Borrower",
+        application_id: app.application_id,
+        details: `Pre-Screened ${app.ml_pre_screening?.prediction_code || 'APPROVE'} (Confidence: ${Math.round((app.ml_pre_screening?.confidence_score || 0.88) * 100)}%, Risk: ${app.ml_pre_screening?.risk_band || 'LOW'}).`
+      });
+
+      localStorage.setItem(auditKey, JSON.stringify(auditStream));
+    } catch (e) {
+      console.warn("Failed recording audit activity:", e);
+    }
+
+    // 4. User-scoped session caching
     sessionStorage.setItem(`credora_active_application_${this.userKey}`, JSON.stringify(app));
     sessionStorage.removeItem('credora_active_application');
   }

@@ -167,24 +167,64 @@ export class DashboardManager {
     const modal = document.getElementById('applicationDetailModal');
     if (!modal) return;
 
-    const modalAppId = document.getElementById('modalAppId');
-    const modalProduct = document.getElementById('modalProduct');
-    const modalAmount = document.getElementById('modalAmount');
-    const modalScore = document.getElementById('modalScore');
-    const modalRisk = document.getElementById('modalRisk');
-    const modalStatus = document.getElementById('modalStatus');
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    };
 
-    const appId = app.application_id || 'CRD-2026-001';
-    const amount = app.requested_amount || (app.financial_details ? app.financial_details.loan_amount : 500000);
+    const appId = app.application_id || 'CRD-2026-0001';
+    const amount = app.loan_amount || app.requested_amount || (app.financial_details ? app.financial_details.loan_amount : 500000);
     const product = app.loan_type || 'Personal Loan';
     const ml = app.ml_pre_screening || { outcome: 'PRE_APPROVED', confidence_score: 0.884, risk_band: 'LOW' };
 
-    if (modalAppId) modalAppId.textContent = appId;
-    if (modalProduct) modalProduct.textContent = product;
-    if (modalAmount) modalAmount.textContent = this.formatINR(amount);
-    if (modalScore) modalScore.textContent = `${Math.round((ml.confidence_score || 0.85) * 100)}%`;
-    if (modalRisk) modalRisk.textContent = `${ml.risk_band || 'LOW'} RISK`;
-    if (modalStatus) modalStatus.textContent = ml.outcome === 'PRE_APPROVED' ? 'Pre-Approved' : 'Officer Review Pending';
+    setVal('modalAppId', appId);
+    setVal('modalApplicantName', app.full_name || (this.user ? this.user.displayName : 'Borrower'));
+    setVal('modalProduct', product);
+    setVal('modalAmount', this.formatINR(amount));
+    setVal('modalScore', `${Math.round((ml.confidence_score || 0.88) * 100)}%`);
+    setVal('modalRisk', `${ml.risk_band || 'LOW'} RISK`);
+
+    setVal('modalAge', `${app.age || 28} Years`);
+    setVal('modalGender', app.gender || 'Male');
+    setVal('modalMarital', app.marital_status || 'Married');
+    setVal('modalDependents', app.dependents || '2');
+    setVal('modalEducation', app.education || 'Graduate');
+    setVal('modalEmployment', app.employment || 'Salaried Professional');
+
+    setVal('modalTenure', `${app.loan_tenure || 36} Months`);
+    setVal('modalCreditScore', `${app.credit_score || 750}`);
+    setVal('modalIncome', `${this.formatINR(app.income || 50000)} / mo`);
+    setVal('modalProperty', app.property_area || 'Urban');
+
+    const scoreBadge = document.getElementById('modalScoreBadge');
+    if (scoreBadge) {
+      const outcome = ml.outcome || 'PRE_APPROVED';
+      scoreBadge.textContent = outcome;
+      if (outcome === 'PRE_APPROVED') {
+        scoreBadge.className = "font-mono font-bold px-2.5 py-0.5 rounded text-xs bg-emerald-50 text-emerald-700 border border-emerald-200";
+      } else if (outcome === 'REJECTED') {
+        scoreBadge.className = "font-mono font-bold px-2.5 py-0.5 rounded text-xs bg-rose-50 text-rose-700 border border-rose-200";
+      } else {
+        scoreBadge.className = "font-mono font-bold px-2.5 py-0.5 rounded text-xs bg-amber-50 text-amber-700 border border-amber-200";
+      }
+    }
+
+    const statusBadge = document.getElementById('modalStatusBadge');
+    if (statusBadge) {
+      const isApproved = app.status === 'Approved';
+      const isDenied = app.status === 'Denied' || app.status === 'Rejected';
+      const isHold = app.status === 'Hold' || app.status === 'On Hold';
+
+      if (isApproved) {
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">Approved & Disbursed</span>`;
+      } else if (isDenied) {
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">Application Denied</span>`;
+      } else if (isHold) {
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">On Hold (Docs Pending)</span>`;
+      } else {
+        statusBadge.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">Under Review</span>`;
+      }
+    }
 
     modal.classList.remove('hidden');
   }

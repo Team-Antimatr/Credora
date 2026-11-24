@@ -8,7 +8,7 @@
     (function() {
       var role = localStorage.getItem('credora_user_role');
       if (role === 'officer' || role === 'admin') {
-        var target = sessionStorage.getItem('credora_admin_redirect') || 'review-queue.html';
+        var target = sessionStorage.getItem('credora_admin_redirect') || 'admin.html';
         sessionStorage.removeItem('credora_admin_redirect');
         window.location.replace(target);
       }
@@ -98,7 +98,7 @@
       // Store staff session in localStorage
       localStorage.setItem('credora_user_role', 'officer');
       localStorage.setItem('credora_officer_name', 'Anita Deshmukh (Central Desk)');
-      var target = sessionStorage.getItem('credora_admin_redirect') || 'review-queue.html';
+      var target = sessionStorage.getItem('credora_admin_redirect') || 'admin.html';
       sessionStorage.removeItem('credora_admin_redirect');
       setTimeout(function() {
         window.location.replace(target);
