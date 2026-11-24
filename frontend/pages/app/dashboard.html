@@ -178,73 +178,164 @@
 
   </main>
 
-  <!-- Application Detail Slide-Over / Modal (Consolidates Application Status) -->
+  <!-- Immutable Read-Only Application Preview Modal -->
   <div id="applicationDetailModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div id="modalOverlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-    <div class="relative bg-white rounded-2xl max-w-2xl w-full p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto">
+    <div id="modalOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-xl max-w-2xl w-full shadow-2xl z-10 max-h-[90vh] overflow-hidden border border-borderHairline flex flex-col">
       
-      <div class="flex items-center justify-between border-b border-borderHairline pb-4 mb-6">
+      <!-- Security Banner -->
+      <div class="bg-slate-900 text-white px-6 py-3 flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-2">
+          <span class="text-xs">🔒</span>
+          <span class="font-mono text-xs font-semibold uppercase tracking-wider text-slate-200">
+            Immutable Application Record
+          </span>
+          <span class="bg-slate-800 text-slate-300 text-[10px] font-mono px-2 py-0.5 rounded border border-slate-700">
+            READ-ONLY
+          </span>
+        </div>
+        <button id="closeModalBtn" class="text-slate-400 hover:text-white font-mono text-lg font-bold">✕</button>
+      </div>
+
+      <!-- Scrollable Record Body -->
+      <div class="p-6 overflow-y-auto space-y-6">
+        
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-borderHairline">
+          <div>
+            <div class="text-[11px] font-mono uppercase text-slateMuted">Application Tracking ID</div>
+            <div id="modalAppId" class="font-heading font-bold text-2xl text-ink mt-0.5">CRD-2026-0001</div>
+            <div class="text-xs text-slateBody mt-1" id="modalApplicantName">Parth Sonavane</div>
+          </div>
+          <div class="text-left sm:text-right">
+            <div class="text-[11px] font-mono uppercase text-slateMuted">Status</div>
+            <div class="mt-1" id="modalStatusBadge">
+              <span id="modalStatus" class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                Pending Review
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. Applicant Demographics -->
         <div>
-          <span class="font-mono text-xs uppercase text-trustBlue font-semibold">APPLICATION DETAILS</span>
-          <h3 id="modalAppId" class="font-heading font-bold text-2xl text-ink mt-0.5">CRD-2026-0001</h3>
-        </div>
-        <button id="closeModalBtn" class="text-slateMuted hover:text-ink text-2xl p-1 font-mono">✕</button>
-      </div>
-
-      <!-- Quick Summary Cards -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-        <div class="bg-slateLight p-3.5 rounded-lg border border-borderHairline">
-          <span class="text-[11px] font-mono text-slateMuted block uppercase">Loan Type</span>
-          <span id="modalProduct" class="text-sm font-semibold text-ink">Personal Loan</span>
-        </div>
-        <div class="bg-slateLight p-3.5 rounded-lg border border-borderHairline">
-          <span class="text-[11px] font-mono text-slateMuted block uppercase">Amount</span>
-          <span id="modalAmount" class="text-sm font-semibold text-ink">₹5,00,000</span>
-        </div>
-        <div class="bg-slateLight p-3.5 rounded-lg border border-borderHairline">
-          <span class="text-[11px] font-mono text-slateMuted block uppercase">ML Confidence</span>
-          <span id="modalScore" class="text-sm font-semibold text-emerald-700">88%</span>
-        </div>
-        <div class="bg-slateLight p-3.5 rounded-lg border border-borderHairline">
-          <span class="text-[11px] font-mono text-slateMuted block uppercase">Risk Rating</span>
-          <span id="modalRisk" class="text-sm font-semibold text-ink">LOW RISK</span>
-        </div>
-      </div>
-
-      <!-- 3-Step Verification Timeline -->
-      <div class="border border-borderHairline rounded-xl p-5 mb-6">
-        <h4 class="font-sans font-semibold text-sm text-ink mb-4">Verification Lifecycle</h4>
-        <div class="space-y-4">
-          <div class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
+            1. Applicant Demographics
+          </h4>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slateLight p-3.5 rounded-lg border border-borderHairline text-xs">
             <div>
-              <p class="text-xs font-semibold text-ink">Step 1: Application Recorded & Validated</p>
-              <p class="text-[11px] text-slateMuted">Applicant details encrypted and queued.</p>
+              <div class="text-slateMuted text-[11px]">Age</div>
+              <div class="font-medium text-ink mt-0.5" id="modalAge">28 Years</div>
             </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shrink-0">✓</span>
             <div>
-              <p class="text-xs font-semibold text-ink">Step 2: Automated Pre-Screening Evaluation</p>
-              <p class="text-[11px] text-slateMuted">Objective credit assessment completed in 0.8s.</p>
+              <div class="text-slateMuted text-[11px]">Gender</div>
+              <div class="font-medium text-ink mt-0.5" id="modalGender">Male</div>
             </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
             <div>
-              <p class="text-xs font-semibold text-ink">Step 3: Central Desk Officer Review</p>
-              <p class="text-[11px] text-slateMuted">Assigned to Mumbai Central Desk for document check.</p>
+              <div class="text-slateMuted text-[11px]">Marital Status</div>
+              <div class="font-medium text-ink mt-0.5" id="modalMarital">Married</div>
+            </div>
+            <div>
+              <div class="text-slateMuted text-[11px]">Dependents</div>
+              <div class="font-medium text-ink mt-0.5" id="modalDependents">2</div>
+            </div>
+            <div class="sm:col-span-2">
+              <div class="text-slateMuted text-[11px]">Education</div>
+              <div class="font-medium text-ink mt-0.5" id="modalEducation">Graduate</div>
+            </div>
+            <div class="sm:col-span-2">
+              <div class="text-slateMuted text-[11px]">Employment</div>
+              <div class="font-medium text-ink mt-0.5" id="modalEmployment">Salaried Professional</div>
             </div>
           </div>
         </div>
+
+        <!-- 2. Underwriting & Loan Parameters -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
+            2. Underwriting & Loan Parameters
+          </h4>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slateLight p-3.5 rounded-lg border border-borderHairline text-xs">
+            <div>
+              <div class="text-slateMuted text-[11px]">Product Type</div>
+              <div class="font-medium text-ink mt-0.5" id="modalProduct">Personal Loan</div>
+            </div>
+            <div>
+              <div class="text-slateMuted text-[11px]">Principal Amount</div>
+              <div class="font-medium font-mono text-ink mt-0.5" id="modalAmount">₹5,00,000</div>
+            </div>
+            <div>
+              <div class="text-slateMuted text-[11px]">Repayment Tenure</div>
+              <div class="font-medium font-mono text-ink mt-0.5" id="modalTenure">36 Months</div>
+            </div>
+            <div>
+              <div class="text-slateMuted text-[11px]">Credit Score</div>
+              <div class="font-medium font-mono text-ink mt-0.5" id="modalCreditScore">750</div>
+            </div>
+            <div>
+              <div class="text-slateMuted text-[11px]">Monthly Income</div>
+              <div class="font-medium font-mono text-ink mt-0.5" id="modalIncome">₹50,000</div>
+            </div>
+            <div>
+              <div class="text-slateMuted text-[11px]">Property Location</div>
+              <div class="font-medium text-ink mt-0.5" id="modalProperty">Urban</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Automated Pre-Screening Evaluation -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
+            3. Automated Pre-Screening Evaluation
+          </h4>
+          <div class="bg-slateLight p-4 rounded-lg border border-borderHairline space-y-2.5 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="text-slateMuted">Model Pre-Screening Result:</span>
+              <span class="font-mono font-bold px-2 py-0.5 rounded text-xs" id="modalScoreBadge">
+                PRE-APPROVED
+              </span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slateMuted">Model Confidence:</span>
+              <span class="font-mono text-ink font-semibold" id="modalScore">88%</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slateMuted">Assessed Risk Band:</span>
+              <span class="font-mono text-ink font-semibold" id="modalRisk">LOW RISK</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Verified Documents -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-slateDark mb-2.5">
+            4. Verified Supporting Documents
+          </h4>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-slateLight rounded border border-borderHairline flex items-center justify-between">
+              <span class="text-slateBody">PAN Document</span>
+              <span class="text-emerald-700 font-mono text-[11px] font-medium">VERIFIED ✓</span>
+            </div>
+            <div class="p-3 bg-slateLight rounded border border-borderHairline flex items-center justify-between">
+              <span class="text-slateBody">Aadhaar Card</span>
+              <span class="text-emerald-700 font-mono text-[11px] font-medium">VERIFIED ✓</span>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- 24h Correction Window Notice -->
-      <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center gap-3">
-        <span class="material-symbols-outlined text-amber-700 text-xl">schedule</span>
-        <div class="text-xs text-amber-900">
-          <strong>24-Hour Correction Window Active:</strong> If any financial or contact detail was mistyped, contact your assigned desk officer within 24 hours.
-        </div>
+      <!-- Footer -->
+      <div class="bg-slate-50 px-6 py-3.5 border-t border-borderHairline flex items-center justify-between">
+        <span class="text-[11px] text-slateMuted font-mono">
+          Cryptographic Hash: SHA-256 Verified • Record Locked
+        </span>
+        <button 
+          type="button" 
+          onclick="document.getElementById('applicationDetailModal').classList.add('hidden')"
+          class="bg-ink hover:bg-slate-800 text-white text-xs px-4 py-2 rounded font-medium transition-colors">
+          Close Preview
+        </button>
       </div>
 
     </div>

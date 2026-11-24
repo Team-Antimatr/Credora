@@ -250,6 +250,24 @@
                 />
               </div>
 
+              <!-- Applicant Age -->
+              <div>
+                <label for="applicantAge" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Age (Years)
+                </label>
+                <input 
+                  type="number" 
+                  id="applicantAge" 
+                  name="applicantAge" 
+                  required
+                  min="21"
+                  max="65"
+                  value="28"
+                  placeholder="e.g. 28"
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white"
+                />
+              </div>
+
               <!-- Applicant Gender -->
               <div>
                 <label for="gender" class="block font-sans text-[16px] text-[#213d66] mb-2">
@@ -332,6 +350,24 @@
                   <option value="Yes">Self-Employed / Business Owner</option>
                   <option value="Contract">Freelancer / Contract Specialist</option>
                 </select>
+              </div>
+
+              <!-- Credit Score -->
+              <div>
+                <label for="creditScore" class="block font-sans text-[16px] text-[#213d66] mb-2">
+                  Credit Score (CIBIL / Experian)
+                </label>
+                <input 
+                  type="number" 
+                  id="creditScore" 
+                  name="creditScore" 
+                  required
+                  min="300"
+                  max="900"
+                  value="750"
+                  placeholder="e.g. 750"
+                  class="w-full h-[56px] border border-[#c7d4e5] rounded-[6px] px-4 font-sans text-[17px] text-[#090e17] bg-white"
+                />
               </div>
 
               <!-- Credit History Record -->

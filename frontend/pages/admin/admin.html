@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credora — Officer Administration & Underwriting Portal</title>
+  
+  <!-- Inter, Outfit & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            credoraGreen: '#03a626',
+            credoraRed: '#9c3c3c',
+            credoraYellow: '#fdae06',
+            surfaceDark: '#0a0a0a',
+            panelDark: '#121212',
+            cardDark: '#18181b',
+            borderDark: '#27272a',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #f4f4f5;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #121212;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #27272a;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased bg-[#0a0a0a] text-zinc-100">
+
+  <!-- ======================================================== -->
+  <!-- TOP NAVIGATION HEADER (Figma Node 585:2 Pattern)         -->
+  <!-- ======================================================== -->
+  <header class="h-16 bg-white border-b border-[#e4e4e7] sticky top-0 z-40 px-6 sm:px-10 flex items-center justify-between text-zinc-900 shadow-sm">
+    <!-- Brand Wordmark & Role Badge -->
+    <div class="flex items-center space-x-3">
+      <a href="../../index.html" class="flex items-center space-x-2">
+        <span class="font-heading font-bold text-2xl tracking-tight text-black">Credora</span>
+      </a>
+      <span class="text-[11px] font-mono font-semibold uppercase tracking-wider bg-black text-white px-2 py-0.5 rounded">
+        Officer Desk
+      </span>
+      <span class="hidden sm:inline-flex items-center gap-1.5 ml-4 text-[12px] font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#03a626] animate-pulse"></span>
+        Live ML Sync
+      </span>
+    </div>
+
+    <!-- Officer Profile & Session Actions -->
+    <div class="flex items-center space-x-5 text-sm">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-zinc-900 text-white font-semibold text-xs flex items-center justify-center">
+          AD
+        </div>
+        <div class="hidden sm:block text-left leading-tight">
+          <div class="font-medium text-zinc-900 text-[13px]" id="officerNameDisplay">Anita Deshmukh</div>
+          <div class="text-[11px] text-zinc-500 font-mono">Senior Credit Officer</div>
+        </div>
+      </div>
+      
+      <button 
+        type="button" 
+        id="adminSignOutBtn"
+        class="text-xs font-medium text-zinc-600 hover:text-red-600 transition-colors border border-zinc-200 px-3 py-1.5 rounded-md hover:border-red-200">
+        Sign Out
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- MAIN ADMIN CONSOLE CONTAINER                             -->
+  <!-- ======================================================== -->
+  <main class="flex-1 max-w-[1400px] w-full mx-auto p-4 sm:p-8 space-y-6">
+    
+    <!-- Portal Header Banner -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-zinc-800">
+      <div>
+        <h1 class="font-heading font-semibold text-2xl sm:text-3xl text-white tracking-tight">
+          Credit Officer Underwriting Console
+        </h1>
+        <p class="text-sm text-zinc-400 mt-1">
+          Review automated ML pre-screening predictions, verify borrower profiles, and sanction loans.
+        </p>
+      </div>
+
+      <!-- Quick Action: Refresh Feed -->
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-zinc-500 font-mono" id="lastSyncTimestamp">Last synced: Just now</span>
+        <button 
+          type="button" 
+          id="refreshDataBtn"
+          class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs px-3 py-1.5 rounded border border-zinc-700 font-medium transition-colors">
+          ↻ Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 4 TABS NAVIGATION (Figma Node 585:2 Required Tabs)       -->
+    <!-- 1. Pending Application                                   -->
+    <!-- 2. Approved Application                                  -->
+    <!-- 3. Total Users                                           -->
+    <!-- 4. Statistics                                            -->
+    <!-- ======================================================== -->
+    <div class="border-b border-zinc-800">
+      <nav class="flex space-x-2 sm:space-x-8 overflow-x-auto custom-scrollbar" aria-label="Admin Tabs">
+        
+        <!-- Tab 1: Pending Application -->
+        <button 
+          type="button" 
+          id="tabBtn-pending" 
+          data-tab="pending" 
+          class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-white text-white">
+          <span>Pending Application</span>
+          <span id="badgePendingCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-mono font-normal">
+            0
+          </span>
+        </button>
+
+        <!-- Tab 2: Approved Application -->
+        <button 
+          type="button" 
+          id="tabBtn-approved" 
+          data-tab="approved" 
+          class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-zinc-400 hover:text-zinc-200">
+          <span>Approved Application</span>
+          <span id="badgeApprovedCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-mono font-normal">
+            0
+          </span>
+        </button>
+
+        <!-- Tab 3: Total Users -->
+        <button 
+          type="button" 
+          id="tabBtn-users" 
+          data-tab="users" 
+          class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-zinc-400 hover:text-zinc-200">
+          <span>Total Users</span>
+          <span id="badgeUsersCount" class="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-full font-mono font-normal">
+            0
+          </span>
+        </button>
+
+        <!-- Tab 4: Statistics (Model Statistics) -->
+        <button 
+          type="button" 
+          id="tabBtn-statistics" 
+          data-tab="statistics" 
+          class="admin-tab-btn flex items-center gap-2 py-3 px-1 border-b-2 font-medium text-sm whitespace-nowrap border-transparent text-zinc-400 hover:text-zinc-200">
+          <span>Statistics</span>
+          <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[11px] px-1.5 py-0.5 rounded font-mono">
+            86.8% Acc
+          </span>
+        </button>
+
+      </nav>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: PENDING APPLICATION                               -->
+    <!-- Table columns: User Name, Credit Score, Age, Income,     -->
+    <!-- Loan Amount, Application (View), Prediction, Approve,    -->
+    <!-- Denied, Hold                                             -->
+    <!-- ======================================================== -->
+    <section id="tabContent-pending" class="admin-tab-content space-y-4">
+      
+      <!-- Filter and Status legend -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-zinc-900/60 p-4 rounded-lg border border-zinc-800 text-xs">
+        <div class="flex items-center gap-4 flex-wrap">
+          <span class="text-zinc-400 font-medium">Model Prediction Indicators:</span>
+          <span class="inline-flex items-center gap-1.5 text-zinc-200">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#03a626]"></span>
+            <span>Approve (Low Risk)</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 text-zinc-200">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#9c3c3c]"></span>
+            <span>Denied (High Risk)</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 text-zinc-200">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#fdae06]"></span>
+            <span>Hold / Can't Decide</span>
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <input 
+            type="text" 
+            id="pendingSearchInput" 
+            placeholder="Search by name or app ID..." 
+            class="bg-zinc-950 border border-zinc-700 rounded px-3 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500 w-56"
+          />
+        </div>
+      </div>
+
+      <!-- Pending Table -->
+      <div class="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/40">
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 text-xs uppercase tracking-wider font-semibold">
+                <th class="py-3.5 px-4 font-medium">User Name</th>
+                <th class="py-3.5 px-3 font-medium">Credit Score</th>
+                <th class="py-3.5 px-3 font-medium">Age</th>
+                <th class="py-3.5 px-3 font-medium">Income</th>
+                <th class="py-3.5 px-3 font-medium">Loan Amount</th>
+                <th class="py-3.5 px-3 font-medium">Application</th>
+                <th class="py-3.5 px-4 font-medium">Model Prediction</th>
+                <th class="py-3.5 px-3 font-medium text-center text-[#03a626]">Approve</th>
+                <th class="py-3.5 px-3 font-medium text-center text-[#9c3c3c]">Denied</th>
+                <th class="py-3.5 px-3 font-medium text-center text-[#fdae06]">Hold</th>
+              </tr>
+            </thead>
+            <tbody id="pendingTableBody" class="divide-y divide-zinc-800">
+              <!-- Dynamically populated by admin_portal.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State for Pending -->
+        <div id="pendingEmptyState" class="hidden py-16 text-center text-zinc-500">
+          <div class="text-3xl mb-2">✓</div>
+          <div class="text-sm font-medium text-zinc-400">All pending applications reviewed</div>
+          <p class="text-xs text-zinc-600 mt-1">New applicant submissions will automatically appear here in real-time.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: APPROVED APPLICATION                              -->
+    <!-- Displays both Model Pre-Approved and Human Verified loans-->
+    <!-- ======================================================== -->
+    <section id="tabContent-approved" class="admin-tab-content hidden space-y-4">
+      
+      <div class="bg-zinc-900/60 p-4 rounded-lg border border-zinc-800 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <p class="text-zinc-300 leading-relaxed">
+          Applications pre-approved by the baseline model remain flagged as <strong class="text-amber-400">Pre-Approval Mode</strong> until human officer verification is completed.
+        </p>
+        <div class="flex items-center gap-3 shrink-0">
+          <span class="inline-flex items-center gap-1.5 text-zinc-400">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Awaiting Human Verification
+          </span>
+          <span class="inline-flex items-center gap-1.5 text-zinc-400">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#03a626]"></span> Human Verified & Sanctioned
+          </span>
+        </div>
+      </div>
+
+      <!-- Approved Table -->
+      <div class="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/40">
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 text-xs uppercase tracking-wider font-semibold">
+                <th class="py-3.5 px-4 font-medium">User Name</th>
+                <th class="py-3.5 px-3 font-medium">App ID</th>
+                <th class="py-3.5 px-3 font-medium">Credit Score</th>
+                <th class="py-3.5 px-3 font-medium">Loan Amount</th>
+                <th class="py-3.5 px-4 font-medium">Approval Status</th>
+                <th class="py-3.5 px-3 font-medium">Sanction Date</th>
+                <th class="py-3.5 px-3 font-medium">Application</th>
+                <th class="py-3.5 px-4 font-medium text-right">Human Verification</th>
+              </tr>
+            </thead>
+            <tbody id="approvedTableBody" class="divide-y divide-zinc-800">
+              <!-- Dynamically populated by admin_portal.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="approvedEmptyState" class="hidden py-16 text-center text-zinc-500">
+          <div class="text-sm font-medium text-zinc-400">No approved applications yet</div>
+          <p class="text-xs text-zinc-600 mt-1">Sanction applications in the Pending tab or wait for automated model passes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: TOTAL USERS                                       -->
+    <!-- Displays activity statistics of both admin and users     -->
+    <!-- ======================================================== -->
+    <section id="tabContent-users" class="admin-tab-content hidden space-y-6">
+      
+      <!-- 4 KPI Summary Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Total Users / Applicants -->
+        <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Total Applicants</div>
+          <div class="text-2xl sm:text-3xl font-heading font-bold text-white mt-2" id="kpiTotalUsers">0</div>
+          <div class="text-[11px] text-zinc-500 mt-1">Unique borrowers evaluated</div>
+        </div>
+
+        <!-- Total Approved -->
+        <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg border-l-4 border-l-[#03a626]">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Approved Loans</div>
+          <div class="text-2xl sm:text-3xl font-heading font-bold text-[#03a626] mt-2" id="kpiApprovedUsers">0</div>
+          <div class="text-[11px] text-zinc-500 mt-1">Pre-approved & Verified</div>
+        </div>
+
+        <!-- Total Denied -->
+        <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg border-l-4 border-l-[#9c3c3c]">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Denied / Rejected</div>
+          <div class="text-2xl sm:text-3xl font-heading font-bold text-[#9c3c3c] mt-2" id="kpiDeniedUsers">0</div>
+          <div class="text-[11px] text-zinc-500 mt-1">High risk profile declined</div>
+        </div>
+
+        <!-- Total On Hold -->
+        <div class="bg-zinc-900/70 border border-zinc-800 p-5 rounded-lg border-l-4 border-l-[#fdae06]">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">On Hold</div>
+          <div class="text-2xl sm:text-3xl font-heading font-bold text-[#fdae06] mt-2" id="kpiHoldUsers">0</div>
+          <div class="text-[11px] text-zinc-500 mt-1">Supplementary review pending</div>
+        </div>
+
+      </div>
+
+      <!-- User & Officer Activity Log Table -->
+      <div class="bg-zinc-900/50 border border-zinc-800 rounded-lg p-5 space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="font-heading font-semibold text-lg text-white">System Activity & Audit Trail</h2>
+          <span class="text-xs text-zinc-400 font-mono">Real-time combined User & Admin stream</span>
+        </div>
+
+        <div class="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-950/60">
+          <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 uppercase tracking-wider font-semibold">
+                  <th class="py-3 px-4 font-medium">Timestamp</th>
+                  <th class="py-3 px-3 font-medium">Actor</th>
+                  <th class="py-3 px-3 font-medium">Action</th>
+                  <th class="py-3 px-4 font-medium">Applicant</th>
+                  <th class="py-3 px-3 font-medium">Application ID</th>
+                  <th class="py-3 px-4 font-medium">Audit Details</th>
+                </tr>
+              </thead>
+              <tbody id="activityTableBody" class="divide-y divide-zinc-800 text-zinc-300">
+                <!-- Dynamically populated by admin_portal.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: STATISTICS (MODEL TELEMETRY & PERFORMANCE)        -->
+    <!-- Baseline Model Metrics, Confusion Matrix, Top Weights    -->
+    <!-- ======================================================== -->
+    <section id="tabContent-statistics" class="admin-tab-content hidden space-y-6">
+      
+      <!-- Model Overview Card -->
+      <div class="bg-zinc-900/70 border border-zinc-800 rounded-lg p-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+          <div>
+            <div class="flex items-center gap-3">
+              <h2 class="font-heading font-semibold text-xl text-white">
+                Logistic Regression Pre-Screening Baseline
+              </h2>
+              <span class="text-xs bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-mono">
+                Production Artifact v1.0
+              </span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-1">
+              Trained on 1,000 real banking records with Stratified 80/20 train/test split. Serialized L2 Regularization.
+            </p>
+          </div>
+          <div class="text-right text-xs font-mono text-zinc-400">
+            <div>Inference Latency: <span class="text-emerald-400 font-semibold">&lt; 3.0 ms</span></div>
+            <div>Evaluated on 190 unseen test samples</div>
+          </div>
+        </div>
+
+        <!-- 5 Performance Metric Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-5">
+          
+          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Accuracy</div>
+            <div class="text-2xl font-bold font-mono text-white mt-1">86.84%</div>
+            <div class="text-[11px] text-emerald-400 mt-0.5">165 / 190 correct</div>
+          </div>
+
+          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">ROC-AUC</div>
+            <div class="text-2xl font-bold font-mono text-white mt-1">0.9190</div>
+            <div class="text-[11px] text-emerald-400 mt-0.5">High separability</div>
+          </div>
+
+          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Precision (Appr)</div>
+            <div class="text-2xl font-bold font-mono text-white mt-1">81.82%</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">Low false positives</div>
+          </div>
+
+          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">Recall (Appr)</div>
+            <div class="text-2xl font-bold font-mono text-white mt-1">75.00%</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">45 of 60 captured</div>
+          </div>
+
+          <div class="bg-zinc-950/80 border border-zinc-800 p-4 rounded-md text-center">
+            <div class="text-xs text-zinc-400 uppercase tracking-wider font-medium">F1-Score (Appr)</div>
+            <div class="text-2xl font-bold font-mono text-white mt-1">78.26%</div>
+            <div class="text-[11px] text-zinc-400 mt-0.5">Harmonic mean</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Confusion Matrix & Top Feature Weights Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- 2x2 Confusion Matrix -->
+        <div class="bg-zinc-900/70 border border-zinc-800 rounded-lg p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-heading font-semibold text-base text-white">Confusion Matrix (190 Test Records)</h3>
+            <span class="text-xs text-zinc-400 font-mono">Threshold = 0.50</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-center font-mono text-xs">
+            
+            <!-- True Negative -->
+            <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
+              <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">True Negatives (TN)</div>
+              <div class="text-2xl font-bold text-white mt-1">120</div>
+              <div class="text-emerald-400 text-[11px] mt-0.5">Actual Reject → Correctly Denied</div>
+            </div>
+
+            <!-- False Positive -->
+            <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
+              <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">False Positives (FP)</div>
+              <div class="text-2xl font-bold text-[#9c3c3c] mt-1">10</div>
+              <div class="text-zinc-400 text-[11px] mt-0.5">Actual Reject → Predicted Approve</div>
+            </div>
+
+            <!-- False Negative -->
+            <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
+              <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">False Negatives (FN)</div>
+              <div class="text-2xl font-bold text-[#fdae06] mt-1">15</div>
+              <div class="text-zinc-400 text-[11px] mt-0.5">Actual Approve → Predicted Reject</div>
+            </div>
+
+            <!-- True Positive -->
+            <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-md">
+              <div class="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">True Positives (TP)</div>
+              <div class="text-2xl font-bold text-[#03a626] mt-1">45</div>
+              <div class="text-emerald-400 text-[11px] mt-0.5">Actual Approve → Correctly Approved</div>
+            </div>
+
+          </div>
+
+          <p class="text-[11px] text-zinc-400 leading-relaxed">
+            The model achieves a 92.3% True Negative Rate (specificity), prioritizing protection against high-risk borrower default while accurately approving eligible applicants.
+          </p>
+        </div>
+
+        <!-- Top Feature Weights & Odds Ratios -->
+        <div class="bg-zinc-900/70 border border-zinc-800 rounded-lg p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-heading font-semibold text-base text-white">Key Underwriting Drivers</h3>
+            <span class="text-xs text-zinc-400 font-mono">Odds Ratio Impact</span>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            
+            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
+              <div>
+                <span class="font-medium text-white">Credit Score</span>
+                <span class="text-zinc-500 ml-2 font-mono">Coeff: +2.05</span>
+              </div>
+              <span class="font-mono font-semibold text-[#03a626]">+7.77x Approval Odds</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
+              <div>
+                <span class="font-medium text-white">Applicant Monthly Income</span>
+                <span class="text-zinc-500 ml-2 font-mono">Coeff: +0.53</span>
+              </div>
+              <span class="font-mono font-semibold text-[#03a626]">+1.69x Approval Odds</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
+              <div>
+                <span class="font-medium text-white">Semiurban Property Area</span>
+                <span class="text-zinc-500 ml-2 font-mono">Coeff: +0.27</span>
+              </div>
+              <span class="font-mono font-semibold text-[#03a626]">+1.32x Approval Odds</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
+              <div>
+                <span class="font-medium text-white">Loan Principal Amount</span>
+                <span class="text-zinc-500 ml-2 font-mono">Coeff: -0.28</span>
+              </div>
+              <span class="font-mono font-semibold text-[#9c3c3c]">0.76x Odds (Risk Factor)</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 bg-zinc-950 rounded border border-zinc-800">
+              <div>
+                <span class="font-medium text-white">Debt-to-Income (DTI) Ratio</span>
+                <span class="text-zinc-500 ml-2 font-mono">Coeff: -2.07</span>
+              </div>
+              <span class="font-mono font-semibold text-[#9c3c3c]">0.13x Odds (Severe Risk)</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- IMMUTABLE READ-ONLY APPLICATION PREVIEW MODAL            -->
+  <!-- Shared between Admin and User dashboards: Cannot be      -->
+  <!-- edited or modified by anyone once submitted              -->
+  <!-- ======================================================== -->
+  <div id="appPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+    <div class="bg-zinc-900 border border-zinc-700 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden text-zinc-100 my-8">
+      
+      <!-- Security / Immutability Banner -->
+      <div class="bg-zinc-950 px-6 py-3 border-b border-zinc-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-zinc-400 text-xs">🔒</span>
+          <span class="font-mono text-xs font-semibold text-zinc-300 tracking-wider uppercase">
+            Immutable Application Record
+          </span>
+          <span class="bg-zinc-800 text-zinc-400 text-[10px] font-mono px-2 py-0.5 rounded">
+            READ-ONLY
+          </span>
+        </div>
+        <button type="button" id="closePreviewModalBtn" class="text-zinc-400 hover:text-white text-lg font-bold">
+          ✕
+        </button>
+      </div>
+
+      <!-- Record Header Details -->
+      <div class="p-6 space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+          <div>
+            <div class="text-xs text-zinc-500 font-mono uppercase tracking-wider">Application Tracking Number</div>
+            <div class="text-xl font-heading font-bold text-white mt-0.5" id="previewAppId">CRD-0000</div>
+            <div class="text-xs text-zinc-400 mt-1" id="previewApplicantName">Parth Sonavane</div>
+          </div>
+          <div class="text-left sm:text-right">
+            <div class="text-xs text-zinc-500 font-mono uppercase tracking-wider">Submission Timestamp</div>
+            <div class="text-xs font-mono text-zinc-300 mt-0.5" id="previewTimestamp">2026-11-24 12:00:00</div>
+            <div class="mt-1" id="previewStatusBadge">
+              <!-- Status Badge -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 1: Personal & Demographics -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+            1. Applicant Demographics
+          </h4>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800 text-xs">
+            <div>
+              <div class="text-zinc-500 text-[11px]">Age</div>
+              <div class="font-medium text-white mt-0.5" id="previewAge">28 Years</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Gender</div>
+              <div class="font-medium text-white mt-0.5" id="previewGender">Male</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Marital Status</div>
+              <div class="font-medium text-white mt-0.5" id="previewMarital">Married</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Dependents</div>
+              <div class="font-medium text-white mt-0.5" id="previewDependents">2</div>
+            </div>
+            <div class="sm:col-span-2">
+              <div class="text-zinc-500 text-[11px]">Education</div>
+              <div class="font-medium text-white mt-0.5" id="previewEducation">Graduate</div>
+            </div>
+            <div class="sm:col-span-2">
+              <div class="text-zinc-500 text-[11px]">Employment</div>
+              <div class="font-medium text-white mt-0.5" id="previewEmployment">Salaried Professional</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Underwriting & Financial Terms -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+            2. Underwriting & Loan Parameters
+          </h4>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-zinc-950 p-3.5 rounded-lg border border-zinc-800 text-xs">
+            <div>
+              <div class="text-zinc-500 text-[11px]">Product Type</div>
+              <div class="font-medium text-white mt-0.5" id="previewProduct">Personal Loan</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Requested Principal</div>
+              <div class="font-medium font-mono text-white mt-0.5" id="previewAmount">₹5,00,000</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Tenure</div>
+              <div class="font-medium font-mono text-white mt-0.5" id="previewTenure">36 Months</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Credit Score</div>
+              <div class="font-medium font-mono text-white mt-0.5" id="previewCreditScore">750</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Monthly Income</div>
+              <div class="font-medium font-mono text-white mt-0.5" id="previewIncome">₹50,000</div>
+            </div>
+            <div>
+              <div class="text-zinc-500 text-[11px]">Property / Location</div>
+              <div class="font-medium text-white mt-0.5" id="previewProperty">Urban</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Machine Learning Evaluation -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+            3. Automated Pre-Screening Evaluation
+          </h4>
+          <div class="bg-zinc-950 p-4 rounded-lg border border-zinc-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-zinc-400">Baseline Model Recommendation:</span>
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded" id="previewMlOutcome">
+                PRE_APPROVED
+              </span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-zinc-400">Model Confidence:</span>
+              <span class="font-mono text-white font-medium" id="previewConfidence">88.4%</span>
+            </div>
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-zinc-400">Assessed Risk Band:</span>
+              <span class="font-mono text-white font-medium" id="previewRiskBand">LOW RISK</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Document Verification -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+            4. Verified Supporting Documents
+          </h4>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-zinc-950 rounded border border-zinc-800 flex items-center justify-between">
+              <span class="text-zinc-300">PAN Document</span>
+              <span class="text-emerald-400 font-mono text-[11px]">VERIFIED ✓</span>
+            </div>
+            <div class="p-3 bg-zinc-950 rounded border border-zinc-800 flex items-center justify-between">
+              <span class="text-zinc-300">Aadhaar Card</span>
+              <span class="text-emerald-400 font-mono text-[11px]">VERIFIED ✓</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-zinc-950 px-6 py-4 border-t border-zinc-800 flex items-center justify-between">
+        <span class="text-[11px] text-zinc-500 font-mono">
+          Cryptographic Hash: SHA-256 Verified • Tamper Protected
+        </span>
+        <button 
+          type="button" 
+          id="closePreviewModalFooterBtn"
+          class="bg-zinc-800 hover:bg-zinc-700 text-white text-xs px-4 py-2 rounded font-medium transition-colors">
+          Close Preview
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Admin Portal Script -->
+  <script type="module" src="../../public/assets/js/admin/admin_portal.js"></script>
+</body>
+</html>
